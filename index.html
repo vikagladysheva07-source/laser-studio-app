@@ -111,7 +111,7 @@ textarea.in{padding:10px 14px}
 .sheet{background:#fff;border-radius:26px 26px 0 0;margin-top:-28px;position:relative;padding:22px 18px 0;min-height:200px}
 .mcal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
 .mcal span{font-size:11px;color:var(--mut);padding:6px 0}
-.mcal button{height:40px;width:40px;margin:0 auto;border-radius:50%;font-weight:600;font-size:14px}
+.mcal button{width:100%;max-width:40px;aspect-ratio:1;margin:0 auto;border-radius:50%;font-weight:600;font-size:14px;padding:0}
 .mcal button.off{color:#CEC6D4;pointer-events:none}
 .mcal button.due{box-shadow:inset 0 0 0 1px var(--taupe)}
 .mcal button.on{background:var(--esp);color:#fff;box-shadow:none}
@@ -214,6 +214,40 @@ button:active,.srow:active,.pcard:active,.card[data-act]:active{transform:scale(
 .club>*{position:relative;z-index:1}
 .chipc{width:38px;height:28px;border-radius:7px;background:linear-gradient(135deg,#FFE7B8,#E9B96A);box-shadow:inset 0 0 0 1px rgba(150,100,30,.25)}
 @keyframes sheet{from{transform:translateY(100%)}to{transform:none}}
+/* верхняя панель, которая появляется при прокрутке (как large title в iOS) */
+.topbar{position:fixed;left:50%;transform:translate(-50%,-6px);top:55px;width:min(430px,100%);height:50px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;background:rgba(255,255,255,.86);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);z-index:21;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+body.scrolled .topbar{opacity:1;transform:translate(-50%,0)}
+@media (display-mode:standalone){.topbar{top:0;height:calc(50px + env(safe-area-inset-top));padding-top:env(safe-area-inset-top)}}
+/* сегмент со скользящей подложкой */
+.segc{position:relative}
+.segc:before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--esp);box-shadow:0 4px 12px rgba(236,76,147,.3);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.segc[data-i="1"]:before{transform:translateX(100%)}
+.segc button{position:relative;z-index:1;background:transparent!important;transition:color .2s}
+/* таб-бар: точка под активной вкладкой и пружинка иконки */
+.tabbar button{position:relative}
+.tabbar button.on:after{content:"";position:absolute;bottom:-2px;width:4px;height:4px;border-radius:50%;background:var(--esp)}
+.tabbar button.on svg{animation:pop .3s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.8)}100%{transform:none}}
+.ib .bd{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:var(--esp);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;padding:0 5px;box-shadow:0 0 0 2px #fff}
+/* уведомления */
+.nt{display:flex;gap:12px;align-items:flex-start;padding:14px;background:#fff;border-radius:18px;box-shadow:var(--sh)}
+.nt .ci{width:42px;height:42px}
+.nt.new{box-shadow:inset 3px 0 0 var(--esp),var(--sh)}
+/* шторка тянется вниз */
+.modal{touch-action:pan-y}
+.toast{display:flex;align-items:center;gap:10px}
+@media (max-width:600px){
+  .toast{bottom:auto;top:calc(12px + env(safe-area-inset-top));background:rgba(255,255,255,.96);color:var(--ink);border:1px solid var(--line);box-shadow:0 12px 30px rgba(60,30,70,.16);border-radius:18px;padding:12px 16px;animation:tIn .35s cubic-bezier(.2,.8,.2,1);width:calc(100% - 24px);max-width:420px}
+  .toast:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--esp);flex:none}
+  .tbl.resp tr:first-child{display:none}
+  .tbl.resp tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:12px 0;border-top:1px solid var(--line)}
+  .tbl.resp tr:nth-child(2){border-top:0}
+  .tbl.resp td{border:0;padding:0}
+  .tbl.resp td:first-child{grid-column:1/-1}
+  .tbl.resp td[data-l]:before{content:attr(data-l);display:block;font-size:11px;color:var(--mut);margin-bottom:4px}
+  .tbl.resp td input{max-width:none!important}
+}
+@keyframes tIn{from{opacity:0;transform:translate(-50%,-20px)}to{opacity:1;transform:translate(-50%,0)}}
 @media (display-mode:standalone){.demo{display:none}.phone{min-height:100vh;padding-top:calc(14px + env(safe-area-inset-top))}.side{top:0}.main{padding-top:calc(18px + env(safe-area-inset-top))}}
 @media (max-width:600px){.ov-m{align-items:flex-end;padding:0}.modal{width:100%;border-radius:26px 26px 0 0;max-height:90vh;padding:10px 20px calc(24px + env(safe-area-inset-bottom));animation:sheet .32s cubic-bezier(.2,.8,.2,1)}.modal:before{content:"";display:block;width:40px;height:5px;border-radius:3px;background:#E6DCE8;margin:0 auto 14px}}
 @media (max-width:1180px){.g2{grid-template-columns:1fr}}
@@ -465,7 +499,7 @@ function cHome(c){
   const u=upc(c.id)[0];const due=dueOf(c);const pop=['legs','bik','arm','hands'];
   const cats=[...S.zones.map(z=>[z.id,(z.sh||z.name),`data-act="openZ" data-id="${z.id}"`]),['spark','Курсы','data-act="cats" data-v="course"'],['gift','Бонусы','data-act="tab" data-v="bonus"']];
   return `
-  <div class="row between"><div class="logo-s">Студия Тани</div><button class="ib" data-act="tab" data-v="visits">${ic('bell',19)}${u&&u.status==='ok'?'<span class="dot"></span>':''}</button></div>
+  <div class="row between"><div class="logo-s">Студия Тани</div><button class="ib" data-act="notif" aria-label="Уведомления">${ic('bell',19)}${unread(c)?`<span class="bd">${unread(c)}</span>`:''}</button></div>
   <div style="margin:2px 0 14px"><div class="b" style="font-size:15px">${hello()}, ${esc(first(c.name))}</div><div class="row xs mut" style="gap:5px;margin-top:2px">${ic('map',13)} Адрес студии · уточнить у Тани</div></div>
   <button class="search" data-act="tab" data-v="services">${ic('search',18)} Услуга или зона</button>
   <div class="ph pi banner" style="margin-top:16px;${PH('1700760933941-3a06a28fbf47',800)}">
@@ -544,14 +578,15 @@ function cDone(){
     <div class="mut" style="margin-top:6px">Таня подтвердит её, придёт уведомление.<br>Ждём вас в студии!</div>
     <div class="card" style="text-align:left;margin-top:24px"><div class="row">${thumb(a.zones)}<div class="grow"><div class="b">${zn(a.zones)}</div><div class="sm mut">${rub(a.sum)} · ${a.dur} мин</div></div></div>
       <div class="hr" style="margin:14px 0 4px"></div><div class="irow">${ic('cal',18)} ${fdl(a.date)}, ${a.time}</div><div class="irow">${ic('user',18)} Таня</div></div>
-    <button class="btn dk full" style="margin-top:22px" data-act="tab" data-v="visits">Мои записи</button>
+    <button class="btn full" style="margin-top:18px" data-act="ics" data-id="${a.id}">${ic('cal',18)} Добавить в календарь</button>
+    <button class="btn dk full" style="margin-top:10px" data-act="tab" data-v="visits">Мои записи</button>
     <button class="btn full" style="margin-top:10px" data-act="tab" data-v="home">На главную</button>
   </div>`;
 }
 function cVisits(c){
   const up=upc(c.id);const past=S.appts.filter(a=>a.cid===c.id&&!up.includes(a)).sort(byDT).reverse();const list=U.vt==='act'?up:past;
   return `<div class="h1" style="margin:6px 0 16px">Мои записи</div>
-  <div class="segc"><button class="${U.vt==='act'?'on':''}" data-act="vt" data-v="act">Активные</button><button class="${U.vt==='past'?'on':''}" data-act="vt" data-v="past">Прошедшие</button></div>
+  <div class="segc" data-i="${U.vt==='act'?0:1}"><button class="${U.vt==='act'?'on':''}" data-act="vt" data-v="act">Активные</button><button class="${U.vt==='past'?'on':''}" data-act="vt" data-v="past">Прошедшие</button></div>
   <div class="col" style="margin-top:16px">${list.map(a=>`<div class="card row" style="align-items:flex-start">${thumb(a.zones)}<div class="grow"><div class="b">${zn(a.zones)}</div><div class="sm mut">Таня</div><div class="sm mut">${fd(a.date)}, ${a.time}${a.status==='done'?' · сеанс '+a.session:''}</div><div style="margin-top:8px">${stChip(a)}</div>
     ${U.vt==='act'?`<div class="row" style="margin-top:12px"><button class="btn sm" data-act="cResched" data-id="${a.id}">Перенести</button><button class="btn sm" data-act="cCancel" data-id="${a.id}">Отменить</button></div>`:''}</div></div>`).join('')||`<div class="card" style="text-align:center"><div class="mut">${U.vt==='act'?'Активных записей нет':'Пока пусто'}</div>${U.vt==='act'?'<button class="btn dk" style="margin-top:14px" data-act="bookCourse">Записаться</button>':''}</div>`}</div>`;
 }
@@ -564,7 +599,7 @@ function cBonus(c){
   <div class="card" style="margin-top:14px"><div class="b" style="margin-bottom:4px">Как получить</div>
     ${[['spark',S.settings.bonusPct+'% от каждого визита'],['gift','Оплатить можно до '+S.settings.maxShare+'% визита'],['heart',S.settings.friend+' за подругу — вам обеим'],['star',S.settings.review+' за отзыв на картах']].map(([i,t])=>`<div class="irow">${ic(i,18)} ${t}</div>`).join('')}</div>
   <div class="card" style="margin-top:14px"><div class="b">Приведи подругу</div><div class="sm mut" style="margin:4px 0 12px">Подруга называет код при записи, после её первого визита бонусы придут обеим.</div>
-    <div class="row between"><span class="serif" style="font-size:26px;font-weight:600;letter-spacing:.06em">${c.code}</span><button class="btn sm dk" data-act="copyTxt" data-t="Запишись к Тане на лазерную эпиляцию с моим кодом ${c.code} — получишь ${S.settings.friend} бонусов на первый визит.">${ic('copy',15)} Поделиться</button></div></div>
+    <div class="row between"><span class="serif" style="font-size:26px;font-weight:600;letter-spacing:.06em">${c.code}</span><button class="btn sm dk" data-act="share" data-t="Запишись к Тане на лазерную эпиляцию с моим кодом ${c.code} — получишь ${S.settings.friend} бонусов на первый визит.">${ic('copy',15)} Поделиться</button></div></div>
   <div class="card" style="margin-top:14px"><div class="b">История</div>${tx.map(t=>`<div class="li"><div class="grow"><div class="sm b">${t.note}</div><div class="xs mut">${fd(t.date)}</div></div><div class="b" style="color:${t.amt>0?'var(--ok)':'var(--ink)'}">${t.amt>0?'+':''}${num(t.amt)}</div></div>`).join('')}</div>`;
 }
 function cProfile(c){
@@ -577,7 +612,7 @@ function cProfile(c){
     <button class="mi" data-act="tab" data-v="visits">${ic('calok',20)}<span class="grow">Мои записи</span><span class="mut">${ic('right',16)}</span></button>
     <button class="mi" data-act="tab" data-v="services">${ic('lotus',20)}<span class="grow">Услуги и цены</span><span class="mut">${ic('right',16)}</span></button>
     <button class="mi" data-act="tab" data-v="bonus">${ic('gift',20)}<span class="grow">Бонусы</span><span class="b">${num(c.bonus)}</span></button>
-    <button class="mi" data-act="tab" data-v="visits">${ic('bell',20)}<span class="grow">Уведомления</span>${upc(c.id).length?`<span class="badge">${upc(c.id).length}</span>`:''}</button>
+    <button class="mi" data-act="notif">${ic('bell',20)}<span class="grow">Уведомления</span>${unread(c)?`<span class="badge">${unread(c)}</span>`:''}</button>
     <button class="mi" data-act="help">${ic('help',20)}<span class="grow">Помощь и контакты</span><span class="mut">${ic('right',16)}</span></button>
     <button class="mi" data-act="replay">${ic('lotus',20)}<span class="grow">Показать заставку</span><span class="mut">${ic('right',16)}</span></button>
   </div>
@@ -585,15 +620,30 @@ function cProfile(c){
   <div class="xs mut" style="margin:16px 0 6px">Демо: войти как другой клиент</div>
   <select class="in" data-chg="cid">${S.clients.slice(0,40).map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${x.name} · ${x.course.done}/${x.course.total}</option>`).join('')}</select>`;
 }
+function notes(c){
+  const L=[];const u=upc(c.id);const due=dueOf(c);
+  u.forEach(a=>L.push({k:'a'+a.id+a.status,i:a.status==='ok'?'calok':'clock',t:a.status==='ok'?'Запись подтверждена':'Заявка у Тани',x:`${fdl(a.date)}, ${a.time} · ${zn(a.zones)}`,d:a.date,go:'visits'}));
+  if(!u.length&&c.course.done<c.course.total)L.push({k:'due'+due,i:'spark',t:dd(due,TODAY)<=0?'Пора на следующий сеанс':'Скоро следующий сеанс',x:`Сеанс ${c.course.done+1} из ${c.course.total} лучше пройти ${dd(due,TODAY)<=0?'на этой неделе':'с '+fd(due)}`,d:TODAY,go:'book'});
+  const lv=lastV(c.id);if(lv&&dd(TODAY,lv)<=3&&!c.review)L.push({k:'rev'+lv,i:'star',t:'Как прошёл визит?',x:`Отзыв на картах — +${S.settings.review} бонусов`,d:lv,go:'profile'});
+  S.tx.filter(t=>t.cid===c.id).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3).forEach(t=>L.push({k:'tx'+t.date+t.amt+t.note,i:'gift',t:t.amt>0?`+${num(t.amt)} бонусов`:`Списано ${num(-t.amt)} бонусов`,x:`${t.note} · ${fd(t.date)}`,d:t.date,go:'bonus'}));
+  return L;
+}
+const seenOf=c=>((S.seenN||(S.seenN={}))[c.id]||[]);
+function unread(c){const seen=seenOf(c);return notes(c).filter(n=>!seen.includes(n.k)).length}
+function cNotif(c){
+  const seen=seenOf(c);const L=notes(c);(S.seenN||(S.seenN={}))[c.id]=L.map(n=>n.k);save();
+  return `${nb('Уведомления')}<div class="col">${L.map(n=>`<button class="nt ${seen.includes(n.k)?'':'new'}" style="text-align:left;width:100%" data-act="${n.go==='book'?'bookCourse':'tab'}" data-v="${n.go}"><div class="ci">${ic(n.i,20)}</div><div class="grow"><div class="b">${n.t}</div><div class="sm mut">${n.x}</div></div></button>`).join('')||'<div class="card mut" style="text-align:center">Пока тихо</div>'}</div>`;
+}
+const TITLES={home:'Студия Тани',services:'Услуги',visits:'Мои записи',bonus:'Бонусы',profile:'Профиль',notif:'Уведомления',book:'Запись',confirm:'Подтверждение'};
 function renderClient(){
   const c=C(U.cid);const s=U.cs;
   if(s==='splash')return cSplash();
-  const map={welcome:cWelcome,home:cHome,services:cServices,service:cService,book:cBook,confirm:cConfirm,done:cDone,visits:cVisits,bonus:cBonus,profile:cProfile};
+  const map={notif:cNotif,welcome:cWelcome,home:cHome,services:cServices,service:cService,book:cBook,confirm:cConfirm,done:cDone,visits:cVisits,bonus:cBonus,profile:cProfile};
   const body=(map[s]||cHome)(c);
   const tabs=['home','visits','bonus','profile','services'];const showTab=tabs.includes(s);
   const tb=[['home','home','Главная'],['visits','calok','Записи'],['bonus','gift','Бонусы'],['profile','user','Профиль']];
   const anim=U._prev!==s;U._prev=s;
-  return `<div class="phone ${s==='service'?'full':''}"><div class="${anim?'scr':''}">${body}</div>${s==='service'?'':'<div class="foot">Прототип · данные вымышленные · фото временные, Unsplash</div>'}</div>
+  return `${TITLES[s]?`<div class="topbar">${TITLES[s]}</div>`:''}<div class="phone ${s==='service'?'full':''}"><div class="${anim?'scr':''}">${body}</div>${s==='service'?'':'<div class="foot">Прототип · данные вымышленные · фото временные, Unsplash</div>'}</div>
   ${showTab?`<nav class="tabbar">${tb.map(([k,i,t])=>`<button class="${s===k?'on':''}" data-act="tab" data-v="${k}">${ic(i,22,s===k?2:1.6)}${t}</button>`).join('')}</nav>`:''}`;
 }
 
@@ -714,8 +764,8 @@ function aMsg(){
 }
 function aServices(){
   return `<div><div class="eyebrow">Прайс</div><div class="atitle">Услуги и курсы</div></div>
-  <div class="card" style="padding:6px 14px;overflow-x:auto;margin-top:16px"><table class="tbl"><tr><th>Зона</th><th>Цена сеанса, ₽</th><th>Минут</th><th>Интервал, дней</th></tr>
-  ${S.zones.map(z=>`<tr><td><div class="row">${`<div class="ph pi" style="width:40px;height:40px;border-radius:12px;${zph(z,120)}"></div>`}<b>${z.name}</b></div></td>${['price','dur','int'].map(f=>`<td><input class="in" style="max-width:110px;min-height:38px" type="number" value="${z[f]}" data-zone="${z.id}" data-f="${f}"></td>`).join('')}</tr>`).join('')}</table></div>
+  <div class="card" style="padding:6px 14px;overflow-x:auto;margin-top:16px"><table class="tbl resp"><tr><th>Зона</th><th>Цена сеанса, ₽</th><th>Минут</th><th>Интервал, дней</th></tr>
+  ${S.zones.map(z=>`<tr><td><div class="row">${`<div class="ph pi" style="width:40px;height:40px;border-radius:12px;${zph(z,120)}"></div>`}<b>${z.name}</b></div></td>${['price','dur','int'].map(f=>`<td data-l="${{price:'Цена, ₽',dur:'Минут',int:'Интервал, дн.'}[f]}"><input class="in" style="max-width:110px;min-height:38px" type="number" value="${z[f]}" data-zone="${z.id}" data-f="${f}"></td>`).join('')}</tr>`).join('')}</table></div>
   <div class="card col" style="margin-top:16px"><div class="h2">Курс</div>
    <div class="row wrap"><label class="sm grow" style="min-width:200px">Скидка при оплате курса, %<input class="in" type="number" value="${S.settings.courseDisc}" data-set="courseDisc"></label><label class="sm grow" style="min-width:200px">Порог «давно не была», дней<input class="in" type="number" value="${S.settings.dormant}" data-set="dormant"></label></div>
    <div class="xs mut">Цены, интервалы и скидки здесь для примера. Настоящие ставит Таня на неделе 3.</div></div>`;
@@ -755,7 +805,13 @@ function render(){
   document.getElementById('app').innerHTML=U.mode==='client'?renderClient():renderAdmin();
 }
 function startBook(zones,resched,bonus){U.bk={zones:[...zones],date:null,time:null,bonus:!!bonus,resched,y:T.getFullYear(),m:T.getMonth()};go('book')}
+function hap(){try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}}
+function icsFor(a){const d=a.date.replace(/-/g,''),t=a.time.replace(':','')+'00',e=mt(tm(a.time)+a.dur).replace(':','')+'00';
+  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Studio//RU','BEGIN:VEVENT','UID:'+a.id+'@studio','DTSTAMP:'+d+'T000000','DTSTART:'+d+'T'+t,'DTEND:'+d+'T'+e,'SUMMARY:Лазерная эпиляция · Таня','DESCRIPTION:'+zn(a.zones),'BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:Завтра визит к Тане','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n')}
 const A={
+  notif:()=>{hap();go('notif')},
+  ics:d=>{const a=S.appts.find(x=>x.id===d.id);const b=new Blob([icsFor(a)],{type:'text/calendar'});const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download='zapis-'+a.date+'.ics';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('Файл для календаря готов')},
+  share:d=>{hap();if(navigator.share){navigator.share({title:'Студия Тани',text:d.t}).catch(()=>{})}else copy(d.t)},
   mode:d=>{U.mode=d.v;try{localStorage.setItem(LS+'_mode',d.v)}catch(e){}scrollTo(0,0);render()},
   reset:()=>{if(!confirm('Сбросить демо-данные к началу?'))return;seed();save();try{localStorage.removeItem(LS+'_seen')}catch(e){}U.cs='splash';U.hist=[];U.bk=null;render();toast('Демо сброшено')},
   toWelcome:()=>{U.cs='welcome';render()},
@@ -768,7 +824,7 @@ const A={
   fav:()=>toast('Добавлено в избранное'),
   bookZone:d=>startBook([d.id]),
   bookCourse:()=>{const c=C(U.cid);if(upc(c.id).length){U.vt='act';A.tab({v:'visits'});return}startBook(c.course.zones)},
-  vt:d=>{U.vt=d.v;render()},
+  vt:d=>{if(U.vt===d.v)return;hap();const sg=document.querySelector('.segc');if(sg)sg.dataset.i=d.v==='act'?0:1;setTimeout(()=>{U.vt=d.v;render()},200)},
   help:()=>modal(`<div class="row between"><div class="h2">Помощь и контакты</div><button class="ib" data-act="closeM">✕</button></div><div class="irow">${ic('map',18)} Адрес студии · уточнить у Тани</div><div class="irow">${ic('clock',18)} Пн–сб, ${S.settings.open}:00–${S.settings.close}:00</div><div class="irow">${ic('msg',18)} Написать Тане · мессенджер уточнить</div><div class="sm mut" style="margin-top:8px">Здесь же будет памятка «как подготовиться к сеансу», её напишет Таня.</div>`),
   cResched:d=>{const a=S.appts.find(x=>x.id===d.id);startBook(a.zones,a.id,a.bonusUsed)},
   cCancel:d=>{if(!confirm('Отменить запись?'))return;S.appts.find(x=>x.id===d.id).status='cancel';save();render();toast('Запись отменена, Таня увидит')},
@@ -802,7 +858,7 @@ const A={
 };
 document.addEventListener('click',e=>{
   const el=e.target.closest('[data-act]');if(!el||el.disabled)return;
-  const f=A[el.dataset.act];if(f){if(el.tagName!=='A')e.preventDefault();e.stopPropagation();f(el.dataset,el,e)}
+  const f=A[el.dataset.act];if(f){if(el.classList.contains('dk')||el.closest('.tabbar')||el.classList.contains('slot'))hap();if(el.tagName!=='A')e.preventDefault();e.stopPropagation();f(el.dataset,el,e)}
 });
 document.addEventListener('input',e=>{
   const t=e.target;
@@ -819,6 +875,15 @@ document.addEventListener('change',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
 load();render();
+let scT=0;addEventListener('scroll',()=>{if(scT)return;scT=requestAnimationFrame(()=>{scT=0;document.body.classList.toggle('scrolled',scrollY>60)})},{passive:true});
+/* жест «назад» от левого края и шторка вниз */
+let tx0=null,ty0=null,mEl=null;
+addEventListener('touchstart',e=>{const t=e.touches[0];tx0=t.clientX;ty0=t.clientY;mEl=e.target.closest('.modal');if(mEl&&mEl.scrollTop>0)mEl=null},{passive:true});
+addEventListener('touchmove',e=>{if(!mEl)return;const dy=e.touches[0].clientY-ty0;if(dy>0){mEl.style.transition='none';mEl.style.transform=`translateY(${dy}px)`}},{passive:true});
+addEventListener('touchend',e=>{const t=e.changedTouches[0];const dx=t.clientX-tx0,dy=t.clientY-ty0;
+  if(mEl){mEl.style.transition='transform .25s';if(dy>110){mEl.style.transform='translateY(100%)';setTimeout(closeM,200)}else mEl.style.transform='';mEl=null;return}
+  if(U.mode==='client'&&tx0!==null&&tx0<28&&dx>80&&Math.abs(dy)<60&&U.hist.length&&!['home','visits','bonus','profile'].includes(U.cs)){hap();A.back()}
+  tx0=null},{passive:true});
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
