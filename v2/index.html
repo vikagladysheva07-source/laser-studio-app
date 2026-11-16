@@ -484,6 +484,63 @@ body{background:radial-gradient(700px 320px at 50% -160px,#F6E7EC 0,transparent 
 .okc{background:linear-gradient(180deg,#E05A93,#CC4280)}
 .toast{background:#fff;color:var(--ink);border:1px solid var(--line)}
 .todayh{box-shadow:none!important;border:0!important;border-bottom:1px solid #F3E6EC!important;border-radius:0!important}
+/* ===== объёмное стекло и фирменные детали (17.11) ===== */
+:root{--gl:linear-gradient(180deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.58) 100%);--gl-sh:inset 0 1px 0 rgba(255,255,255,1),inset 0 0 0 1px rgba(255,255,255,.55),inset 0 -10px 24px -18px rgba(170,110,140,.35),0 1px 2px rgba(60,30,50,.05),0 22px 44px -22px rgba(110,50,85,.32)}
+html{background:#FAF7F8!important}body{background:transparent!important}
+#aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+#aurora i{position:absolute;border-radius:50%;filter:blur(60px);opacity:.6;animation:drift 26s ease-in-out infinite alternate}
+#aurora i:nth-child(1){width:60vmax;height:60vmax;left:-18vmax;top:-18vmax;background:#F4B8D0}
+#aurora i:nth-child(2){width:55vmax;height:55vmax;right:-20vmax;top:22vh;background:#D6C8F6;animation-duration:32s;animation-delay:-8s}
+#aurora i:nth-child(3){width:50vmax;height:50vmax;left:5vw;bottom:-24vmax;background:#FAD0BE;animation-duration:38s;animation-delay:-16s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(4vmax,3vmax) scale(1.08)}100%{transform:translate(-3vmax,5vmax) scale(.96)}}
+@media (prefers-reduced-motion:reduce){#aurora i,.face:before,.plum:before{animation:none}}
+.gl,.card,.srow,.nt,.pc2,.qa2 button,.tile,.flat,.plum,.face,.splash .glc{background:var(--gl)!important;border:0!important;backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);box-shadow:var(--gl-sh)!important;color:var(--ink)}
+.gl{border-radius:26px;position:relative;overflow:hidden}
+.gl:after,.face:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(120% 80% at var(--mx,20%) var(--my,0%),rgba(255,255,255,.75),transparent 55%);opacity:.6;transition:opacity .3s}
+.plum:before,.face:before{display:none!important}
+.tile.plum .v{background:none!important;-webkit-text-fill-color:var(--ink)!important;color:var(--ink)!important}
+.search,.ib,.btn:not(.dk):not(.lt),.slot:not(.on),.db:not(.on),.fchips button:not(.on),.tabs button:not(.on),.chip:not(.on):not(.ok):not(.wrn):not(.bad):not(.bl){background:rgba(255,255,255,.62)!important;border:1px solid rgba(255,255,255,.9)!important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 #fff,0 6px 16px -10px rgba(110,50,85,.3)!important}
+/* главные кнопки — ровный розовый, без градиента */
+.btn.dk,.btn.lt,.fab,.okc,.qa2 button:first-child span{background:#D4477F!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 12px 24px -12px rgba(212,71,127,.75)!important}
+.btn.dk:hover,.btn.lt:hover{background:#C63D74!important}
+.slot.on,.db.on,.mcal button.on,.fchips button.on,.tabs button.on,.chip.on,.seg button.on{background:#D4477F!important}
+.bar>i{background:#D4477F}
+.ci.cph{box-shadow:0 0 0 3px rgba(255,255,255,.9),0 12px 24px -12px rgba(110,50,85,.45)}
+.ci:not(.cph){background:rgba(255,255,255,.65)}
+/* главная карточка */
+.hero2{padding:22px;gap:16px}
+.hero2 .eyebrow{color:#B0577E}
+.hero2 .cd{font-weight:800;letter-spacing:.06em}
+.hbig{color:var(--ink)}.hsub{color:var(--mut)}
+.pill{background:rgba(255,255,255,.75);border:1px solid #fff;color:#A93A68;box-shadow:inset 0 1px 0 #fff}
+.pill.ok{color:#2E8A5C}
+/* жемчужины курса */
+.pearls{display:flex;gap:8px;flex-wrap:wrap}
+.pearls i{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0,#F3ECEF 45%,#E2D5DA 100%);box-shadow:inset 0 -2px 3px rgba(120,80,100,.15),0 2px 4px rgba(120,80,100,.12)}
+.pearls i.on{background:radial-gradient(circle at 35% 30%,#fff 0,#F7C6D8 30%,#D4477F 75%,#B5386A 100%);box-shadow:inset 0 -2px 4px rgba(90,20,50,.25),0 4px 10px -2px rgba(212,71,127,.5)}
+.pearls i.nx{box-shadow:0 0 0 2px rgba(212,71,127,.45),0 2px 4px rgba(120,80,100,.12);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 5px rgba(212,71,127,.12),0 2px 4px rgba(120,80,100,.12)}}
+/* наклон */
+.tilt{transform:perspective(900px) rotateX(var(--rx,0)) rotateY(var(--ry,0));transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.tilt.tl{transition:transform .08s linear}
+.club3d.tilt{transform:perspective(1400px) rotateX(var(--rx,0)) rotateY(var(--ry,0))}
+.club3d.tilt.flipped{transform:perspective(1400px) rotateX(var(--rx,0)) rotateY(calc(180deg + var(--ry,0)))}
+.face{border-radius:22px}.face.back{background:var(--gl)!important}
+.stripe{background:rgba(110,60,85,.12)}
+/* нижнее меню: активная вкладка — стеклянная капсула с подписью, остальные иконки */
+.tb2{padding:8px!important;gap:4px;display:flex!important;justify-content:space-between!important;background:rgba(255,255,255,.55)!important;border:1px solid rgba(255,255,255,.9)!important;box-shadow:inset 0 1px 0 #fff,0 22px 44px -18px rgba(110,50,85,.4)!important;border-radius:30px!important}
+.tb2 button{flex:0 0 auto!important;flex-direction:row!important;gap:0!important;height:48px;padding:0 14px!important;border-radius:22px;transition:background .3s,padding .3s,box-shadow .3s;color:#8F8189!important}
+.tb2 button:after{display:none!important}
+.tb2 .tbl{max-width:0;overflow:hidden;white-space:nowrap;font-size:13px;font-weight:700;transition:max-width .35s cubic-bezier(.2,.8,.2,1),margin .35s}
+.tb2 button.on{background:#fff!important;color:#D4477F!important;padding:0 18px!important;box-shadow:inset 0 1px 0 #fff,0 8px 18px -10px rgba(212,71,127,.55)!important}
+.tb2 button.on .tbl{max-width:110px;margin-left:8px}
+.tb2 button.on svg{animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+/* кабинет Тани */
+.todayh{background:transparent!important;backdrop-filter:none!important}
+.side{background:rgba(255,255,255,.5)!important}
+.nav.on{background:#fff!important;color:#D4477F!important;box-shadow:inset 0 1px 0 #fff,0 10px 22px -14px rgba(212,71,127,.6)!important}
+@media (max-width:900px){.side{background:rgba(255,255,255,.55)!important;border:1px solid rgba(255,255,255,.9)!important;border-radius:28px!important}.nav.on{background:#fff!important}}
+.splash.plum{background:transparent!important;box-shadow:none!important;backdrop-filter:none}
 </style>
 </head>
 <body>
@@ -494,6 +551,7 @@ body{background:radial-gradient(700px 320px at 50% -160px,#F6E7EC 0,transparent 
   </div>
   <div class="row"><span id="dbdot" title="Подключение к базе…" style="width:8px;height:8px;border-radius:50%;background:#E3D6D0;display:inline-block"></span><span class="xs mut hide-m">Прототип · данные вымышленные, фото временные</span><button class="btn sm" data-act="reset" style="white-space:nowrap">Сбросить<span class="hide-m"> демо</span></button></div>
 </div>
+<div id="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 <div id="app"></div>
 
 <script>
@@ -749,15 +807,15 @@ function cWelcome(){
 function cHome(c){
   const u=upc(c.id)[0];const due=dueOf(c);const pop=['legs','bik','arm','hands','shin','face'];
   const left=c.course.total-c.course.done;
-  const hero=u?`<div class="plum hero2">
-      <div class="row between"><span class="eyebrow">Ваша запись</span>${u.status==='ok'?'<span class="pill ok">подтверждена</span>':'<span class="pill">ждёт подтверждения</span>'}</div>
+  const hero=u?`<div class="gl hero2 tilt">
+      <div class="row between"><span class="eyebrow">Ваша запись · <b class="cd" data-at="${u.date}T${u.time}">${until(u)}</b></span>${u.status==='ok'?'<span class="pill ok">подтверждена</span>':'<span class="pill">ждёт подтверждения</span>'}</div>
       <div><div class="hbig">${fdw(u.date)[0].toUpperCase()+fdw(u.date).slice(1)}, ${u.time}</div><div class="hsub">${zn(u.zones)} · сеанс ${u.session} из ${c.course.total}</div></div>
       <div class="row" style="gap:8px"><button class="btn lt sm" data-act="ics" data-id="${u.id}">${ic('cal',16)} В календарь</button><button class="btn ghost sm" data-act="cResched" data-id="${u.id}">Перенести</button></div></div>`
-    :left>0?`<div class="plum hero2">
+    :left>0?`<div class="gl hero2 tilt">
       <div class="row between"><span class="eyebrow">Ваш курс</span><span class="pill">${c.course.done} из ${c.course.total}</span></div>
-      <div class="row" style="gap:16px;align-items:center">${ringDark(c,72)}<div><div class="hbig">${dd(due,TODAY)<=0?'Пора на сеанс':'Скоро сеанс'} ${c.course.done+1}</div><div class="hsub">${dd(due,TODAY)<=0?'Лучше записаться на этой неделе':'Лучше прийти с '+fd(due)}</div></div></div>
+      <div><div class="hbig">${dd(due,TODAY)<=0?'Пора на сеанс':'Скоро сеанс'} ${c.course.done+1}</div><div class="hsub">${dd(due,TODAY)<=0?'Лучше записаться на этой неделе':'Лучше прийти с '+fd(due)}</div></div>${pearls(c)}
       <button class="btn lt" data-act="bookCourse">Выбрать время ${ic('arrow',16)}</button></div>`
-    :`<div class="plum hero2"><span class="eyebrow">Курс пройден</span><div class="hbig">Поддерживающий визит</div><div class="hsub">Раз в несколько месяцев, по совету Тани</div><button class="btn lt" data-act="bookCourse">Записаться ${ic('arrow',16)}</button></div>`;
+    :`<div class="gl hero2"><span class="eyebrow">Курс пройден</span><div class="hbig">Поддерживающий визит</div><div class="hsub">Раз в несколько месяцев, по совету Тани</div><button class="btn lt" data-act="bookCourse">Записаться ${ic('arrow',16)}</button></div>`;
   const qa=[['plus','Записаться','bookCourse',''],['calok','Записи','tab','visits'],['gift','Бонусы','tab','bonus'],['heart','Подарить','share','']];
   return `
   <div class="row between" style="margin-top:4px"><div class="row" style="gap:12px"><button class="ava" style="width:46px;height:46px" data-act="tab" data-v="profile">${ini(c.name)}</button><div><div class="xs mut">${hello()}</div><div class="h2" style="font-size:19px">${esc(first(c.name))}</div></div></div>
@@ -774,6 +832,8 @@ function cHome(c){
    <div class="irow" style="border-top:1px solid var(--line)">${ic('clock',18)}<span class="grow">Пн–сб, ${S.settings.open}:00–${S.settings.close}:00</span></div>
    <div class="irow" style="border-top:1px solid var(--line)">${ic('star',18)}<span class="grow">Отзывы на картах</span><a class="link" href="${S.settings.mapY}" target="_blank" rel="noopener">Открыть</a></div></div>`;
 }
+function until(a){const t=new Date(a.date+'T'+a.time);const m=Math.round((t-new Date())/60000);if(m<=0)return 'сейчас';if(m<60)return 'через '+m+' мин';const h=Math.floor(m/60);if(h<24)return 'через '+h+' '+plural(h,'час','часа','часов');const d=Math.round(h/24);return 'через '+d+' '+plural(d,'день','дня','дней')}
+function pearls(c){let h='';for(let i=1;i<=c.course.total;i++){h+=`<i class="${i<=c.course.done?'on':i===c.course.done+1?'nx':''}"></i>`}return `<div class="pearls" aria-label="Пройдено ${c.course.done} из ${c.course.total}">${h}</div>`}
 function ringDark(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.done/c.course.total;return `<svg width="${n}" height="${n}" viewBox="0 0 ${n} ${n}" style="flex:none"><defs><linearGradient id="rgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2A3C2"/><stop offset="1" stop-color="#C2457A"/></linearGradient></defs><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="#fff" stroke="#F4E4EB" stroke-width="5"/><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="url(#rgd)" stroke-width="5" stroke-linecap="round" stroke-dasharray="${L*p} ${L}" transform="rotate(-90 ${n/2} ${n/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="${n*.24}" font-weight="700" fill="#1D1519" font-family="Manrope">${c.course.done}/${c.course.total}</text></svg>`}
 function cServices(){
   const q=U.q.trim().toLowerCase();
@@ -855,10 +915,10 @@ function cVisits(c){
 function cBonus(c){
   const tx=S.tx.filter(t=>t.cid===c.id).sort((a,b)=>b.date.localeCompare(a.date));
   return `<div class="h1" style="margin:6px 0 16px">Бонусы</div>
-  <div class="cardw"><div class="club3d" data-act="flip">
+  <div class="cardw"><div class="club3d tilt" data-act="flip">
    <div class="face">
     <div class="row between"><div class="row" style="gap:8px"><span style="color:#C2577F">${ic('lotus',28,1.4)}</span><div><div class="rg" style="font-weight:800;font-size:16px;letter-spacing:.02em">Студия Тани</div><div style="font-size:9px;letter-spacing:.32em;color:#B0577E;margin-top:1px">PRIVATE CLUB</div></div></div><span class="tierb">${tier(c).n.toUpperCase()}</span></div>
-    <div class="row between" style="align-items:flex-end"><div><div style="font-size:11px;color:#8C8186;letter-spacing:.06em">Бонусы на счёте</div><div class="rg" style="font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.05">${num(c.bonus)}</div></div><div class="col" style="gap:8px;align-items:flex-end"><div class="chipc"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B98A80" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 3a13 13 0 0 1 0 18"/></svg></div></div>
+    <div class="row between" style="align-items:flex-end"><div><div style="font-size:11px;color:#8C8186;letter-spacing:.06em">Бонусы на счёте</div><div class="rg" style="font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.05"><span data-count="${c.bonus}">${num(c.bonus)}</span></div></div><div class="col" style="gap:8px;align-items:flex-end"><div class="chipc"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B98A80" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 3a13 13 0 0 1 0 18"/></svg></div></div>
     <div class="row between"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3E3038">${esc(c.name)}</div><div style="font-size:12px;letter-spacing:.18em;color:#9E5B52">${c.code}</div></div>
    </div>
    <div class="face back">
@@ -916,7 +976,7 @@ function renderClient(){
   const tb=[['home','home','Главная'],['visits','calok','Записи'],['bonus','gift','Бонусы'],['profile','user','Профиль']];
   const anim=U._prev!==s;U._prev=s;
   return `${TITLES[s]?`<div class="topbar">${TITLES[s]}</div>`:''}<div class="phone ${s==='service'?'full':''}"><div class="${anim?'scr':''}">${body}</div>${s==='service'?'':'<div class="foot">Прототип · данные вымышленные · фото временные, Unsplash</div>'}</div>
-  ${showTab?`<nav class="tabbar">${tb.map(([k,i,t])=>`<button class="${s===k?'on':''}" data-act="tab" data-v="${k}">${ic(i,22,s===k?2:1.6)}${t}</button>`).join('')}</nav>`:''}`;
+  ${showTab?`<nav class="tabbar tb2">${tb.map(([k,i,t])=>`<button class="${s===k?'on':''}" data-act="tab" data-v="${k}" aria-label="${t}"><span class="tbi">${ic(i,22,s===k?2:1.7)}</span><span class="tbl">${t}</span></button>`).join('')}</nav>`:''}`;
 }
 
 /* ================= КАБИНЕТ ТАНИ ================= */
@@ -1129,7 +1189,9 @@ function centerStrip(){document.querySelectorAll('.dstrip').forEach(st=>{const o
 function render(){
   document.getElementById('m-client').classList.toggle('on',U.mode==='client');
   document.getElementById('m-admin').classList.toggle('on',U.mode==='admin');
+  const key=U.mode+U.cs+U.av;const fresh=U._rk!==key;U._rk=key;
   document.getElementById('app').innerHTML=U.mode==='client'?renderClient():renderAdmin();
+  if(fresh)document.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count,t0=performance.now();const st=n=>{const k=Math.min(1,(n-t0)/900),e=1-Math.pow(1-k,3);el.textContent=num(to*e);if(k<1)requestAnimationFrame(st)};requestAnimationFrame(st)});
   centerStrip();
 }
 function startBook(zones,resched,bonus){U.bk={zones:[...zones],date:null,time:null,bonus:!!bonus,resched,y:T.getFullYear(),m:T.getMonth()};go('book')}
@@ -1215,6 +1277,9 @@ document.addEventListener('change',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
 load();render();boot();
+setInterval(()=>document.querySelectorAll('.cd').forEach(el=>{const[d,t]=el.dataset.at.split('T');el.textContent=until({date:d,time:t})}),60000);
+document.addEventListener('pointermove',e=>{const el=e.target.closest&&e.target.closest('.tilt');document.querySelectorAll('.tilt.tl').forEach(x=>{if(x!==el){x.classList.remove('tl');x.style.removeProperty('--rx');x.style.removeProperty('--ry')}});if(!el)return;const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.classList.add('tl');el.style.setProperty('--rx',(-y*7).toFixed(2)+'deg');el.style.setProperty('--ry',(x*9).toFixed(2)+'deg');el.style.setProperty('--mx',((x+.5)*100).toFixed(0)+'%');el.style.setProperty('--my',((y+.5)*100).toFixed(0)+'%')},{passive:true});
+document.addEventListener('pointerleave',()=>document.querySelectorAll('.tilt.tl').forEach(x=>{x.classList.remove('tl');x.style.removeProperty('--rx');x.style.removeProperty('--ry')}));
 let scT=0;addEventListener('scroll',()=>{if(scT)return;scT=requestAnimationFrame(()=>{scT=0;document.body.classList.toggle('scrolled',scrollY>60)})},{passive:true});
 /* жест «назад» от левого края и шторка вниз */
 let tx0=null,ty0=null,mEl=null;
