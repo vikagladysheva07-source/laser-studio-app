@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Студия Тани">
-<title>Студия Тани · прототип</title>
+<title>Студия Тани</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -541,16 +541,44 @@ html{background:#FAF7F8!important}body{background:transparent!important}
 .nav.on{background:#fff!important;color:#D4477F!important;box-shadow:inset 0 1px 0 #fff,0 10px 22px -14px rgba(212,71,127,.6)!important}
 @media (max-width:900px){.side{background:rgba(255,255,255,.55)!important;border:1px solid rgba(255,255,255,.9)!important;border-radius:28px!important}.nav.on{background:#fff!important}}
 .splash.plum{background:transparent!important;box-shadow:none!important;backdrop-filter:none}
+/* ===== вход и воздух (17.11) ===== */
+.topbar{top:0!important}.side{top:0!important;height:100vh!important}.adm{min-height:100vh}.phone{min-height:100vh;padding:24px 20px 128px!important}
+.splash{min-height:100vh!important}
+.login{min-height:100vh;max-width:430px;margin:0 auto;padding:12vh 24px 40px;display:flex;flex-direction:column;align-items:stretch}
+.lg-logo{width:76px;height:76px;margin:0 auto 18px;border-radius:24px;display:grid;place-items:center;color:#D4477F;background:var(--gl);box-shadow:var(--gl-sh);backdrop-filter:blur(20px)}
+.lg-card{margin-top:28px;padding:22px;display:flex;flex-direction:column;gap:14px;border-radius:26px}
+.phone-in{display:flex;align-items:center;gap:10px;min-height:56px;padding:0 16px;border-radius:16px;background:rgba(255,255,255,.75);border:1px solid #fff;box-shadow:inset 0 1px 2px rgba(60,30,50,.06)}
+.phone-in span{font-weight:700;font-size:18px;color:var(--ink2)}
+.phone-in input{border:0;outline:0;background:none;font-size:18px;font-weight:600;letter-spacing:.02em;flex:1;min-width:0}
+.lg-link{margin:22px auto 0;font-weight:600;font-size:14px;color:var(--mocha);padding:10px}
+.code-in{position:relative;display:flex;gap:12px;justify-content:center}
+.code-in input{position:absolute;inset:0;opacity:0;font-size:16px}
+.code-in i{width:58px;height:64px;border-radius:16px;display:grid;place-items:center;font-style:normal;font-size:28px;font-weight:700;background:rgba(255,255,255,.75);border:1px solid #fff;box-shadow:inset 0 1px 2px rgba(60,30,50,.06)}
+.code-in i.cur{box-shadow:0 0 0 2px rgba(212,71,127,.5)}
+.code-in i.on{color:var(--ink)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:2px;padding-top:12px;border-top:1px solid rgba(255,255,255,.7)}
+@media (max-width:900px){.side-foot{display:none}}
+/* воздух и читаемость */
+body{font-size:15.5px;line-height:1.5}
+.card{padding:20px!important}
+.col{gap:14px}
+.li{padding:14px 0}
+.irow{padding:14px 0;gap:14px}
+.sm{font-size:13.5px;line-height:1.45}.xs{font-size:12.5px;line-height:1.4}
+.sech{margin:32px 2px 14px}
+.qa2{gap:12px;margin-top:16px}
+.cats{gap:20px 10px}
+.hs{gap:14px}
+.nb{margin-bottom:20px}
+.menu .mi{padding:16px 4px}
+.tday{padding:16px 0}
+.g2,.g2e{gap:18px;margin-top:18px}
+.tiles{gap:14px}
+.main{padding:30px 32px 48px}
+@media (max-width:900px){.main{padding:22px 18px 130px}}
 </style>
 </head>
 <body>
-<div class="demo">
-  <div class="seg">
-    <button data-act="mode" data-v="client" id="m-client"><span class="hide-m">Приложение клиента</span><span class="show-m">Клиент</span></button>
-    <button data-act="mode" data-v="admin" id="m-admin"><span class="hide-m">Кабинет Тани</span><span class="show-m">Таня</span></button>
-  </div>
-  <div class="row"><span id="dbdot" title="Подключение к базе…" style="width:8px;height:8px;border-radius:50%;background:#E3D6D0;display:inline-block"></span><span class="xs mut hide-m">Прототип · данные вымышленные, фото временные</span><button class="btn sm" data-act="reset" style="white-space:nowrap">Сбросить<span class="hide-m"> демо</span></button></div>
-</div>
 <div id="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 <div id="app"></div>
 
@@ -616,7 +644,7 @@ const I={
 const ic=(n,s=20,w=1.7)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
 
 /* ---------- данные (вымышленные) ---------- */
-const LS='tanya_app_demo_v12';
+const LS='tanya_app_v13';
 let S;
 const Z=id=>S.zones.find(z=>z.id===id);
 const C=id=>S.clients.find(c=>c.id===id);
@@ -721,11 +749,11 @@ const byDT=(a,b)=>(a.date+a.time).localeCompare(b.date+b.time);
 const visits=cid=>S.appts.filter(a=>a.cid===cid&&a.status==='done').sort(byDT);
 const lastV=cid=>{const v=visits(cid);return v.length?v[v.length-1].date:null};
 const upc=cid=>S.appts.filter(a=>a.cid===cid&&(a.status==='ok'||a.status==='new')&&a.date>=TODAY).sort(byDT);
-const iv=c=>Math.max(...c.course.zones.map(z=>Z(z).int));
+const iv=c=>c.course.zones.length?Math.max(...c.course.zones.map(z=>Z(z).int)):40;
 const dueOf=c=>{const l=lastV(c.id);return l?iso(add(pd(l),iv(c))):TODAY};
 const zn=zs=>zs.map(z=>Z(z).name).join(' + ');
 const zsum=(zs,f)=>zs.reduce((s,z)=>s+Z(z)[f],0);
-const pct=c=>Math.round(c.course.done/c.course.total*100);
+const pct=c=>c.course.total?Math.round(c.course.done/c.course.total*100):0;
 const first=n=>n.split(' ')[0];
 const short=n=>{const p=n.split(' ');return p[0]+' '+p[1][0]+'.'};
 const ini=n=>n.split(' ').map(x=>x[0]).join('').slice(0,2);
@@ -764,7 +792,7 @@ const PH=(id,w)=>`background-image:url(https://images.unsplash.com/photo-${id}?w
 const ZIMG={legs:'1700760933574-9f0f4ea9aa3b',bik:'1467632499275-7a693a761056',arm:'1544717304-a2db4a7b16ee',hands:'1785861433534-8cd4c7b994fa',shin:'1661308675370-31455561e15e',face:'1785861775561-c6db7da314a0'};
 const zph=(z,w)=>PH(z.img||ZIMG[z.id],w);
 const hello=()=>{const h=new Date().getHours();return h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер'};
-function ring(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.done/c.course.total;const id='rg'+n;return `<svg width="${n}" height="${n}" viewBox="0 0 ${n} ${n}" style="flex:none"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8A6BE"/><stop offset="1" stop-color="#A93A68"/></linearGradient></defs><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="#F6E6EF" stroke-width="6"/><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="url(#${id})" stroke-width="6" stroke-linecap="round" stroke-dasharray="${L*p} ${L}" transform="rotate(-90 ${n/2} ${n/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="${n*.24}" font-weight="800" fill="#231B2E" font-family="Manrope">${c.course.done}/${c.course.total}</text></svg>`}
+function ring(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.total?c.course.done/c.course.total:0;const id='rg'+n;return `<svg width="${n}" height="${n}" viewBox="0 0 ${n} ${n}" style="flex:none"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8A6BE"/><stop offset="1" stop-color="#A93A68"/></linearGradient></defs><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="#F6E6EF" stroke-width="6"/><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="url(#${id})" stroke-width="6" stroke-linecap="round" stroke-dasharray="${L*p} ${L}" transform="rotate(-90 ${n/2} ${n/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="${n*.24}" font-weight="800" fill="#231B2E" font-family="Manrope">${c.course.done}/${c.course.total}</text></svg>`}
 function tier(c){const v=visits(c.id).length;const T=[{n:'Pink',from:0,perk:'На уровне Rose Gold — 7% бонусами с каждого визита.'},{n:'Rose Gold',from:5,perk:'На уровне Platinum — 10% бонусами и приоритетная запись.'},{n:'Platinum',from:10,perk:'10% бонусами, приоритетная запись и подарок ко дню рождения.'}];
   let i=T.length-1;while(i>0&&v<T[i].from)i--;const nx=T[i+1];return{n:T[i].n,next:nx?nx.n:null,left:nx?nx.from-v:0,p:nx?Math.round((v-T[i].from)/(nx.from-T[i].from)*100):100,perk:T[i].perk}}
 function barcode(code){let h=0,o='';for(let k=0;k<78;k++){h=(h*31+code.charCodeAt(k%code.length)+k)%997;o+=`<i style="width:${1+h%3}px;${h%5===0?'margin-right:2px':''}"></i>`}return o}
@@ -772,7 +800,22 @@ const thumb=(zs,cls='thumb')=>`<div class="ph pi ${cls}" style="${zph(Z(zs[0]),2
 
 /* ---------- состояние интерфейса ---------- */
 const U={mode:'client',cs:'home',hist:[],cid:'c1',zone:null,bk:null,vt:'act',q:'',cat:'all',av:'ov',wk:0,mt:'due',aq:''};
-try{const m=localStorage.getItem(LS+'_mode');if(m)U.mode=m;if(!localStorage.getItem(LS+'_seen'))U.cs='splash'}catch(e){}
+U.auth=null;U.lgPhone='';U.lgName='';U.lgCode='';
+try{U.auth=JSON.parse(localStorage.getItem(LS+'_auth')||'null')}catch(e){}
+if(U.auth){if(U.auth.role==='master'){U.mode='admin';U.cid=U.auth.cid||'c1'}else{U.mode='client';U.cid=U.auth.cid}}
+else{let seen=false;try{seen=!!localStorage.getItem(LS+'_seen')}catch(e){}U.cs=seen?'login':'splash'}
+const MASTER_H='80f2e832ec8997f98f47e32e85ebcbed235d79069c80e87144316df32734648e';
+function sha256js(str){const K=[],H=[];let n=2,c=0;const isP=x=>{for(let i=2;i*i<=x;i++)if(x%i===0)return false;return true};while(c<64){if(isP(n)){if(c<8)H[c]=(Math.pow(n,.5)*4294967296)|0;K[c]=(Math.pow(n,1/3)*4294967296)|0;c++}n++}
+  const m=new TextEncoder().encode(str),l=m.length,w=[];const bytes=[...m,0x80];while((bytes.length%64)!==56)bytes.push(0);const bl=l*8;for(let i=7;i>=0;i--)bytes.push(i>3?0:(bl>>>(i*8))&255);
+  const h=H.slice(),r=(x,y)=>(x>>>y)|(x<<(32-y));for(let j=0;j<bytes.length;j+=64){for(let i=0;i<16;i++)w[i]=(bytes[j+i*4]<<24)|(bytes[j+i*4+1]<<16)|(bytes[j+i*4+2]<<8)|bytes[j+i*4+3];
+  for(let i=16;i<64;i++){const s0=r(w[i-15],7)^r(w[i-15],18)^(w[i-15]>>>3),s1=r(w[i-2],17)^r(w[i-2],19)^(w[i-2]>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)|0}
+  let[a,b2,c2,d,e,f,g,hh]=h;for(let i=0;i<64;i++){const S1=r(e,6)^r(e,11)^r(e,25),ch=(e&f)^(~e&g),t1=(hh+S1+ch+K[i]+w[i])|0,S0=r(a,2)^r(a,13)^r(a,22),mj=(a&b2)^(a&c2)^(b2&c2),t2=(S0+mj)|0;hh=g;g=f;f=e;e=(d+t1)|0;d=c2;c2=b2;b2=a;a=(t1+t2)|0}
+  h[0]=(h[0]+a)|0;h[1]=(h[1]+b2)|0;h[2]=(h[2]+c2)|0;h[3]=(h[3]+d)|0;h[4]=(h[4]+e)|0;h[5]=(h[5]+f)|0;h[6]=(h[6]+g)|0;h[7]=(h[7]+hh)|0}
+  return h.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('')}
+async function sha(t){try{if(crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}}catch(e){}return sha256js(t)}
+const digits=t=>String(t||'').replace(/\D/g,'');
+function fmtPhone(d){d=d.slice(0,10);let o='';if(d.length>0)o+=d.slice(0,3);if(d.length>3)o+=' '+d.slice(3,6);if(d.length>6)o+='-'+d.slice(6,8);if(d.length>8)o+='-'+d.slice(8,10);return o}
+function setAuth(a){U.auth=a;try{a?localStorage.setItem(LS+'_auth',JSON.stringify(a)):localStorage.removeItem(LS+'_auth')}catch(e){}}
 let toastT;
 function toast(t){document.querySelector('.toast')?.remove();const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);clearTimeout(toastT);toastT=setTimeout(()=>d.remove(),2600)}
 function modal(h){closeM();const o=document.createElement('div');o.className='ov-m';o.innerHTML=`<div class="modal">${h}</div>`;o.addEventListener('click',e=>{if(e.target===o)closeM()});document.body.appendChild(o)}
@@ -789,9 +832,49 @@ function cSplash(){
     <div style="color:#C2577F">${ic('lotus',64,1.1)}</div>
     <div class="rg" style="font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:12px">Студия Тани</div>
     <div style="font-size:10px;letter-spacing:.34em;color:#B0577E;margin-top:8px">PRIVATE CLUB</div>
-    <div style="color:var(--mut);margin-top:14px;font-size:15px">Лазерная эпиляция.<br>Время, которое ты тратишь на себя</div>
+    <div style="color:var(--mut);margin-top:14px;font-size:15px">Лазерная эпиляция<br>Время для себя</div>
     <button class="btn dk full" style="margin-top:34px;max-width:340px" data-act="toWelcome">Начать ${ic('arrow',18)}</button>
     <div class="dots" style="margin-top:18px"><i class="on"></i><i></i><i></i></div>
+  </div>`;
+}
+function cLogin(){
+  const d=digits(U.lgPhone);
+  return `<div class="login">
+   <div class="lg-logo">${ic('lotus',40,1.3)}</div>
+   <div class="h1" style="text-align:center">Студия Тани</div>
+   <div class="mut" style="text-align:center;margin-top:6px">Войдите по номеру телефона</div>
+   <div class="gl lg-card">
+    <label class="xs mut" for="lgp">Телефон</label>
+    <div class="phone-in"><span>+7</span><input id="lgp" inputmode="tel" autocomplete="tel-national" placeholder="900 000-00-00" data-inp="lgPhone" value="${fmtPhone(d)}"></div>
+    <button class="btn dk full" data-act="lgPhone" ${d.length===10?'':'disabled'}>Продолжить</button>
+   </div>
+   <button class="lg-link" data-act="toMaster">Вход для мастера</button>
+  </div>`;
+}
+function cLgName(){
+  return `<div class="login">
+   <div class="lg-logo">${ic('heart',34,1.4)}</div>
+   <div class="h1" style="text-align:center">Рады знакомству</div>
+   <div class="mut" style="text-align:center;margin-top:6px">Как к вам обращаться?</div>
+   <div class="gl lg-card">
+    <label class="xs mut" for="lgn">Имя</label>
+    <input id="lgn" class="in" autocomplete="given-name" placeholder="Например, Анна" data-inp="lgName" value="${esc(U.lgName)}">
+    <button class="btn dk full" data-act="lgName" ${U.lgName.trim().length>1?'':'disabled'}>Готово</button>
+   </div>
+   <button class="lg-link" data-act="toLogin">Другой номер</button>
+  </div>`;
+}
+function cMaster(){
+  const c=U.lgCode;
+  return `<div class="login">
+   <div class="lg-logo">${ic('lotus',40,1.3)}</div>
+   <div class="h1" style="text-align:center">Вход для мастера</div>
+   <div class="mut" style="text-align:center;margin-top:6px">Введите код студии</div>
+   <div class="gl lg-card">
+    <label class="code-in"><input inputmode="numeric" autocomplete="one-time-code" maxlength="4" data-inp="lgCode" value="${esc(c)}" aria-label="Код студии">${[0,1,2,3].map(i=>`<i class="${c.length>i?'on':''} ${c.length===i?'cur':''}">${c[i]?'•':''}</i>`).join('')}</label>
+    <button class="btn dk full" data-act="lgCode" ${c.length===4?'':'disabled'}>Войти</button>
+   </div>
+   <button class="lg-link" data-act="toLogin">Я клиент</button>
   </div>`;
 }
 function cWelcome(){
@@ -815,6 +898,7 @@ function cHome(c){
       <div class="row between"><span class="eyebrow">Ваш курс</span><span class="pill">${c.course.done} из ${c.course.total}</span></div>
       <div><div class="hbig">${dd(due,TODAY)<=0?'Пора на сеанс':'Скоро сеанс'} ${c.course.done+1}</div><div class="hsub">${dd(due,TODAY)<=0?'Лучше записаться на этой неделе':'Лучше прийти с '+fd(due)}</div></div>${pearls(c)}
       <button class="btn lt" data-act="bookCourse">Выбрать время ${ic('arrow',16)}</button></div>`
+    :c.course.total===0?`<div class="gl hero2"><span class="eyebrow">Добро пожаловать</span><div><div class="hbig">Первый визит</div><div class="hsub">Выберите зону, а курс и интервал Таня подберёт на консультации</div></div><button class="btn dk" data-act="tab" data-v="services">Выбрать услугу ${ic('arrow',16)}</button></div>`
     :`<div class="gl hero2"><span class="eyebrow">Курс пройден</span><div class="hbig">Поддерживающий визит</div><div class="hsub">Раз в несколько месяцев, по совету Тани</div><button class="btn lt" data-act="bookCourse">Записаться ${ic('arrow',16)}</button></div>`;
   const qa=[['plus','Записаться','bookCourse',''],['calok','Записи','tab','visits'],['gift','Бонусы','tab','bonus'],['heart','Подарить','share','']];
   return `
@@ -828,13 +912,13 @@ function cHome(c){
   <div class="hs">${pop.map(id=>{const z=Z(id);return `<button class="pc2" data-act="openZ" data-id="${id}"><div class="ph pi" style="${zph(z,500)}"><span class="pr">от ${rub(z.price)}</span></div><div class="t"><div class="b">${z.name}</div><div class="xs mut">${z.dur} мин · курс выгоднее на ${S.settings.courseDisc}%</div></div></button>`}).join('')}</div>
   <div class="sech"><div class="h2">Студия</div></div>
   <div class="card col" style="gap:0;padding:4px 16px">
-   <div class="irow">${ic('map',18)}<span class="grow">Адрес студии</span><span class="xs mut">уточнить у Тани</span></div>
+   <div class="irow">${ic('map',18)}<span class="grow">Адрес студии</span><a class="link" href="https://yandex.ru/maps/" target="_blank" rel="noopener">Маршрут</a></div>
    <div class="irow" style="border-top:1px solid var(--line)">${ic('clock',18)}<span class="grow">Пн–сб, ${S.settings.open}:00–${S.settings.close}:00</span></div>
    <div class="irow" style="border-top:1px solid var(--line)">${ic('star',18)}<span class="grow">Отзывы на картах</span><a class="link" href="${S.settings.mapY}" target="_blank" rel="noopener">Открыть</a></div></div>`;
 }
 function until(a){const t=new Date(a.date+'T'+a.time);const m=Math.round((t-new Date())/60000);if(m<=0)return 'сейчас';if(m<60)return 'через '+m+' мин';const h=Math.floor(m/60);if(h<24)return 'через '+h+' '+plural(h,'час','часа','часов');const d=Math.round(h/24);return 'через '+d+' '+plural(d,'день','дня','дней')}
 function pearls(c){let h='';for(let i=1;i<=c.course.total;i++){h+=`<i class="${i<=c.course.done?'on':i===c.course.done+1?'nx':''}"></i>`}return `<div class="pearls" aria-label="Пройдено ${c.course.done} из ${c.course.total}">${h}</div>`}
-function ringDark(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.done/c.course.total;return `<svg width="${n}" height="${n}" viewBox="0 0 ${n} ${n}" style="flex:none"><defs><linearGradient id="rgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2A3C2"/><stop offset="1" stop-color="#C2457A"/></linearGradient></defs><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="#fff" stroke="#F4E4EB" stroke-width="5"/><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="url(#rgd)" stroke-width="5" stroke-linecap="round" stroke-dasharray="${L*p} ${L}" transform="rotate(-90 ${n/2} ${n/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="${n*.24}" font-weight="700" fill="#1D1519" font-family="Manrope">${c.course.done}/${c.course.total}</text></svg>`}
+function ringDark(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.total?c.course.done/c.course.total:0;return `<svg width="${n}" height="${n}" viewBox="0 0 ${n} ${n}" style="flex:none"><defs><linearGradient id="rgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2A3C2"/><stop offset="1" stop-color="#C2457A"/></linearGradient></defs><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="#fff" stroke="#F4E4EB" stroke-width="5"/><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="url(#rgd)" stroke-width="5" stroke-linecap="round" stroke-dasharray="${L*p} ${L}" transform="rotate(-90 ${n/2} ${n/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="${n*.24}" font-weight="700" fill="#1D1519" font-family="Manrope">${c.course.done}/${c.course.total}</text></svg>`}
 function cServices(){
   const q=U.q.trim().toLowerCase();
   let list=S.zones.filter(z=>!q||z.name.toLowerCase().includes(q));
@@ -859,7 +943,6 @@ function cService(){
     <div class="flat" style="margin-top:12px;background:var(--blush-s);border-color:transparent">
       <div class="row between"><div><div class="b">Курсом выгоднее</div><div class="sm mut">8 сеансов · −${S.settings.courseDisc}%</div></div><div class="serif b" style="font-size:22px">${rub(cp)}</div></div>
     </div>
-    <div class="xs mut" style="margin-top:10px">Цены и описания в прототипе — пример. Настоящие ставит Таня.</div>
   </div>
   <div class="cta"><div><div class="xs mut">за сеанс · ${z.dur} мин</div><div class="h2">${rub(z.price)}</div></div><button class="btn dk" data-act="bookZone" data-id="${z.id}">Записаться</button></div>`;
 }
@@ -930,7 +1013,7 @@ function cBonus(c){
   ${(()=>{const t=tier(c);return t.next?`<div class="card" style="margin-top:14px"><div class="row between"><div class="b">До уровня ${t.next}</div><span class="sm mut">${t.left} ${plural(t.left,'визит','визита','визитов')}</span></div><div class="bar" style="height:7px;margin-top:10px"><i style="width:${t.p}%"></i></div><div class="xs mut" style="margin-top:8px">${t.perk}</div></div>`:`<div class="card" style="margin-top:14px"><div class="b">Высший уровень ${t.n}</div><div class="xs mut" style="margin-top:4px">${t.perk}</div></div>`})()}
   <div class="card" style="margin-top:14px"><div class="b" style="margin-bottom:4px">Как получить</div>
     ${[['spark',S.settings.bonusPct+'% от каждого визита'],['gift','Оплатить можно до '+S.settings.maxShare+'% визита'],['heart',S.settings.friend+' за подругу — вам обеим'],['star',S.settings.review+' за отзыв на картах']].map(([i,t])=>`<div class="irow">${ic(i,18)} ${t}</div>`).join('')}</div>
-  <div class="card" style="margin-top:14px"><div class="b">Приведи подругу</div><div class="sm mut" style="margin:4px 0 12px">Подруга называет код при записи, после её первого визита бонусы придут обеим.</div>
+  <div class="card" style="margin-top:14px"><div class="b">Пригласите подругу</div><div class="sm mut" style="margin:4px 0 12px">Подруга называет код при записи, после её первого визита бонусы придут обеим.</div>
     <div class="row between"><span class="serif" style="font-size:26px;font-weight:600;letter-spacing:.06em">${c.code}</span><button class="btn sm dk" data-act="share" data-t="Запишись к Тане на лазерную эпиляцию с моим кодом ${c.code} — получишь ${S.settings.friend} бонусов на первый визит.">${ic('copy',15)} Поделиться</button></div></div>
   <div class="card" style="margin-top:14px"><div class="b">История</div>${tx.map(t=>`<div class="li"><div class="grow"><div class="sm b">${t.note}</div><div class="xs mut">${fd(t.date)}</div></div><div class="b" style="color:${t.amt>0?'var(--ok)':'var(--ink)'}">${t.amt>0?'+':''}${num(t.amt)}</div></div>`).join('')}</div>`;
 }
@@ -946,11 +1029,9 @@ function cProfile(c){
     <button class="mi" data-act="tab" data-v="bonus">${ic('gift',20)}<span class="grow">Бонусы</span><span class="b">${num(c.bonus)}</span></button>
     <button class="mi" data-act="notif">${ic('bell',20)}<span class="grow">Уведомления</span>${unread(c)?`<span class="badge">${unread(c)}</span>`:''}</button>
     <button class="mi" data-act="help">${ic('help',20)}<span class="grow">Помощь и контакты</span><span class="mut">${ic('right',16)}</span></button>
-    <button class="mi" data-act="replay">${ic('lotus',20)}<span class="grow">Показать заставку</span><span class="mut">${ic('right',16)}</span></button>
   </div>
-  <button class="btn full" style="margin-top:16px" data-act="mode" data-v="admin">${ic('swap',18)} Демо: открыть кабинет Тани</button>
-  <div class="xs mut" style="margin:16px 0 6px">Демо: войти как другой клиент</div>
-  <select class="in" data-chg="cid">${S.clients.slice(0,40).map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${x.name} · ${x.course.done}/${x.course.total}</option>`).join('')}</select>`;
+  ${U.auth&&U.auth.role==='master'?`<button class="btn dk full" style="margin-top:18px" data-act="mode" data-v="admin">${ic('swap',18)} Вернуться в кабинет мастера</button>`:''}
+  <button class="btn full" style="margin-top:12px" data-act="logout">Выйти</button>`;
 }
 function notes(c){
   const L=[];const u=upc(c.id);const due=dueOf(c);
@@ -968,14 +1049,14 @@ function cNotif(c){
 }
 const TITLES={home:'Студия Тани',services:'Услуги',visits:'Мои записи',bonus:'Бонусы',profile:'Профиль',notif:'Уведомления',book:'Запись',confirm:'Подтверждение'};
 function renderClient(){
-  const c=C(U.cid);const s=U.cs;
+  const c=C(U.cid)||S.clients[0];const s=U.cs;
   if(s==='splash')return cSplash();
-  const map={notif:cNotif,welcome:cWelcome,home:cHome,services:cServices,service:cService,book:cBook,confirm:cConfirm,done:cDone,visits:cVisits,bonus:cBonus,profile:cProfile};
+  const map={login:cLogin,lgName:cLgName,master:cMaster,notif:cNotif,welcome:cWelcome,home:cHome,services:cServices,service:cService,book:cBook,confirm:cConfirm,done:cDone,visits:cVisits,bonus:cBonus,profile:cProfile};
   const body=(map[s]||cHome)(c);
   const tabs=['home','visits','bonus','profile','services'];const showTab=tabs.includes(s);
   const tb=[['home','home','Главная'],['visits','calok','Записи'],['bonus','gift','Бонусы'],['profile','user','Профиль']];
   const anim=U._prev!==s;U._prev=s;
-  return `${TITLES[s]?`<div class="topbar">${TITLES[s]}</div>`:''}<div class="phone ${s==='service'?'full':''}"><div class="${anim?'scr':''}">${body}</div>${s==='service'?'':'<div class="foot">Прототип · данные вымышленные · фото временные, Unsplash</div>'}</div>
+  return `${TITLES[s]?`<div class="topbar">${TITLES[s]}</div>`:''}<div class="phone ${s==='service'?'full':''}"><div class="${anim?'scr':''}">${body}</div></div>
   ${showTab?`<nav class="tabbar tb2">${tb.map(([k,i,t])=>`<button class="${s===k?'on':''}" data-act="tab" data-v="${k}" aria-label="${t}"><span class="tbi">${ic(i,22,s===k?2:1.7)}</span><span class="tbl">${t}</span></button>`).join('')}</nav>`:''}`;
 }
 
@@ -1166,7 +1247,7 @@ function aServices(){
   ${S.zones.map(z=>`<tr><td><div class="row">${`<div class="ph pi" style="width:40px;height:40px;border-radius:12px;${zph(z,120)}"></div>`}<b>${z.name}</b></div></td>${['price','dur','int'].map(f=>`<td data-l="${{price:'Цена, ₽',dur:'Минут',int:'Интервал, дн.'}[f]}"><input class="in" style="max-width:110px;min-height:38px" type="number" value="${z[f]}" data-zone="${z.id}" data-f="${f}"></td>`).join('')}</tr>`).join('')}</table></div>
   <div class="card col" style="margin-top:16px"><div class="h2">Курс</div>
    <div class="row wrap"><label class="sm grow" style="min-width:200px">Скидка при оплате курса, %<input class="in" type="number" value="${S.settings.courseDisc}" data-set="courseDisc"></label><label class="sm grow" style="min-width:200px">Порог «давно не была», дней<input class="in" type="number" value="${S.settings.dormant}" data-set="dormant"></label></div>
-   <div class="xs mut">Цены, интервалы и скидки здесь для примера. Настоящие ставит Таня на неделе 3.</div></div>`;
+   <div class="xs mut">Цены, длительность и интервалы сразу видят клиенты в приложении.</div></div>`;
 }
 function aBonus(){
   const tot=S.tx.filter(t=>t.amt>0).reduce((s,t)=>s+t.amt,0),used=-S.tx.filter(t=>t.amt<0).reduce((s,t)=>s+t.amt,0),bal=S.clients.reduce((s,c)=>s+c.bonus,0),refs=S.clients.filter(c=>c.refBy).length;
@@ -1174,7 +1255,7 @@ function aBonus(){
   <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr));margin:16px 0"><div class="tile"><div class="v">${num(tot)}</div><div class="l">Начислено</div></div><div class="tile"><div class="v">${num(used)}</div><div class="l">Списано</div></div><div class="tile"><div class="v">${num(bal)}</div><div class="l">На счетах клиентов</div></div><div class="tile"><div class="v">${refs}</div><div class="l">Пришли по коду</div></div></div>
   <div class="card col"><div class="h2">Правила</div><div class="row wrap">
    ${[['bonusPct','Возврат бонусами, % визита'],['maxShare','Можно списать, % визита'],['friend','За подругу, каждой'],['review','За отзыв на картах'],['plan','План выручки на месяц, ₽']].map(([k,t])=>`<label class="sm grow" style="min-width:190px">${t}<input class="in" type="number" value="${S.settings[k]}" data-set="${k}"></label>`).join('')}</div>
-   <div class="xs mut">Условия в демо — пример, утверждаете вы с Таней. Бонусы — это скидка, её надо заложить в цену курса.</div></div>`;
+   <div class="xs mut">Бонусы — это скидка. Закладывайте её в цену курса.</div></div>`;
 }
 function renderAdmin(){
   const L=lists();const req=S.appts.filter(a=>a.status==='new'&&a.date>=TODAY).length;
@@ -1182,13 +1263,14 @@ function renderAdmin(){
   const body={sch:aCalendar,cl:aClients,msg:aMsg,srv:aServices,bon:aBonus}[U.av]||aOverview;
   return `<div class="adm"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Студия Тани</b></div>
    ${nav.map(([k,i,t,sh])=>`<button class="nav ${U.av===k?'on':''}" data-act="av" data-v="${k}">${ic(i,U.av===k?21:20,U.av===k?2:1.7)}<span class="hide-m">${t}</span><span class="show-m">${sh}</span>${k==='msg'&&lcount(L)?`<span class="cnt">${lcount(L)}</span>`:''}${k==='sch'&&req?`<span class="cnt">${req}</span>`:''}</button>`).join('')}
-  </aside><main class="main">${body()}<button class="fab" data-act="newAppt" aria-label="Новая запись">${ic('plus',26,2)}</button><div class="foot">Прототип · данные вымышленные · фото временные, Unsplash</div></main></div>`;
+   <div class="side-foot"><button class="nav" data-act="mode" data-v="client">${ic('user',20)}<span>Вид клиента</span></button><button class="nav" data-act="logout">${ic('left',20)}<span>Выйти</span></button></div>
+  </aside><main class="main">${body()}<button class="fab" data-act="newAppt" aria-label="Новая запись">${ic('plus',26,2)}</button></main></div>`;
 }
 /* ---------- рендер и события ---------- */
 function centerStrip(){document.querySelectorAll('.dstrip').forEach(st=>{const on=st.querySelector('.db.on');if(on)st.scrollLeft=on.offsetLeft-st.clientWidth/2+on.clientWidth/2})}
 function render(){
-  document.getElementById('m-client').classList.toggle('on',U.mode==='client');
-  document.getElementById('m-admin').classList.toggle('on',U.mode==='admin');
+  if(!U.auth){U.mode='client';if(!['splash','welcome','login','lgName','master'].includes(U.cs))U.cs='login'}
+  else if(U.auth.role!=='master')U.mode='client';
   const key=U.mode+U.cs+U.av;const fresh=U._rk!==key;U._rk=key;
   document.getElementById('app').innerHTML=U.mode==='client'?renderClient():renderAdmin();
   if(fresh)document.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count,t0=performance.now();const st=n=>{const k=Math.min(1,(n-t0)/900),e=1-Math.pow(1-k,3);el.textContent=num(to*e);if(k<1)requestAnimationFrame(st)};requestAnimationFrame(st)});
@@ -1203,10 +1285,20 @@ const A={
   notif:()=>{hap();go('notif')},
   ics:d=>{const a=S.appts.find(x=>x.id===d.id);const b=new Blob([icsFor(a)],{type:'text/calendar'});const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download='zapis-'+a.date+'.ics';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('Файл для календаря готов')},
   share:d=>{hap();if(navigator.share){navigator.share({title:'Студия Тани',text:d.t}).catch(()=>{})}else copy(d.t)},
-  mode:d=>{U.mode=d.v;try{localStorage.setItem(LS+'_mode',d.v)}catch(e){}scrollTo(0,0);render()},
+  mode:d=>{if(d.v==='admin'&&!(U.auth&&U.auth.role==='master'))return;U.mode=d.v;if(d.v==='client'){U.cs='home';U.hist=[]}scrollTo(0,0);render()},
+  toLogin:()=>{U.cs='login';U.lgCode='';render()},
+  toMaster:()=>{U.cs='master';U.lgCode='';render()},
+  lgPhone:()=>{const d=digits(U.lgPhone);if(d.length!==10)return;const c=S.clients.find(x=>digits(x.phone).slice(-10)===d);
+    if(c){setAuth({role:'client',cid:c.id});U.cid=c.id;U.cs='home';U.hist=[];render();toast('С возвращением, '+first(c.name))}else{U.cs='lgName';render()}},
+  lgName:()=>{const n=U.lgName.trim();if(n.length<2)return;const d=digits(U.lgPhone);
+    const c={id:'c'+Date.now().toString(36),name:n.replace(/\s+/g,' '),phone:'+7 '+fmtPhone(d),src:'приложение',refBy:'',note:'',bonus:0,code:'T'+(1000+Math.floor(Math.random()*8999)),review:false,course:{zones:[],total:0,done:0,price:0}};
+    S.clients.push(c);save();setAuth({role:'client',cid:c.id});U.cid=c.id;U.cs='home';U.hist=[];render();toast('Добро пожаловать, '+first(c.name))},
+  lgCode:async()=>{if(U.lgCode.length!==4)return;const h=await sha('studio:'+U.lgCode);if(h!==MASTER_H){U.lgCode='';render();toast('Неверный код');return}
+    setAuth({role:'master',cid:U.cid||'c1'});U.mode='admin';U.av='ov';render();toast('Добрый день, Таня')},
+  logout:()=>{if(!confirm('Выйти из аккаунта?'))return;setAuth(null);U.mode='client';U.cs='login';U.lgPhone='';U.lgName='';U.lgCode='';closeM();scrollTo(0,0);render()},
   reset:()=>{if(!confirm('Сбросить демо к началу? Сбросится и общая база для всех, кто открыл приложение.'))return;seed();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}if(DB.url)rpc('tanya_reset',{p_state:stateOf(),p_appts:S.appts}).then(t=>{DB.stateAt=t;dbMark(true)}).catch(()=>dbMark(false));try{localStorage.removeItem(LS+'_seen')}catch(e){}U.cs='splash';U.hist=[];U.bk=null;render();toast('Демо сброшено')},
   toWelcome:()=>{U.cs='welcome';render()},
-  toHome:()=>{try{localStorage.setItem(LS+'_seen','1')}catch(e){}U.cs='home';U.hist=[];scrollTo(0,0);render()},
+  toHome:()=>{try{localStorage.setItem(LS+'_seen','1')}catch(e){}U.cs=U.auth?'home':'login';U.hist=[];scrollTo(0,0);render()},
   replay:()=>{U.cs='splash';U.hist=[];scrollTo(0,0);render()},
   tab:d=>{U.cs=d.v;U.hist=[];U.bk=null;scrollTo(0,0);render()},
   back:()=>{U.cs=U.hist.pop()||'home';scrollTo(0,0);render()},
@@ -1214,7 +1306,7 @@ const A={
   openZ:d=>{U.zone=d.id;go('service')},
   fav:()=>toast('Добавлено в избранное'),
   bookZone:d=>startBook([d.id]),
-  bookCourse:()=>{const c=C(U.cid);if(upc(c.id).length){U.vt='act';A.tab({v:'visits'});return}startBook(c.course.zones)},
+  bookCourse:()=>{const c=C(U.cid);if(!c.course.total){A.tab({v:'services'});return}if(upc(c.id).length){U.vt='act';A.tab({v:'visits'});return}startBook(c.course.zones)},
   vt:d=>{if(U.vt===d.v)return;hap();const sg=document.querySelector('.segc');if(sg)sg.dataset.i=d.v==='act'?0:1;setTimeout(()=>{U.vt=d.v;render()},200)},
   help:()=>modal(`<div class="row between"><div class="h2">Помощь и контакты</div><button class="ib" data-act="closeM">✕</button></div><div class="irow">${ic('map',18)} Адрес студии · уточнить у Тани</div><div class="irow">${ic('clock',18)} Пн–сб, ${S.settings.open}:00–${S.settings.close}:00</div><div class="irow">${ic('msg',18)} Написать Тане · мессенджер уточнить</div><div class="sm mut" style="margin-top:8px">Здесь же будет памятка «как подготовиться к сеансу», её напишет Таня.</div>`),
   cResched:d=>{const a=S.appts.find(x=>x.id===d.id);startBook(a.zones,a.id,a.bonusUsed)},
@@ -1227,7 +1319,7 @@ const A={
   bkBonus:()=>{U.bk.bonus=!U.bk.bonus;render()},
   bkDone:()=>{const b=U.bk,c=C(U.cid);const price=zsum(b.zones,'price'),dur=zsum(b.zones,'dur');const max=Math.min(c.bonus,Math.floor(price*S.settings.maxShare/100));
     if(b.resched){const a=S.appts.find(x=>x.id===b.resched);Object.assign(a,{date:b.date,time:b.time,status:'new',zones:b.zones,dur,sum:price,bonusUsed:b.bonus?max:0});b.done=a.id;putAppt(a)}
-    else{const a={id:newId(),cid:c.id,date:b.date,time:b.time,zones:[...b.zones],dur,sum:price,status:'new',bonusUsed:b.bonus?max:0,session:Math.min(c.course.done+1,c.course.total)};S.appts.push(a);putAppt(a);b.done=a.id;
+    else{if(!c.course.total)c.course={zones:[...b.zones],total:8,done:0,price:Math.round(price*8*(1-S.settings.courseDisc/100)/100)*100};const a={id:newId(),cid:c.id,date:b.date,time:b.time,zones:[...b.zones],dur,sum:price,status:'new',bonusUsed:b.bonus?max:0,session:Math.min(c.course.done+1,c.course.total)};S.appts.push(a);putAppt(a);b.done=a.id;
       const o=S.outreach.filter(o=>o.cid===c.id&&!o.booked).pop();if(o)o.booked=true}
     save();U.hist=[];U.cs='done';scrollTo(0,0);render()},
   copyTxt:d=>copy(d.t),
@@ -1256,7 +1348,7 @@ const A={
   rqAll:()=>{U.rqAll=!U.rqAll;render()},
   tdAll:()=>{U.tdAll=!U.tdAll;render()},
   ctab:d=>{const sg=document.querySelector('.modal .segc');if(sg)sg.dataset.i=['course','visits','notes'].indexOf(d.v);setTimeout(()=>openClient(d.id,d.v),160)},
-  demoLink:()=>toast('В демо номера вымышленные. В настоящем приложении откроется звонок или WhatsApp')
+  demoLink:()=>toast('Звонки и WhatsApp заработают после подключения номера студии')
 };
 document.addEventListener('click',e=>{
   const el=e.target.closest('[data-act]');if(!el||el.disabled)return;
@@ -1276,7 +1368,7 @@ document.addEventListener('change',e=>{
   if(t.dataset.set){S.settings[t.dataset.set]=Math.max(0,+t.value||0);save()}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
-load();render();boot();
+load();if(location.hash==='#reset'){seed();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}history.replaceState(null,'',location.pathname)}render();boot();
 setInterval(()=>document.querySelectorAll('.cd').forEach(el=>{const[d,t]=el.dataset.at.split('T');el.textContent=until({date:d,time:t})}),60000);
 document.addEventListener('pointermove',e=>{const el=e.target.closest&&e.target.closest('.tilt');document.querySelectorAll('.tilt.tl').forEach(x=>{if(x!==el){x.classList.remove('tl');x.style.removeProperty('--rx');x.style.removeProperty('--ry')}});if(!el)return;const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.classList.add('tl');el.style.setProperty('--rx',(-y*7).toFixed(2)+'deg');el.style.setProperty('--ry',(x*9).toFixed(2)+'deg');el.style.setProperty('--mx',((x+.5)*100).toFixed(0)+'%');el.style.setProperty('--my',((y+.5)*100).toFixed(0)+'%')},{passive:true});
 document.addEventListener('pointerleave',()=>document.querySelectorAll('.tilt.tl').forEach(x=>{x.classList.remove('tl');x.style.removeProperty('--rx');x.style.removeProperty('--ry')}));
