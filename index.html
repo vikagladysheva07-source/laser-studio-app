@@ -308,6 +308,48 @@ body.scrolled .topbar{opacity:1;transform:translate(-50%,0)}
   .tbl td,.tbl th{padding:10px 6px}
   .wkg{grid-template-columns:46px repeat(6,minmax(112px,1fr))}
 }
+/* ===== премиальный слой: жемчужный фон, слива и розовое золото, парящее меню ===== */
+:root{--bg:#FBF7F9;--ink:#1E1620;--mut:#8E8592;--line:#F1E7EE;--plum:#2A1530;--rg:#E9B4A4;--sh:0 1px 1px rgba(40,15,35,.03),0 14px 34px -10px rgba(90,30,75,.16)}
+body{background:radial-gradient(900px 420px at 50% -140px,#F9E4EF 0,transparent 70%),radial-gradient(700px 500px at 110% 40%,#F3ECFB 0,transparent 60%),var(--bg)}
+.card,.srow,.pcard,.nt{box-shadow:var(--sh);border:1px solid rgba(241,226,236,.9)}
+.flat,.tile{border-color:#F1E3EC;box-shadow:0 1px 1px rgba(40,15,35,.02)}
+.h1{font-size:30px;font-weight:800;letter-spacing:-.035em}
+.h2{letter-spacing:-.02em;font-weight:800}
+.btn.dk{background:linear-gradient(180deg,#EE5C9C 0%,#D93F84 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 10px 22px -6px rgba(217,63,132,.55)}
+.btn:not(.dk):not(.lt){background:rgba(255,255,255,.88);border-color:#EFE2EA}
+.ci{background:linear-gradient(180deg,#FFF6FA,#FCE7F0);box-shadow:inset 0 0 0 1px rgba(233,180,164,.5)}
+.ci.cph{box-shadow:0 0 0 2px #fff,0 0 0 3px #E9B4A4,0 8px 18px -6px rgba(120,40,90,.35)}
+.tabbar{bottom:calc(12px + env(safe-area-inset-bottom));width:min(400px,calc(100% - 28px));border-radius:26px;border:1px solid rgba(255,255,255,.75);background:rgba(255,255,255,.8);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);box-shadow:0 18px 40px -12px rgba(60,20,55,.3);padding:7px 6px}
+.tabbar button.on{color:var(--plum)}
+.tabbar button.on:after{background:linear-gradient(90deg,#EE5C9C,#B98AF0);width:16px;height:3px;border-radius:3px;bottom:-4px}
+.phone{padding-bottom:124px}
+.plum{position:relative;overflow:hidden;color:#fff;border-radius:22px;background:repeating-radial-gradient(circle at 92% 120%,rgba(255,255,255,.05) 0 1px,transparent 1px 8px),radial-gradient(120% 90% at 0% 0%,#5B2450 0%,transparent 60%),linear-gradient(135deg,#1F1024 0%,#3A1636 55%,#6B2453 100%);box-shadow:0 20px 40px -14px rgba(60,15,50,.55)}
+.plum:before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,235,245,.13) 48%,transparent 62%);background-size:250% 100%;animation:sheen 7s ease-in-out infinite;pointer-events:none}
+.plum>*{position:relative;z-index:1}
+.plum .mut,.plum .xs.mut,.plum .l{color:rgba(255,255,255,.68)!important}
+.plum .eyebrow{color:#E9B4A4}
+.plum .link{color:#F6D3C4}
+.btn.lt{background:#fff;color:var(--plum);border:0;box-shadow:0 10px 20px -8px rgba(0,0,0,.45)}
+.banner.plum{min-height:160px;padding:22px}
+.splash.plum{border-radius:0;box-shadow:none}
+.side{background:rgba(255,255,255,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.nav.on{background:linear-gradient(135deg,#2A1530,#5B2450);color:#fff;box-shadow:0 10px 22px -8px rgba(60,15,50,.5)}
+.nav.on:before{display:none}
+.nav.on .cnt{background:rgba(255,255,255,.18);color:#fff}
+.atitle{font-size:32px;letter-spacing:-.035em;text-transform:none}
+.eyebrow{color:#B07A90;letter-spacing:.16em}
+.tile .v{letter-spacing:-.03em}
+.tile.plum{border:0}
+.tile.plum .v{background:linear-gradient(100deg,#FBE6DA,#E6A99B 40%,#FFF1E8 60%,#D99486);-webkit-background-clip:text;background-clip:text;color:transparent}
+.todayh{margin:0 -18px 8px;padding:18px;border-radius:0;box-shadow:none}
+.card.tcard{padding-top:0;overflow:hidden}
+@media (max-width:900px){
+  .side{background:rgba(255,255,255,.82);bottom:calc(10px + env(safe-area-inset-bottom));left:12px;right:12px;border-radius:24px;border:1px solid rgba(255,255,255,.75);box-shadow:0 18px 40px -12px rgba(60,20,55,.3);padding:6px 4px}
+  .nav.on{background:transparent;color:var(--plum);box-shadow:none}
+  .nav.on .cnt{background:var(--esp)}
+  .main{padding-bottom:124px}
+  .fab{bottom:calc(98px + env(safe-area-inset-bottom))}
+}
 </style>
 </head>
 <body>
@@ -523,11 +565,12 @@ function stChip(a){return a.status==='new'?'<span class="chip bl">Ждёт по�
 
 /* ================= ПРИЛОЖЕНИЕ КЛИЕНТА ================= */
 function cSplash(){
-  return `<div class="splash" style="min-height:calc(100vh - 55px);border-radius:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:30px 24px 40px;text-align:center;color:#fff">
+  return `<div class="splash plum" style="min-height:calc(100vh - 55px);border-radius:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:30px 24px 40px;text-align:center;color:#fff">
     
-    <div style="color:var(--mocha)">${ic('lotus',64,1.1)}</div>
-    <div class="serif" style="font-size:46px;font-weight:600;color:var(--ink);line-height:1;margin-top:10px">Студия Тани</div>
-    <div style="color:#6E5D55;margin-top:10px;font-size:15px">Лазерная эпиляция.<br>Время, которое ты тратишь на себя</div>
+    <div style="color:#E9B4A4">${ic('lotus',64,1.1)}</div>
+    <div class="rg" style="font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:12px">Студия Тани</div>
+    <div style="font-size:10px;letter-spacing:.34em;color:rgba(246,211,196,.8);margin-top:8px">PRIVATE CLUB</div>
+    <div style="color:rgba(255,255,255,.72);margin-top:14px;font-size:15px">Лазерная эпиляция.<br>Время, которое ты тратишь на себя</div>
     <button class="btn dk full" style="margin-top:34px;max-width:340px" data-act="toWelcome">Начать ${ic('arrow',18)}</button>
     <div class="dots" style="margin-top:18px"><i class="on"></i><i></i><i></i></div>
   </div>`;
@@ -549,9 +592,10 @@ function cHome(c){
   <div class="row between"><div class="logo-s">Студия Тани</div><button class="ib" data-act="notif" aria-label="Уведомления">${ic('bell',19)}${unread(c)?`<span class="bd">${unread(c)}</span>`:''}</button></div>
   <div style="margin:2px 0 14px"><div class="b" style="font-size:15px">${hello()}, ${esc(first(c.name))}</div><div class="row xs mut" style="gap:5px;margin-top:2px">${ic('map',13)} Адрес студии · уточнить у Тани</div></div>
   <button class="search" data-act="tab" data-v="services">${ic('search',18)} Услуга или зона</button>
-  <div class="ph pi banner" style="margin-top:16px;${PH('1700760933941-3a06a28fbf47',800)}">
-    <div class="t">${c.course.done<c.course.total?`Пора на сеанс ${c.course.done+1} из ${c.course.total}`:'Курс пройден. Поддерживающий визит — с бонусами'}</div>
-    <button class="btn" data-act="bookCourse">${u?'Моя запись':'Записаться'} ${ic('arrow',15)}</button>
+  <div class="plum banner" style="margin-top:16px">
+    <div class="eyebrow" style="font-size:10px">Ваш курс · ${c.course.done} из ${c.course.total}</div>
+    <div class="t" style="max-width:80%;text-shadow:none;font-size:20px;letter-spacing:-.02em">${c.course.done<c.course.total?`Пора на сеанс ${c.course.done+1} из ${c.course.total}`:'Курс пройден. Поддерживающий визит — с бонусами'}</div>
+    <button class="btn lt" data-act="bookCourse">${u?'Моя запись':'Записаться'} ${ic('arrow',15)}</button>
   </div>
   <div class="cats" style="margin-top:22px">${cats.map(([i,t,a])=>{const z=S.zones.find(x=>x.id===i);return `<button ${a}>${z?`<div class="ci cph" style="${zph(z,180)}"></div>`:`<div class="ci">${ic(i,24,1.5)}</div>`}${t}</button>`}).join('')}</div>
   ${u?`<div class="card" style="margin-top:22px"><div class="row between"><div class="b">Ближайшая запись</div>${stChip(u)}</div>
@@ -761,12 +805,12 @@ function aOverview(){
   const tiles=[[wkN,'Записей на неделе','sch'],[active,'Активных клиентов','cl'],[rub(ms.avg),'Средний чек',''],[rub(ms.sum),'Выручка за месяц',''],[lcount(L),'Кому написать','msg']];
   return `
   <div class="row between wrap"><div><div class="eyebrow">${hello()}, Таня</div><div class="atitle">Обзор</div></div><div class="row"><button class="btn sm" data-act="mode" data-v="client">${ic('user',16)} <span class="hide-m">Как видит клиент</span><span class="show-m">Клиент</span></button><button class="btn dk hide-m" data-act="newAppt">${ic('plus',18)} Новая запись</button></div></div>
-  <div class="card" style="margin-bottom:16px">
-   <div class="row between wrap" style="gap:6px"><div><div class="eyebrow">Сегодня</div><div class="h2">${td.length?`${td.length} ${plural(td.length,'запись','записи','записей')} · ${rub(tdSum)}`:pd(TODAY).getDay()===0?'Выходной':'Записей пока нет'}</div></div><button class="link" data-act="ad" data-v="${TODAY}">Весь день ${ic('right',14)}</button></div>
-   ${td.map(a=>{const c=C(a.cid);return `<div class="tday ${a.status}"><div class="tm">${a.time}<div class="xs mut" style="font-weight:600">${mt(tm(a.time)+a.dur)}</div></div><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer"><div class="b">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)} · ${a.session===1?'первый визит':'сеанс '+a.session+'/'+c.course.total}</div><div style="margin-top:6px">${stChip(a)}</div></div><div class="col" style="gap:6px;align-items:flex-end">${apBtns(a,1)}</div></div>`}).join('')}
+  <div class="card tcard" style="margin-bottom:16px">
+   <div class="row between wrap plum todayh" style="gap:6px"><div><div class="eyebrow">Сегодня</div><div class="h2">${td.length?`${td.length} ${plural(td.length,'запись','записи','записей')} · ${rub(tdSum)}`:pd(TODAY).getDay()===0?'Выходной':'Записей пока нет'}</div></div><button class="link" data-act="ad" data-v="${TODAY}">Весь день ${ic('right',14)}</button></div>
+   ${td.slice(0,U.tdAll?99:3).map(a=>{const c=C(a.cid);return `<div class="tday ${a.status}"><div class="tm">${a.time}<div class="xs mut" style="font-weight:600">${mt(tm(a.time)+a.dur)}</div></div><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer"><div class="b">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)} · ${a.session===1?'первый визит':'сеанс '+a.session+'/'+c.course.total}</div><div style="margin-top:6px">${stChip(a)}</div></div><div class="col" style="gap:6px;align-items:flex-end">${apBtns(a,1)}</div></div>`}).join('')}${td.length>3?`<button class="btn sm full" style="margin-top:10px" data-act="tdAll">${U.tdAll?'Свернуть':'Ещё '+(td.length-3)+' '+plural(td.length-3,'запись','записи','записей')}</button>`:''}
    ${g.length?`<div class="xs mut" style="margin:12px 0 6px">Свободные окна сегодня</div><div class="row wrap" style="gap:6px">${g.map(([a,b])=>`<button class="chip bl" data-act="newAppt" data-date="${TODAY}" data-time="${mt(a)}">${mt(a)}–${mt(b)}</button>`).join('')}<button class="chip" data-act="msgTab" data-v="due">${ic('msg',13)} Кому предложить</button></div>`:''}
   </div>
-  <div class="tiles">${tiles.map(([v,l,go])=>`<button class="tile" ${go?`data-act="av" data-v="${go}"`:''}><div class="v">${v}</div><div class="l">${l}</div></button>`).join('')}</div>
+  <div class="tiles">${tiles.map(([v,l,go])=>`<button class="tile ${l==='Выручка за месяц'?'plum':''}" ${go?`data-act="av" data-v="${go}"`:''}><div class="v">${v}</div><div class="l">${l}</div></button>`).join('')}</div>
   <div class="g2"><div class="card">${lineChart()}</div>
    <div class="card" style="text-align:center"><div style="text-align:left"><div class="eyebrow">${MONN[now.getMonth()]}</div><div class="h2">План месяца</div></div><div style="margin-top:14px">${gauge(ms.sum,S.settings.plan)}</div><div class="sm mut" style="margin-top:6px">Осталось ${left} ${plural(left,'день','дня','дней')}. При текущем темпе выйдете на ${rub(Math.round(fc/1000)*1000)}.</div></div></div>
   <div class="g2e">
@@ -977,6 +1021,7 @@ const A={
   ad:d=>{U.ad=d.v;U.cv='day';U.av='sch';render()},
   cf:d=>{U.cf=d.v;render()},
   rqAll:()=>{U.rqAll=!U.rqAll;render()},
+  tdAll:()=>{U.tdAll=!U.tdAll;render()},
   ctab:d=>{const sg=document.querySelector('.modal .segc');if(sg)sg.dataset.i=['course','visits','notes'].indexOf(d.v);setTimeout(()=>openClient(d.id,d.v),160)},
   demoLink:()=>toast('В демо номера вымышленные. В настоящем приложении откроется звонок или WhatsApp')
 };
