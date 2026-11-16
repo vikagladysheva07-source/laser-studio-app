@@ -810,7 +810,7 @@ const U={mode:'client',cs:'home',hist:[],cid:'c1',zone:null,bk:null,vt:'act',q:'
 U.auth=null;U.lgPhone='';U.lgName='';U.lgCode='';
 try{U.auth=JSON.parse(localStorage.getItem(LS+'_auth')||'null')}catch(e){}
 if(U.auth){if(U.auth.role==='master'){U.mode='admin';U.cid=U.auth.cid||'c1'}else{U.mode='client';U.cid=U.auth.cid}}
-else{let seen=false;try{seen=!!localStorage.getItem(LS+'_seen')}catch(e){}U.cs=seen?'login':'splash'}
+else{U.cs='login'}
 const MASTER_H='80f2e832ec8997f98f47e32e85ebcbed235d79069c80e87144316df32734648e';
 function sha256js(str){const K=[],H=[];let n=2,c=0;const isP=x=>{for(let i=2;i*i<=x;i++)if(x%i===0)return false;return true};while(c<64){if(isP(n)){if(c<8)H[c]=(Math.pow(n,.5)*4294967296)|0;K[c]=(Math.pow(n,1/3)*4294967296)|0;c++}n++}
   const m=new TextEncoder().encode(str),l=m.length,w=[];const bytes=[...m,0x80];while((bytes.length%64)!==56)bytes.push(0);const bl=l*8;for(let i=7;i>=0;i--)bytes.push(i>3?0:(bl>>>(i*8))&255);
@@ -1291,7 +1291,7 @@ function renderAdmin(){
 /* ---------- рендер и события ---------- */
 function centerStrip(){document.querySelectorAll('.dstrip').forEach(st=>{const on=st.querySelector('.db.on');if(on)st.scrollLeft=on.offsetLeft-st.clientWidth/2+on.clientWidth/2})}
 function render(){
-  if(!U.auth){U.mode='client';if(!['splash','welcome','login','sms','lgName','master'].includes(U.cs))U.cs='login'}
+  if(!U.auth){U.mode='client';if(!['login','sms','lgName','master'].includes(U.cs))U.cs='login'}
   else if(U.auth.role!=='master')U.mode='client';
   const key=U.mode+U.cs+U.av;const fresh=U._rk!==key;U._rk=key;
   document.getElementById('app').innerHTML=U.mode==='client'?renderClient():renderAdmin();
@@ -1318,7 +1318,7 @@ const A={
   lgCode:async()=>{U.lgSms='';if(U.lgCode.length!==4)return;const h=await sha('studio:'+U.lgCode);if(h!==MASTER_H){U.lgCode='';render();toast('Неверный код');return}
     setAuth({role:'master',cid:U.cid||'c1'});U.mode='admin';U.av='ov';render();toast('Добрый день, Таня')},
   logout:()=>{if(!confirm('Выйти из аккаунта?'))return;setAuth(null);U.mode='client';U.cs='login';U.lgPhone='';U.lgName='';U.lgCode='';closeM();scrollTo(0,0);render()},
-  reset:()=>{if(!confirm('Сбросить демо к началу? Сбросится и общая база для всех, кто открыл приложение.'))return;seed();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}if(DB.url)rpc('tanya_reset',{p_state:stateOf(),p_appts:S.appts}).then(t=>{DB.stateAt=t;dbMark(true)}).catch(()=>dbMark(false));try{localStorage.removeItem(LS+'_seen')}catch(e){}U.cs='splash';U.hist=[];U.bk=null;render();toast('Демо сброшено')},
+  reset:()=>{if(!confirm('Сбросить демо к началу? Сбросится и общая база для всех, кто открыл приложение.'))return;seed();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}if(DB.url)rpc('tanya_reset',{p_state:stateOf(),p_appts:S.appts}).then(t=>{DB.stateAt=t;dbMark(true)}).catch(()=>dbMark(false));try{localStorage.removeItem(LS+'_seen')}catch(e){}U.cs='login';U.hist=[];U.bk=null;render();toast('Демо сброшено')},
   toWelcome:()=>{U.cs='welcome';render()},
   toHome:()=>{try{localStorage.setItem(LS+'_seen','1')}catch(e){}U.cs=U.auth?'home':'login';U.hist=[];scrollTo(0,0);render()},
   replay:()=>{U.cs='splash';U.hist=[];scrollTo(0,0);render()},
