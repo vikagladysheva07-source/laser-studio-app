@@ -213,11 +213,23 @@ button:active,.srow:active,.pcard:active,.card[data-act]:active{transform:scale(
 .ci{box-shadow:inset 0 0 0 1px rgba(236,76,147,.14)}
 .cats .ci{width:60px;height:60px}
 .ci.cph{width:60px;height:60px;background-size:cover;background-position:center;box-shadow:0 0 0 2px #fff,0 0 0 3.5px #F6BFD7,0 6px 14px rgba(236,76,147,.18)}
-.club{border-radius:22px;padding:20px 22px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(125deg,#F26AA6 0%,#C95FC8 55%,#8E7CF0 100%);box-shadow:0 18px 40px rgba(170,70,170,.28);aspect-ratio:1.62;display:flex;flex-direction:column;justify-content:space-between}
-.club:before{content:"";position:absolute;right:-25%;top:-60%;width:80%;height:160%;background:radial-gradient(closest-side,rgba(255,255,255,.38),transparent);transform:rotate(25deg)}
-.club:after{content:"";position:absolute;inset:0;border-radius:22px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
-.club>*{position:relative;z-index:1}
-.chipc{width:38px;height:28px;border-radius:7px;background:linear-gradient(135deg,#FFE7B8,#E9B96A);box-shadow:inset 0 0 0 1px rgba(150,100,30,.25)}
+.cardw{perspective:1400px}
+.club3d{position:relative;aspect-ratio:1.586;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.8,.2,1);cursor:pointer}
+.club3d.flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:22px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;color:#fff;padding:20px 22px;display:flex;flex-direction:column;justify-content:space-between;
+  background:repeating-radial-gradient(circle at 88% 118%,rgba(255,255,255,.055) 0 1px,transparent 1px 8px),radial-gradient(120% 90% at 0% 0%,#5B2450 0%,transparent 60%),linear-gradient(135deg,#1F1024 0%,#3A1636 50%,#6B2453 100%);
+  box-shadow:0 22px 44px rgba(60,15,50,.35),inset 0 0 0 1px rgba(255,255,255,.12)}
+.face:before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,235,245,.16) 48%,rgba(200,180,255,.10) 52%,transparent 65%);background-size:250% 100%;animation:sheen 6s ease-in-out infinite}
+@keyframes sheen{0%,100%{background-position:120% 0}50%{background-position:-20% 0}}
+.face>*{position:relative;z-index:1}
+.face.back{transform:rotateY(180deg);justify-content:flex-start;padding:0}
+.rg{background:linear-gradient(100deg,#FBE6DA 0%,#E6A99B 35%,#FFF1E8 55%,#D99486 80%,#F6D3C4 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.chipc{width:42px;height:32px;border-radius:8px;background:linear-gradient(135deg,#FCE3D6,#E2A493 45%,#F7D2C3 70%,#C98374);box-shadow:inset 0 0 0 1px rgba(120,50,40,.25);position:relative}
+.chipc:before{content:"";position:absolute;inset:6px 8px;border:1px solid rgba(120,50,40,.28);border-radius:4px}
+.tierb{font-size:10px;font-weight:800;letter-spacing:.16em;padding:4px 9px;border-radius:999px;border:1px solid rgba(246,211,196,.55);color:#F6D3C4}
+.stripe{height:44px;background:#0E070F;margin-top:22px}
+.bars{display:flex;align-items:stretch;justify-content:space-between;height:54px;gap:1px;background:#fff;padding:8px 10px;border-radius:8px}
+.bars i{background:#1F1024;display:block}
 @keyframes sheet{from{transform:translateY(100%)}to{transform:none}}
 /* кабинет Тани */
 .tday{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}
@@ -492,6 +504,9 @@ const ZIMG={legs:'1700760933574-9f0f4ea9aa3b',bik:'1467632499275-7a693a761056',a
 const zph=(z,w)=>PH(z.img||ZIMG[z.id],w);
 const hello=()=>{const h=new Date().getHours();return h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер'};
 function ring(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.done/c.course.total;const id='rg'+n;return `<svg width="${n}" height="${n}" viewBox="0 0 ${n} ${n}" style="flex:none"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F26AA6"/><stop offset="1" stop-color="#8E7CF0"/></linearGradient></defs><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="#F6E6EF" stroke-width="6"/><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="url(#${id})" stroke-width="6" stroke-linecap="round" stroke-dasharray="${L*p} ${L}" transform="rotate(-90 ${n/2} ${n/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="${n*.24}" font-weight="800" fill="#231B2E" font-family="Manrope">${c.course.done}/${c.course.total}</text></svg>`}
+function tier(c){const v=visits(c.id).length;const T=[{n:'Pink',from:0,perk:'На уровне Rose Gold — 7% бонусами с каждого визита.'},{n:'Rose Gold',from:5,perk:'На уровне Platinum — 10% бонусами и приоритетная запись.'},{n:'Platinum',from:10,perk:'10% бонусами, приоритетная запись и подарок ко дню рождения.'}];
+  let i=T.length-1;while(i>0&&v<T[i].from)i--;const nx=T[i+1];return{n:T[i].n,next:nx?nx.n:null,left:nx?nx.from-v:0,p:nx?Math.round((v-T[i].from)/(nx.from-T[i].from)*100):100,perk:T[i].perk}}
+function barcode(code){let h=0,o='';for(let k=0;k<78;k++){h=(h*31+code.charCodeAt(k%code.length)+k)%997;o+=`<i style="width:${1+h%3}px;${h%5===0?'margin-right:2px':''}"></i>`}return o}
 const thumb=(zs,cls='thumb')=>`<div class="ph pi ${cls}" style="${zph(Z(zs[0]),200)}"></div>`;
 
 /* ---------- состояние интерфейса ---------- */
@@ -625,9 +640,19 @@ function cVisits(c){
 function cBonus(c){
   const tx=S.tx.filter(t=>t.cid===c.id).sort((a,b)=>b.date.localeCompare(a.date));
   return `<div class="h1" style="margin:6px 0 16px">Бонусы</div>
-  <div class="club"><div class="row between"><div style="font-weight:800;font-size:17px">Студия Тани</div><div class="xs" style="letter-spacing:.2em;font-weight:700;opacity:.9">CLUB</div></div>
-   <div><div class="xs" style="opacity:.85;font-weight:600">Бонусы на счёте</div><div style="font-size:44px;font-weight:800;letter-spacing:-.02em;line-height:1.05">${num(c.bonus)}</div></div>
-   <div class="row between"><div><div class="xs" style="opacity:.85;text-transform:uppercase;letter-spacing:.08em">${esc(c.name)}</div><div class="xs" style="opacity:.85;letter-spacing:.14em;margin-top:2px">${c.code}</div></div><div class="chipc"></div></div></div>
+  <div class="cardw"><div class="club3d" data-act="flip">
+   <div class="face">
+    <div class="row between"><div class="row" style="gap:8px"><span style="color:#EDBCA9">${ic('lotus',28,1.4)}</span><div><div class="rg" style="font-weight:800;font-size:16px;letter-spacing:.02em">Студия Тани</div><div style="font-size:9px;letter-spacing:.32em;color:rgba(246,211,196,.8);margin-top:1px">PRIVATE CLUB</div></div></div><span class="tierb">${tier(c).n.toUpperCase()}</span></div>
+    <div class="row between" style="align-items:flex-end"><div><div style="font-size:11px;color:rgba(255,255,255,.65);letter-spacing:.06em">Бонусы на счёте</div><div class="rg" style="font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.05">${num(c.bonus)}</div></div><div class="col" style="gap:8px;align-items:flex-end"><div class="chipc"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(246,211,196,.8)" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 3a13 13 0 0 1 0 18"/></svg></div></div>
+    <div class="row between"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.88)">${esc(c.name)}</div><div style="font-size:12px;letter-spacing:.18em;color:rgba(246,211,196,.85)">${c.code}</div></div>
+   </div>
+   <div class="face back">
+    <div class="stripe"></div>
+    <div style="padding:16px 22px" class="col"><div class="bars">${barcode(c.code)}</div><div class="row between"><div class="xs" style="color:rgba(255,255,255,.7)">Покажите карту при оплате</div><div class="rg b" style="letter-spacing:.18em">${c.code}</div></div></div>
+   </div>
+  </div></div>
+  <div class="xs mut" style="text-align:center;margin-top:10px">Нажмите на карту, чтобы перевернуть</div>
+  ${(()=>{const t=tier(c);return t.next?`<div class="card" style="margin-top:14px"><div class="row between"><div class="b">До уровня ${t.next}</div><span class="sm mut">${t.left} ${plural(t.left,'визит','визита','визитов')}</span></div><div class="bar" style="height:7px;margin-top:10px"><i style="width:${t.p}%"></i></div><div class="xs mut" style="margin-top:8px">${t.perk}</div></div>`:`<div class="card" style="margin-top:14px"><div class="b">Высший уровень ${t.n}</div><div class="xs mut" style="margin-top:4px">${t.perk}</div></div>`})()}
   <div class="card" style="margin-top:14px"><div class="b" style="margin-bottom:4px">Как получить</div>
     ${[['spark',S.settings.bonusPct+'% от каждого визита'],['gift','Оплатить можно до '+S.settings.maxShare+'% визита'],['heart',S.settings.friend+' за подругу — вам обеим'],['star',S.settings.review+' за отзыв на картах']].map(([i,t])=>`<div class="irow">${ic(i,18)} ${t}</div>`).join('')}</div>
   <div class="card" style="margin-top:14px"><div class="b">Приведи подругу</div><div class="sm mut" style="margin:4px 0 12px">Подруга называет код при записи, после её первого визита бонусы придут обеим.</div>
@@ -897,6 +922,7 @@ function hap(){try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}}
 function icsFor(a){const d=a.date.replace(/-/g,''),t=a.time.replace(':','')+'00',e=mt(tm(a.time)+a.dur).replace(':','')+'00';
   return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Studio//RU','BEGIN:VEVENT','UID:'+a.id+'@studio','DTSTAMP:'+d+'T000000','DTSTART:'+d+'T'+t,'DTEND:'+d+'T'+e,'SUMMARY:Лазерная эпиляция · Таня','DESCRIPTION:'+zn(a.zones),'BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:Завтра визит к Тане','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n')}
 const A={
+  flip:(d,el)=>{hap();el.classList.toggle('flipped')},
   notif:()=>{hap();go('notif')},
   ics:d=>{const a=S.appts.find(x=>x.id===d.id);const b=new Blob([icsFor(a)],{type:'text/calendar'});const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download='zapis-'+a.date+'.ics';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('Файл для календаря готов')},
   share:d=>{hap();if(navigator.share){navigator.share({title:'Студия Тани',text:d.t}).catch(()=>{})}else copy(d.t)},
