@@ -576,6 +576,13 @@ body{font-size:15.5px;line-height:1.5}
 .tiles{gap:14px}
 .main{padding:30px 32px 48px}
 @media (max-width:900px){.main{padding:22px 18px 130px}}
+
+.lg-or{display:flex;align-items:center;gap:12px;margin:22px 4px 14px;color:var(--mut);font-size:13px}
+.lg-or:before,.lg-or:after{content:"";flex:1;height:1px;background:rgba(140,110,125,.22)}
+.lg-alt{min-height:54px;font-weight:700;color:var(--ink)!important}
+.lg-alt svg{color:#D4477F}
+.lg-note{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:16px;background:rgba(255,255,255,.7);border:1px solid #fff}
+.lg-note svg{color:#D4477F;flex:none;margin-top:2px}
 </style>
 </head>
 <body>
@@ -842,13 +849,29 @@ function cLogin(){
   return `<div class="login">
    <div class="lg-logo">${ic('lotus',40,1.3)}</div>
    <div class="h1" style="text-align:center">Студия Тани</div>
-   <div class="mut" style="text-align:center;margin-top:6px">Войдите по номеру телефона</div>
+   <div class="mut" style="text-align:center;margin-top:6px">Вход в личный кабинет</div>
    <div class="gl lg-card">
-    <label class="xs mut" for="lgp">Телефон</label>
+    <label class="xs mut" for="lgp">Номер телефона</label>
     <div class="phone-in"><span>+7</span><input id="lgp" inputmode="tel" autocomplete="tel-national" placeholder="900 000-00-00" data-inp="lgPhone" value="${fmtPhone(d)}"></div>
-    <button class="btn dk full" data-act="lgPhone" ${d.length===10?'':'disabled'}>Продолжить</button>
+    <button class="btn dk full" data-act="lgPhone" ${d.length===10?'':'disabled'}>Получить код</button>
    </div>
-   <button class="lg-link" data-act="toMaster">Вход для мастера</button>
+   <div class="lg-or"><span>или</span></div>
+   <button class="btn full lg-alt" data-act="toMaster">${ic('spark',18)} Войти по коду доступа</button>
+  </div>`;
+}
+function cSms(){
+  const c=U.lgSms||'';const left=Math.max(0,60-Math.floor((Date.now()-(U.smsAt||0))/1000));
+  return `<div class="login">
+   <button class="ib" style="align-self:flex-start;margin-bottom:22px" data-act="toLogin" aria-label="Назад">${ic('left',18)}</button>
+   <div class="h1">Код из SMS</div>
+   <div class="mut" style="margin-top:6px">Отправили на +7 ${fmtPhone(digits(U.lgPhone))}</div>
+   <div class="gl lg-card">
+    <label class="code-in"><input inputmode="numeric" autocomplete="one-time-code" maxlength="4" data-inp="lgSms" value="${esc(c)}" aria-label="Код из SMS">${[0,1,2,3].map(i=>`<i class="${c.length>i?'on':''} ${c.length===i?'cur':''}">${c[i]||''}</i>`).join('')}</label>
+    ${c.length===4?`<div class="lg-note">${ic('info',18)}<div><b>Вход по SMS скоро заработает</b><div class="xs mut">Пока войдите по коду доступа, который выдала студия</div></div></div>
+      <button class="btn dk full" data-act="toMaster">Войти по коду доступа</button>`
+     :`<div class="xs mut rs" style="text-align:center">${left?'Отправить код ещё раз через 0:'+String(left).padStart(2,'0'):''}</div>${left?'':'<button class="lg-link" style="margin:0 auto" data-act="smsAgain">Отправить код ещё раз</button>'}`}
+   </div>
+   <button class="lg-link" data-act="toLogin">Изменить номер</button>
   </div>`;
 }
 function cLgName(){
@@ -867,14 +890,13 @@ function cLgName(){
 function cMaster(){
   const c=U.lgCode;
   return `<div class="login">
-   <div class="lg-logo">${ic('lotus',40,1.3)}</div>
-   <div class="h1" style="text-align:center">Вход для мастера</div>
-   <div class="mut" style="text-align:center;margin-top:6px">Введите код студии</div>
+   <button class="ib" style="align-self:flex-start;margin-bottom:22px" data-act="toLogin" aria-label="Назад">${ic('left',18)}</button>
+   <div class="h1">Код доступа</div>
+   <div class="mut" style="margin-top:6px">Код выдаёт студия. С ним открывается кабинет мастера и вид клиента</div>
    <div class="gl lg-card">
-    <label class="code-in"><input inputmode="numeric" autocomplete="one-time-code" maxlength="4" data-inp="lgCode" value="${esc(c)}" aria-label="Код студии">${[0,1,2,3].map(i=>`<i class="${c.length>i?'on':''} ${c.length===i?'cur':''}">${c[i]?'•':''}</i>`).join('')}</label>
+    <label class="code-in"><input inputmode="numeric" autocomplete="off" maxlength="4" data-inp="lgCode" value="${esc(c)}" aria-label="Код доступа">${[0,1,2,3].map(i=>`<i class="${c.length>i?'on':''} ${c.length===i?'cur':''}">${c[i]?'•':''}</i>`).join('')}</label>
     <button class="btn dk full" data-act="lgCode" ${c.length===4?'':'disabled'}>Войти</button>
    </div>
-   <button class="lg-link" data-act="toLogin">Я клиент</button>
   </div>`;
 }
 function cWelcome(){
@@ -1051,7 +1073,7 @@ const TITLES={home:'Студия Тани',services:'Услуги',visits:'Мо�
 function renderClient(){
   const c=C(U.cid)||S.clients[0];const s=U.cs;
   if(s==='splash')return cSplash();
-  const map={login:cLogin,lgName:cLgName,master:cMaster,notif:cNotif,welcome:cWelcome,home:cHome,services:cServices,service:cService,book:cBook,confirm:cConfirm,done:cDone,visits:cVisits,bonus:cBonus,profile:cProfile};
+  const map={login:cLogin,sms:cSms,lgName:cLgName,master:cMaster,notif:cNotif,welcome:cWelcome,home:cHome,services:cServices,service:cService,book:cBook,confirm:cConfirm,done:cDone,visits:cVisits,bonus:cBonus,profile:cProfile};
   const body=(map[s]||cHome)(c);
   const tabs=['home','visits','bonus','profile','services'];const showTab=tabs.includes(s);
   const tb=[['home','home','Главная'],['visits','calok','Записи'],['bonus','gift','Бонусы'],['profile','user','Профиль']];
@@ -1269,7 +1291,7 @@ function renderAdmin(){
 /* ---------- рендер и события ---------- */
 function centerStrip(){document.querySelectorAll('.dstrip').forEach(st=>{const on=st.querySelector('.db.on');if(on)st.scrollLeft=on.offsetLeft-st.clientWidth/2+on.clientWidth/2})}
 function render(){
-  if(!U.auth){U.mode='client';if(!['splash','welcome','login','lgName','master'].includes(U.cs))U.cs='login'}
+  if(!U.auth){U.mode='client';if(!['splash','welcome','login','sms','lgName','master'].includes(U.cs))U.cs='login'}
   else if(U.auth.role!=='master')U.mode='client';
   const key=U.mode+U.cs+U.av;const fresh=U._rk!==key;U._rk=key;
   document.getElementById('app').innerHTML=U.mode==='client'?renderClient():renderAdmin();
@@ -1288,12 +1310,12 @@ const A={
   mode:d=>{if(d.v==='admin'&&!(U.auth&&U.auth.role==='master'))return;U.mode=d.v;if(d.v==='client'){U.cs='home';U.hist=[]}scrollTo(0,0);render()},
   toLogin:()=>{U.cs='login';U.lgCode='';render()},
   toMaster:()=>{U.cs='master';U.lgCode='';render()},
-  lgPhone:()=>{const d=digits(U.lgPhone);if(d.length!==10)return;const c=S.clients.find(x=>digits(x.phone).slice(-10)===d);
-    if(c){setAuth({role:'client',cid:c.id});U.cid=c.id;U.cs='home';U.hist=[];render();toast('С возвращением, '+first(c.name))}else{U.cs='lgName';render()}},
+  lgPhone:()=>{const d=digits(U.lgPhone);if(d.length!==10)return;U.lgSms='';U.smsAt=Date.now();U.cs='sms';render()},
+  smsAgain:()=>{U.smsAt=Date.now();U.lgSms='';render();toast('Код отправлен ещё раз')},
   lgName:()=>{const n=U.lgName.trim();if(n.length<2)return;const d=digits(U.lgPhone);
     const c={id:'c'+Date.now().toString(36),name:n.replace(/\s+/g,' '),phone:'+7 '+fmtPhone(d),src:'приложение',refBy:'',note:'',bonus:0,code:'T'+(1000+Math.floor(Math.random()*8999)),review:false,course:{zones:[],total:0,done:0,price:0}};
     S.clients.push(c);save();setAuth({role:'client',cid:c.id});U.cid=c.id;U.cs='home';U.hist=[];render();toast('Добро пожаловать, '+first(c.name))},
-  lgCode:async()=>{if(U.lgCode.length!==4)return;const h=await sha('studio:'+U.lgCode);if(h!==MASTER_H){U.lgCode='';render();toast('Неверный код');return}
+  lgCode:async()=>{U.lgSms='';if(U.lgCode.length!==4)return;const h=await sha('studio:'+U.lgCode);if(h!==MASTER_H){U.lgCode='';render();toast('Неверный код');return}
     setAuth({role:'master',cid:U.cid||'c1'});U.mode='admin';U.av='ov';render();toast('Добрый день, Таня')},
   logout:()=>{if(!confirm('Выйти из аккаунта?'))return;setAuth(null);U.mode='client';U.cs='login';U.lgPhone='';U.lgName='';U.lgCode='';closeM();scrollTo(0,0);render()},
   reset:()=>{if(!confirm('Сбросить демо к началу? Сбросится и общая база для всех, кто открыл приложение.'))return;seed();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}if(DB.url)rpc('tanya_reset',{p_state:stateOf(),p_appts:S.appts}).then(t=>{DB.stateAt=t;dbMark(true)}).catch(()=>dbMark(false));try{localStorage.removeItem(LS+'_seen')}catch(e){}U.cs='splash';U.hist=[];U.bk=null;render();toast('Демо сброшено')},
@@ -1369,6 +1391,7 @@ document.addEventListener('change',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
 load();if(location.hash==='#reset'){seed();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}history.replaceState(null,'',location.pathname)}render();boot();
+setInterval(()=>{if(U.cs==='sms'&&!U.auth&&(U.lgSms||'').length<4){const el=document.querySelector('.rs');const left=Math.max(0,60-Math.floor((Date.now()-(U.smsAt||0))/1000));if(el&&left)el.textContent='Отправить код ещё раз через 0:'+String(left).padStart(2,'0');else if(!left&&el&&el.textContent)render()}},1000);
 setInterval(()=>document.querySelectorAll('.cd').forEach(el=>{const[d,t]=el.dataset.at.split('T');el.textContent=until({date:d,time:t})}),60000);
 document.addEventListener('pointermove',e=>{const el=e.target.closest&&e.target.closest('.tilt');document.querySelectorAll('.tilt.tl').forEach(x=>{if(x!==el){x.classList.remove('tl');x.style.removeProperty('--rx');x.style.removeProperty('--ry')}});if(!el)return;const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.classList.add('tl');el.style.setProperty('--rx',(-y*7).toFixed(2)+'deg');el.style.setProperty('--ry',(x*9).toFixed(2)+'deg');el.style.setProperty('--mx',((x+.5)*100).toFixed(0)+'%');el.style.setProperty('--my',((y+.5)*100).toFixed(0)+'%')},{passive:true});
 document.addEventListener('pointerleave',()=>document.querySelectorAll('.tilt.tl').forEach(x=>{x.classList.remove('tl');x.style.removeProperty('--rx');x.style.removeProperty('--ry')}));
