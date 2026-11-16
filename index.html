@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F6EEF6">
+<meta name="theme-color" content="#E9D3E0">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -350,6 +350,31 @@ body{background:radial-gradient(900px 420px at 50% -140px,#F9E4EF 0,transparent 
   .main{padding-bottom:124px}
   .fab{bottom:calc(98px + env(safe-area-inset-bottom))}
 }
+/* ===== вариант А (16.11): фон темнее, но светлый, плашки — матовое стекло ===== */
+:root{--mut:#7C6A78;--line:rgba(110,50,90,.12);--glass:rgba(255,255,255,.5);--glass-b:rgba(255,255,255,.72)}
+body{background:radial-gradient(120% 60% at 0% 0%,#F3C6DA 0,transparent 60%),radial-gradient(90% 60% at 100% 40%,#D9C8F2 0,transparent 60%),radial-gradient(80% 50% at 30% 100%,#F1CFDF 0,transparent 60%),linear-gradient(160deg,#E9D3E0,#D8BFD3 60%,#CDB3CB);background-attachment:fixed}
+.card,.srow,.pcard,.nt,.flat,.tile:not(.plum),.search,.pickc,.cta{background:var(--glass)!important;border:1px solid var(--glass-b)!important;backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 16px 34px -14px rgba(90,30,75,.28)}
+.pcard .t{background:rgba(255,255,255,.35)}
+.btn:not(.dk):not(.lt),.chip:not(.on):not(.ok):not(.wrn):not(.bad):not(.bl),.fchips button:not(.on),.tabs button:not(.on),.slot:not(.on),.db:not(.on),.ib,.in{background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.75)}
+.chip.bl{background:rgba(255,255,255,.6);color:#B8326F}
+.segc{background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.6)}
+.bar{background:rgba(255,255,255,.55)}
+.ci:not(.cph){background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(255,255,255,.8)}
+.demo{background:rgba(236,214,227,.7)}
+.topbar{background:rgba(240,222,233,.75)}
+.side{background:rgba(255,255,255,.38);border-right:1px solid rgba(255,255,255,.6)}
+.nav:hover{background:rgba(255,255,255,.45)}
+.modal{background:rgba(253,246,250,.9);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+.msg{background:rgba(255,255,255,.6)}
+.wk{background:rgba(255,255,255,.55);backdrop-filter:blur(18px)}
+.wkh{background:rgba(255,255,255,.75)}
+.blk{background:rgba(252,232,242,.9)}
+.gap{background:rgba(255,255,255,.35);border-color:rgba(214,63,132,.35)}
+.tabbar{background:rgba(255,255,255,.55)}
+.foot{color:#7C6A78}
+.tabbar button:not(.on){color:#8A7688}
+.nav:not(.on){color:#4E3F4C}
+@media (max-width:900px){.side{background:rgba(255,255,255,.6)}.tiles>.tile:last-child:nth-child(odd){grid-column:span 2}}
 </style>
 </head>
 <body>
