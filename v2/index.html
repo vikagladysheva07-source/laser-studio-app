@@ -452,6 +452,38 @@ body{background:radial-gradient(700px 320px at 50% -160px,#F6E7EC 0,transparent 
  .nav.on .cnt,.nav .cnt{background:var(--accent);color:#fff}
  .tiles>.tile:last-child:nth-child(odd){grid-column:span 2}
 }
+/* ===== светлые решения (17.11): без тёмной сливы. Главный цвет действий — роза, плашки — перламутр ===== */
+:root{--esp:#D4477F;--rose2:#C23B72}
+.btn.dk,.btn.lt{background:linear-gradient(180deg,#E05A93 0%,#CC4280 100%)!important;color:#fff!important;border:0!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 12px 22px -12px rgba(204,66,128,.75)!important}
+.btn.dk:hover,.btn.lt:hover{background:linear-gradient(180deg,#D9518B,#C23B72)!important}
+.btn.ghost{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important;box-shadow:var(--sh1)!important}
+.plum,.face,.splash.plum{color:var(--ink)!important;background:repeating-radial-gradient(circle at 92% 120%,rgba(212,71,127,.045) 0 1px,transparent 1px 9px),radial-gradient(120% 90% at 0% 0%,#FCE6EF 0,transparent 62%),radial-gradient(100% 80% at 100% 100%,#EFE7FB 0,transparent 60%),#FFFFFF!important;border:1px solid #F3E6EC;box-shadow:var(--sh2)!important}
+.plum:before,.face:before{background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.7) 48%,rgba(255,240,248,.5) 52%,transparent 64%)!important;background-size:250% 100%!important}
+.plum .eyebrow{color:#B0577E}
+.plum .mut,.plum .xs.mut,.plum .l{color:var(--mut)!important}
+.plum .link{color:var(--mocha)}
+.hsub{color:var(--mut)}
+.pill{background:#fff;color:var(--mocha);border:1px solid #F1D9E3}
+.pill.ok{color:#2E8A5C;border-color:#CFEADB;background:#F2FAF5}
+.tile.plum{border:1px solid #F3E6EC!important}
+.tile.plum .v{background:linear-gradient(100deg,#C2577F,#8E3A62);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.rg{background:linear-gradient(100deg,#C98B7C 0%,#9E5B52 40%,#D7A08F 60%,#8F4E47 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
+.tierb{color:#9E5B52;border-color:#E6C9BF;background:#fff}
+.face{border-radius:22px}
+.face.back{background:linear-gradient(135deg,#FFF8F4,#F8E7EE 50%,#EEE7F8)!important}
+.stripe{background:#E8D8DF}
+.bars i{background:var(--ink)}
+.splash.plum{border:0}
+.nav.on{background:var(--accent-s)!important;color:var(--mocha)!important;box-shadow:none!important}
+.nav.on .cnt{background:var(--accent)!important;color:#fff!important}
+.slot.on,.db.on,.mcal button.on{background:linear-gradient(180deg,#E05A93,#CC4280)!important;box-shadow:0 8px 16px -8px rgba(204,66,128,.6)!important}
+.fchips button.on,.tabs button.on,.chip.on,.seg button.on{background:var(--accent)!important;border-color:var(--accent)!important;color:#fff!important}
+.qa2 button:first-child span{background:linear-gradient(180deg,#E05A93,#CC4280)}
+.fab{background:linear-gradient(180deg,#E05A93,#CC4280)!important;box-shadow:0 16px 30px -12px rgba(204,66,128,.7)!important}
+.sw.on{background:var(--accent)}
+.okc{background:linear-gradient(180deg,#E05A93,#CC4280)}
+.toast{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.todayh{box-shadow:none!important;border:0!important;border-bottom:1px solid #F3E6EC!important;border-radius:0!important}
 </style>
 </head>
 <body>
@@ -669,10 +701,10 @@ function stChip(a){return a.status==='new'?'<span class="chip bl">Ждёт по�
 function cSplash(){
   return `<div class="splash plum" style="min-height:calc(100vh - 55px);border-radius:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:30px 24px 40px;text-align:center;color:#fff">
     
-    <div style="color:#E9B4A4">${ic('lotus',64,1.1)}</div>
+    <div style="color:#C2577F">${ic('lotus',64,1.1)}</div>
     <div class="rg" style="font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:12px">Студия Тани</div>
-    <div style="font-size:10px;letter-spacing:.34em;color:rgba(246,211,196,.8);margin-top:8px">PRIVATE CLUB</div>
-    <div style="color:rgba(255,255,255,.72);margin-top:14px;font-size:15px">Лазерная эпиляция.<br>Время, которое ты тратишь на себя</div>
+    <div style="font-size:10px;letter-spacing:.34em;color:#B0577E;margin-top:8px">PRIVATE CLUB</div>
+    <div style="color:var(--mut);margin-top:14px;font-size:15px">Лазерная эпиляция.<br>Время, которое ты тратишь на себя</div>
     <button class="btn dk full" style="margin-top:34px;max-width:340px" data-act="toWelcome">Начать ${ic('arrow',18)}</button>
     <div class="dots" style="margin-top:18px"><i class="on"></i><i></i><i></i></div>
   </div>`;
@@ -715,7 +747,7 @@ function cHome(c){
    <div class="irow" style="border-top:1px solid var(--line)">${ic('clock',18)}<span class="grow">Пн–сб, ${S.settings.open}:00–${S.settings.close}:00</span></div>
    <div class="irow" style="border-top:1px solid var(--line)">${ic('star',18)}<span class="grow">Отзывы на картах</span><a class="link" href="${S.settings.mapY}" target="_blank" rel="noopener">Открыть</a></div></div>`;
 }
-function ringDark(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.done/c.course.total;return `<svg width="${n}" height="${n}" viewBox="0 0 ${n} ${n}" style="flex:none"><defs><linearGradient id="rgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBE6DA"/><stop offset="1" stop-color="#D99486"/></linearGradient></defs><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="5"/><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="url(#rgd)" stroke-width="5" stroke-linecap="round" stroke-dasharray="${L*p} ${L}" transform="rotate(-90 ${n/2} ${n/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="${n*.24}" font-weight="700" fill="#fff" font-family="Manrope">${c.course.done}/${c.course.total}</text></svg>`}
+function ringDark(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.done/c.course.total;return `<svg width="${n}" height="${n}" viewBox="0 0 ${n} ${n}" style="flex:none"><defs><linearGradient id="rgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2A3C2"/><stop offset="1" stop-color="#C2457A"/></linearGradient></defs><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="#fff" stroke="#F4E4EB" stroke-width="5"/><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="url(#rgd)" stroke-width="5" stroke-linecap="round" stroke-dasharray="${L*p} ${L}" transform="rotate(-90 ${n/2} ${n/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="${n*.24}" font-weight="700" fill="#1D1519" font-family="Manrope">${c.course.done}/${c.course.total}</text></svg>`}
 function cServices(){
   const q=U.q.trim().toLowerCase();
   let list=S.zones.filter(z=>!q||z.name.toLowerCase().includes(q));
@@ -798,13 +830,13 @@ function cBonus(c){
   return `<div class="h1" style="margin:6px 0 16px">Бонусы</div>
   <div class="cardw"><div class="club3d" data-act="flip">
    <div class="face">
-    <div class="row between"><div class="row" style="gap:8px"><span style="color:#EDBCA9">${ic('lotus',28,1.4)}</span><div><div class="rg" style="font-weight:800;font-size:16px;letter-spacing:.02em">Студия Тани</div><div style="font-size:9px;letter-spacing:.32em;color:rgba(246,211,196,.8);margin-top:1px">PRIVATE CLUB</div></div></div><span class="tierb">${tier(c).n.toUpperCase()}</span></div>
-    <div class="row between" style="align-items:flex-end"><div><div style="font-size:11px;color:rgba(255,255,255,.65);letter-spacing:.06em">Бонусы на счёте</div><div class="rg" style="font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.05">${num(c.bonus)}</div></div><div class="col" style="gap:8px;align-items:flex-end"><div class="chipc"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(246,211,196,.8)" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 3a13 13 0 0 1 0 18"/></svg></div></div>
-    <div class="row between"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.88)">${esc(c.name)}</div><div style="font-size:12px;letter-spacing:.18em;color:rgba(246,211,196,.85)">${c.code}</div></div>
+    <div class="row between"><div class="row" style="gap:8px"><span style="color:#C2577F">${ic('lotus',28,1.4)}</span><div><div class="rg" style="font-weight:800;font-size:16px;letter-spacing:.02em">Студия Тани</div><div style="font-size:9px;letter-spacing:.32em;color:#B0577E;margin-top:1px">PRIVATE CLUB</div></div></div><span class="tierb">${tier(c).n.toUpperCase()}</span></div>
+    <div class="row between" style="align-items:flex-end"><div><div style="font-size:11px;color:#8C8186;letter-spacing:.06em">Бонусы на счёте</div><div class="rg" style="font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.05">${num(c.bonus)}</div></div><div class="col" style="gap:8px;align-items:flex-end"><div class="chipc"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B98A80" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 3a13 13 0 0 1 0 18"/></svg></div></div>
+    <div class="row between"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3E3038">${esc(c.name)}</div><div style="font-size:12px;letter-spacing:.18em;color:#9E5B52">${c.code}</div></div>
    </div>
    <div class="face back">
     <div class="stripe"></div>
-    <div style="padding:16px 22px" class="col"><div class="bars">${barcode(c.code)}</div><div class="row between"><div class="xs" style="color:rgba(255,255,255,.7)">Покажите карту при оплате</div><div class="rg b" style="letter-spacing:.18em">${c.code}</div></div></div>
+    <div style="padding:16px 22px" class="col"><div class="bars">${barcode(c.code)}</div><div class="row between"><div class="xs" style="color:#8C8186">Покажите карту при оплате</div><div class="rg b" style="letter-spacing:.18em">${c.code}</div></div></div>
    </div>
   </div></div>
   <div class="xs mut" style="text-align:center;margin-top:10px">Нажмите на карту, чтобы перевернуть</div>
