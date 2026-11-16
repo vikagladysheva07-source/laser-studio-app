@@ -62,6 +62,10 @@ textarea.in{padding:10px 14px}
 .ph.v5{background:linear-gradient(140deg,#EDE6FD,#C5B8F6 55%,#9783EE)}
 .ph.v6{background:linear-gradient(140deg,#FDE4EE,#F7B6CF 55%,#EE7FAA)}
 .thumb{width:64px;height:64px;border-radius:14px;flex:none}
+.ph.pi{background-size:cover;background-position:center;background-color:#F4C6DA}
+.ph.pi:before{display:none}
+.banner.pi:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(120,25,75,.62),rgba(120,25,75,.1) 75%)}
+.banner>*{z-index:1}
 
 /* полоса демо */
 .demo{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:rgba(246,238,246,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
@@ -208,7 +212,7 @@ textarea.in{padding:10px 14px}
     <button data-act="mode" data-v="client" id="m-client"><span class="hide-m">Приложение клиента</span><span class="show-m">Клиент</span></button>
     <button data-act="mode" data-v="admin" id="m-admin"><span class="hide-m">Кабинет Тани</span><span class="show-m">Таня</span></button>
   </div>
-  <div class="row"><span class="xs mut hide-m">Прототип · данные и фото вымышленные</span><button class="btn sm" data-act="reset" style="white-space:nowrap">Сбросить<span class="hide-m"> демо</span></button></div>
+  <div class="row"><span class="xs mut hide-m">Прототип · данные вымышленные, фото временные</span><button class="btn sm" data-act="reset" style="white-space:nowrap">Сбросить<span class="hide-m"> демо</span></button></div>
 </div>
 <div id="app"></div>
 
@@ -273,7 +277,7 @@ const I={
 const ic=(n,s=20,w=1.7)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
 
 /* ---------- данные (вымышленные) ---------- */
-const LS='tanya_app_demo_v9';
+const LS='tanya_app_demo_v10';
 let S;
 const Z=id=>S.zones.find(z=>z.id===id);
 const C=id=>S.clients.find(c=>c.id===id);
@@ -282,12 +286,12 @@ function seed(){
   const r=rng(20261116); const pick=a=>a[Math.floor(r()*a.length)];
   S={
     zones:[
-      {id:'legs',sh:'Ноги',name:'Ноги полностью',price:3500,dur:60,int:45,cat:'body',v:2,desc:'Бёдра, колени и голени за один визит. Обычно это курс из нескольких сеансов, интервал между ними подбирает Таня.'},
-      {id:'bik',sh:'Бикини',name:'Глубокое бикини',price:2800,dur:40,int:35,cat:'body',v:4,desc:'Деликатная зона, работаем бережно и спокойно. Перед сеансом Таня расскажет, как подготовиться.'},
-      {id:'arm',sh:'Подмышки',name:'Подмышки',price:1200,dur:20,int:30,cat:'body',v:3,desc:'Короткий сеанс, удобно совмещать с другими зонами в один визит.'},
-      {id:'hands',sh:'Руки',name:'Руки полностью',price:2200,dur:30,int:40,cat:'body',v:5,desc:'Плечи, предплечья и кисти. Можно отдельно или вместе с подмышками.'},
-      {id:'shin',sh:'Голени',name:'Голени',price:2000,dur:40,int:45,cat:'body',v:6,desc:'Если нужно только от колена вниз. Курс и интервал подбираются индивидуально.'},
-      {id:'face',sh:'Лицо',name:'Верхняя губа',price:900,dur:15,int:30,cat:'face',v:1,desc:'Самый короткий сеанс. Перед первым визитом Таня задаст пару вопросов о коже.'}
+      {id:'legs',img:'1700760933574-9f0f4ea9aa3b',sh:'Ноги',name:'Ноги полностью',price:3500,dur:60,int:45,cat:'body',v:2,desc:'Бёдра, колени и голени за один визит. Обычно это курс из нескольких сеансов, интервал между ними подбирает Таня.'},
+      {id:'bik',img:'1467632499275-7a693a761056',sh:'Бикини',name:'Глубокое бикини',price:2800,dur:40,int:35,cat:'body',v:4,desc:'Деликатная зона, работаем бережно и спокойно. Перед сеансом Таня расскажет, как подготовиться.'},
+      {id:'arm',img:'1544717304-a2db4a7b16ee',sh:'Подмышки',name:'Подмышки',price:1200,dur:20,int:30,cat:'body',v:3,desc:'Короткий сеанс, удобно совмещать с другими зонами в один визит.'},
+      {id:'hands',img:'1785861433534-8cd4c7b994fa',sh:'Руки',name:'Руки полностью',price:2200,dur:30,int:40,cat:'body',v:5,desc:'Плечи, предплечья и кисти. Можно отдельно или вместе с подмышками.'},
+      {id:'shin',img:'1661308675370-31455561e15e',sh:'Голени',name:'Голени',price:2000,dur:40,int:45,cat:'body',v:6,desc:'Если нужно только от колена вниз. Курс и интервал подбираются индивидуально.'},
+      {id:'face',img:'1785861775561-c6db7da314a0',sh:'Лицо',name:'Верхняя губа',price:900,dur:15,int:30,cat:'face',v:1,desc:'Самый короткий сеанс. Перед первым визитом Таня задаст пару вопросов о коже.'}
     ],
     settings:{bonusPct:5,maxShare:30,friend:500,review:100,plan:250000,open:10,close:20,dormant:60,courseDisc:15,
       mapY:'https://yandex.ru/maps/',map2:'https://2gis.ru/',
@@ -390,7 +394,10 @@ function earn(a){
   c.bonus+=e;S.tx.push({cid:c.id,date:a.date,amt:e,note:`Визит, сеанс ${a.session}`});
   if(a.session>c.course.done)c.course.done=Math.min(a.session,c.course.total);
 }
-const thumb=(zs,cls='thumb',s=26)=>{const z=Z(zs[0]);return `<div class="ph v${z.v} ${cls}">${ic(z.id,s,1.4)}</div>`};
+const PH=(id,w)=>`background-image:url(https://images.unsplash.com/photo-${id}?w=${w}&q=75&auto=format&fit=crop)`;
+const ZIMG={legs:'1700760933574-9f0f4ea9aa3b',bik:'1467632499275-7a693a761056',arm:'1544717304-a2db4a7b16ee',hands:'1785861433534-8cd4c7b994fa',shin:'1661308675370-31455561e15e',face:'1785861775561-c6db7da314a0'};
+const zph=(z,w)=>PH(z.img||ZIMG[z.id],w);
+const thumb=(zs,cls='thumb')=>`<div class="ph pi ${cls}" style="${zph(Z(zs[0]),200)}"></div>`;
 
 /* ---------- состояние интерфейса ---------- */
 const U={mode:'client',cs:'home',hist:[],cid:'c1',zone:null,bk:null,vt:'act',q:'',cat:'all',av:'ov',wk:0,mt:'due',aq:''};
@@ -406,7 +413,7 @@ function stChip(a){return a.status==='new'?'<span class="chip bl">Ждёт по�
 
 /* ================= ПРИЛОЖЕНИЕ КЛИЕНТА ================= */
 function cSplash(){
-  return `<div class="ph" style="min-height:calc(100vh - 55px);border-radius:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:30px 24px 40px;text-align:center;color:#fff">
+  return `<div class="ph pi" style="${PH('1544717304-a2db4a7b16ee',900)};background-position:center 20%;min-height:calc(100vh - 55px);border-radius:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:30px 24px 40px;text-align:center;color:#fff">
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 30%,rgba(236,214,202,.75) 70%,rgba(243,237,232,1) 100%)"></div>
     <div style="color:var(--mocha)">${ic('lotus',64,1.1)}</div>
     <div class="serif" style="font-size:46px;font-weight:600;color:var(--ink);line-height:1;margin-top:10px">Студия Тани</div>
@@ -432,7 +439,7 @@ function cHome(c){
   <div class="row between"><div class="logo-s">Студия Тани</div><button class="ib" data-act="tab" data-v="visits">${ic('bell',19)}${u&&u.status==='ok'?'<span class="dot"></span>':''}</button></div>
   <div class="row sm mut" style="margin:4px 0 14px;gap:6px">${ic('map',15)} Адрес студии · уточнить у Тани</div>
   <button class="search" data-act="tab" data-v="services">${ic('search',18)} Услуга или зона</button>
-  <div class="ph v4 banner" style="margin-top:16px">
+  <div class="ph pi banner" style="margin-top:16px;${PH('1700760933941-3a06a28fbf47',800)}">
     <div class="t">${c.course.done<c.course.total?`Пора на сеанс ${c.course.done+1} из ${c.course.total}`:'Курс пройден. Поддерживающий визит — с бонусами'}</div>
     <button class="btn" data-act="bookCourse">${u?'Моя запись':'Записаться'} ${ic('arrow',15)}</button>
   </div>
@@ -445,7 +452,7 @@ function cHome(c){
     <div class="row between xs mut" style="margin-top:8px"><span>Пройдено ${pct(c)}%</span><span>${c.course.done<c.course.total&&!u?(dd(due,TODAY)<=0?'Пора записываться':'Следующий с '+fd(due)):''}</span></div>
   </div>
   <div class="row between" style="margin:24px 0 12px"><div class="h2">Популярные услуги</div><button class="link" data-act="tab" data-v="services">Все ${ic('right',14)}</button></div>
-  <div class="hs">${pop.map(id=>{const z=Z(id);return `<button class="pcard" data-act="openZ" data-id="${id}"><div class="ph v${z.v}">${ic(id,30,1.3)}</div><div class="t"><div class="b sm">${z.name}</div><div class="xs mut">от ${rub(z.price)}</div></div></button>`}).join('')}</div>`;
+  <div class="hs">${pop.map(id=>{const z=Z(id);return `<button class="pcard" data-act="openZ" data-id="${id}"><div class="ph pi" style="${zph(z,400)}"></div><div class="t"><div class="b sm">${z.name}</div><div class="xs mut">от ${rub(z.price)}</div></div></button>`}).join('')}</div>`;
 }
 function cServices(){
   const q=U.q.trim().toLowerCase();
@@ -455,12 +462,12 @@ function cServices(){
   return `${nb('Услуги')}
   <label class="search">${ic('search',18)}<input placeholder="Услуга или зона" data-inp="q" value="${esc(U.q)}"></label>
   <div class="fchips">${[['all','Все'],['body','Тело'],['face','Лицо'],['course','Курсы']].map(([k,t])=>`<button class="${U.cat===k?'on':''}" data-act="cats" data-v="${k}">${t}</button>`).join('')}</div>
-  <div class="col">${list.map(z=>{const cp=Math.round(z.price*8*(1-S.settings.courseDisc/100)/100)*100;return `<button class="srow" data-act="openZ" data-id="${z.id}"><div class="ph v${z.v} thumb">${ic(z.id,26,1.3)}</div>
+  <div class="col">${list.map(z=>{const cp=Math.round(z.price*8*(1-S.settings.courseDisc/100)/100)*100;return `<button class="srow" data-act="openZ" data-id="${z.id}"><div class="ph pi thumb" style="${zph(z,200)}"></div>
     <div class="grow"><div class="b">${course?'Курс · ':''}${z.name}</div><div class="b" style="margin-top:2px">${course?rub(cp):rub(z.price)}</div><div class="xs mut">${course?'8 сеансов · −'+S.settings.courseDisc+'%':z.dur+' мин'}</div></div><span class="mut">${ic('right',18)}</span></button>`}).join('')||'<div class="mut">Ничего не нашлось</div>'}</div>`;
 }
 function cService(){
   const z=Z(U.zone);const cp=Math.round(z.price*8*(1-S.settings.courseDisc/100)/100)*100;
-  return `<div class="ph v${z.v} hero">${ic(z.id,90,1)}<button class="ib" style="left:16px" data-act="back">${ic('left',18)}</button><button class="ib" style="right:16px" data-act="fav">${ic('heart',18)}</button></div>
+  return `<div class="ph pi hero" style="${zph(z,900)}"><button class="ib" style="left:16px" data-act="back">${ic('left',18)}</button><button class="ib" style="right:16px" data-act="fav">${ic('heart',18)}</button></div>
   <div class="sheet">
     <div class="h1">${z.name}</div>
     <div class="serif" style="font-size:30px;font-weight:600;margin-top:2px">${rub(z.price)}</div>
@@ -558,7 +565,7 @@ function renderClient(){
   const body=(map[s]||cHome)(c);
   const tabs=['home','visits','bonus','profile','services'];const showTab=tabs.includes(s);
   const tb=[['home','home','Главная'],['visits','calok','Записи'],['bonus','gift','Бонусы'],['profile','user','Профиль']];
-  return `<div class="phone ${s==='service'?'full':''}">${body}${s==='service'?'':'<div class="foot">Прототип · данные и фото вымышленные</div>'}</div>
+  return `<div class="phone ${s==='service'?'full':''}">${body}${s==='service'?'':'<div class="foot">Прототип · данные вымышленные · фото временные, Unsplash</div>'}</div>
   ${showTab?`<nav class="tabbar">${tb.map(([k,i,t])=>`<button class="${s===k?'on':''}" data-act="tab" data-v="${k}">${ic(i,22,s===k?2:1.6)}${t}</button>`).join('')}</nav>`:''}`;
 }
 
@@ -599,7 +606,7 @@ function aOverview(){
   const tiles=[[wkN,'Записей на неделе','sch'],[active,'Активных клиентов','cl'],[rub(ms.avg),'Средний чек',''],[rub(ms.sum),'Выручка за месяц',''],[lcount(L),'Кому написать','msg']];
   return `
   <div class="row between wrap"><div><div class="eyebrow">Студия Тани</div><div class="atitle">Обзор</div></div><button class="btn dk" data-act="newAppt">${ic('plus',18)} Новая запись</button></div>
-  <div class="ph v2 ahero"><div class="t">Студия Тани</div><div class="s">Записи, выручка и клиенты в одном месте</div></div>
+  <div class="ph pi ahero" style="${PH('1700760933941-3a06a28fbf47',1400)};background-position:center 60%"><div class="t">Студия Тани</div><div class="s">Записи, выручка и клиенты в одном месте</div></div>
   <div class="tiles">${tiles.map(([v,l,go])=>`<button class="tile" ${go?`data-act="av" data-v="${go}"`:''}><div class="v">${v}</div><div class="l">${l}</div></button>`).join('')}</div>
   <div class="g2"><div class="card">${lineChart()}</div>
    <div class="card" style="text-align:center"><div style="text-align:left"><div class="eyebrow">${MONN[now.getMonth()]}</div><div class="h2">План месяца</div></div><div style="margin-top:14px">${gauge(ms.sum,S.settings.plan)}</div><div class="sm mut" style="margin-top:6px">Осталось ${left} ${plural(left,'день','дня','дней')}. При текущем темпе выйдете на ${rub(Math.round(fc/1000)*1000)}.</div></div></div>
@@ -680,7 +687,7 @@ function aMsg(){
 function aServices(){
   return `<div><div class="eyebrow">Прайс</div><div class="atitle">Услуги и курсы</div></div>
   <div class="card" style="padding:6px 14px;overflow-x:auto;margin-top:16px"><table class="tbl"><tr><th>Зона</th><th>Цена сеанса, ₽</th><th>Минут</th><th>Интервал, дней</th></tr>
-  ${S.zones.map(z=>`<tr><td><div class="row">${`<div class="ph v${z.v}" style="width:40px;height:40px;border-radius:12px">${ic(z.id,18,1.4)}</div>`}<b>${z.name}</b></div></td>${['price','dur','int'].map(f=>`<td><input class="in" style="max-width:110px;min-height:38px" type="number" value="${z[f]}" data-zone="${z.id}" data-f="${f}"></td>`).join('')}</tr>`).join('')}</table></div>
+  ${S.zones.map(z=>`<tr><td><div class="row">${`<div class="ph pi" style="width:40px;height:40px;border-radius:12px;${zph(z,120)}"></div>`}<b>${z.name}</b></div></td>${['price','dur','int'].map(f=>`<td><input class="in" style="max-width:110px;min-height:38px" type="number" value="${z[f]}" data-zone="${z.id}" data-f="${f}"></td>`).join('')}</tr>`).join('')}</table></div>
   <div class="card col" style="margin-top:16px"><div class="h2">Курс</div>
    <div class="row wrap"><label class="sm grow" style="min-width:200px">Скидка при оплате курса, %<input class="in" type="number" value="${S.settings.courseDisc}" data-set="courseDisc"></label><label class="sm grow" style="min-width:200px">Порог «давно не была», дней<input class="in" type="number" value="${S.settings.dormant}" data-set="dormant"></label></div>
    <div class="xs mut">Цены, интервалы и скидки здесь для примера. Настоящие ставит Таня на неделе 3.</div></div>`;
@@ -699,7 +706,7 @@ function renderAdmin(){
   const body={sch:aCalendar,cl:aClients,msg:aMsg,srv:aServices,bon:aBonus}[U.av]||aOverview;
   return `<div class="adm"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Студия Тани</b></div>
    ${nav.map(([k,i,t])=>`<button class="nav ${U.av===k?'on':''}" data-act="av" data-v="${k}">${ic(i)}${t}${k==='msg'&&lcount(L)?`<span class="cnt">${lcount(L)}</span>`:''}${k==='sch'&&req?`<span class="cnt">${req}</span>`:''}</button>`).join('')}
-  </aside><main class="main">${body()}<div class="foot">Прототип · данные и фото вымышленные</div></main></div>`;
+  </aside><main class="main">${body()}<div class="foot">Прототип · данные вымышленные · фото временные, Unsplash</div></main></div>`;
 }
 function newAppt(cid){
   modal(`<div class="row between"><div class="h2">Новая запись</div><button class="ib" data-act="closeM">✕</button></div>
