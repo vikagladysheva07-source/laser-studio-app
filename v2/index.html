@@ -492,7 +492,7 @@ body{background:radial-gradient(700px 320px at 50% -160px,#F6E7EC 0,transparent 
     <button data-act="mode" data-v="client" id="m-client"><span class="hide-m">Приложение клиента</span><span class="show-m">Клиент</span></button>
     <button data-act="mode" data-v="admin" id="m-admin"><span class="hide-m">Кабинет Тани</span><span class="show-m">Таня</span></button>
   </div>
-  <div class="row"><span class="xs mut hide-m">Прототип · данные вымышленные, фото временные</span><button class="btn sm" data-act="reset" style="white-space:nowrap">Сбросить<span class="hide-m"> демо</span></button></div>
+  <div class="row"><span id="dbdot" title="Подключение к базе…" style="width:8px;height:8px;border-radius:50%;background:#E3D6D0;display:inline-block"></span><span class="xs mut hide-m">Прототип · данные вымышленные, фото временные</span><button class="btn sm" data-act="reset" style="white-space:nowrap">Сбросить<span class="hide-m"> демо</span></button></div>
 </div>
 <div id="app"></div>
 
@@ -629,8 +629,34 @@ function seed(){
     S.clients.push(c);
   });
 }
-function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
-function load(){try{const s=localStorage.getItem(LS);if(s){S=JSON.parse(s);return}}catch(e){}seed();save()}
+/* ---------- общая база (Supabase, только вымышленные данные) ---------- */
+const DB={url:'',key:'',sk:'studio-demo-2026',ok:null,stateAt:null,pending:null,busy:false};
+async function rpc(fn,args){if(!DB.url)throw new Error('База Тани ещё не подключена');const r=await fetch(DB.url+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:DB.key,Authorization:'Bearer '+DB.key,'Content-Type':'application/json'},body:JSON.stringify(Object.assign({p_key:DB.sk},args||{}))});if(!r.ok)throw new Error(fn+' '+r.status+' '+(await r.text()).slice(0,120));const t=await r.text();return t?JSON.parse(t):null}
+const newId=()=>'a'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const stateOf=()=>{const o={...S};delete o.appts;return o};
+function dbMark(ok){if(DB.ok===ok)return;DB.ok=ok;const d=document.getElementById('dbdot');if(d){d.style.background=ok?'#3BAA72':'#C9A99B';d.title=ok?'Общая база подключена':'Нет связи с базой, работаю на этом устройстве'}if(ok===false)toast('Нет связи с общей базой, данные пока только на этом устройстве')}
+function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}if(!DB.url)return;clearTimeout(DB.pending);DB.pending=setTimeout(pushState,1200)}
+async function pushState(){DB.pending=null;try{DB.stateAt=await rpc('tanya_save_state',{p_data:stateOf()});dbMark(true)}catch(e){dbMark(false)}}
+function putAppt(a){if(!DB.url)return;rpc('tanya_put_appt',{p:a}).then(()=>dbMark(true)).catch(()=>dbMark(false))}
+function load(){try{const s=localStorage.getItem(LS);if(s){S=JSON.parse(s);return}}catch(e){}seed();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
+async function boot(){
+  if(!DB.url){const d=document.getElementById('dbdot');if(d)d.title='Общая база ещё не подключена: данные на этом устройстве';return}
+  try{const d=await rpc('tanya_load');
+    if(!d.state){await rpc('tanya_reset',{p_state:stateOf(),p_appts:S.appts}).then(t=>DB.stateAt=t)}
+    else{S=d.state;S.appts=d.appts;DB.stateAt=d.state_at;try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
+    dbMark(true);render();
+  }catch(e){dbMark(false)}
+  setInterval(poll,15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll()});addEventListener('focus',poll);
+}
+async function poll(){
+  if(DB.busy||DB.pending||document.hidden)return;DB.busy=true;
+  try{const d=await rpc('tanya_poll');dbMark(true);
+    let changed=false;
+    if(d.state_at&&DB.stateAt&&new Date(d.state_at)>new Date(DB.stateAt)){const f=await rpc('tanya_load');S=f.state;S.appts=f.appts;DB.stateAt=f.state_at;changed=true}
+    else{const a=JSON.stringify(d.appts.slice().sort((x,y)=>x.id<y.id?-1:1)),b=JSON.stringify(S.appts.slice().sort((x,y)=>x.id<y.id?-1:1));if(a!==b){S.appts=d.appts;changed=true}}
+    if(changed){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}const ae=document.activeElement;if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName))&&!document.querySelector('.ov-m'))render()}
+  }catch(e){dbMark(false)}finally{DB.busy=false}
+}
 
 /* ---------- вычисления ---------- */
 const byDT=(a,b)=>(a.date+a.time).localeCompare(b.date+b.time);
@@ -1116,7 +1142,7 @@ const A={
   ics:d=>{const a=S.appts.find(x=>x.id===d.id);const b=new Blob([icsFor(a)],{type:'text/calendar'});const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download='zapis-'+a.date+'.ics';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('Файл для календаря готов')},
   share:d=>{hap();if(navigator.share){navigator.share({title:'Студия Тани',text:d.t}).catch(()=>{})}else copy(d.t)},
   mode:d=>{U.mode=d.v;try{localStorage.setItem(LS+'_mode',d.v)}catch(e){}scrollTo(0,0);render()},
-  reset:()=>{if(!confirm('Сбросить демо-данные к началу?'))return;seed();save();try{localStorage.removeItem(LS+'_seen')}catch(e){}U.cs='splash';U.hist=[];U.bk=null;render();toast('Демо сброшено')},
+  reset:()=>{if(!confirm('Сбросить демо к началу? Сбросится и общая база для всех, кто открыл приложение.'))return;seed();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}if(DB.url)rpc('tanya_reset',{p_state:stateOf(),p_appts:S.appts}).then(t=>{DB.stateAt=t;dbMark(true)}).catch(()=>dbMark(false));try{localStorage.removeItem(LS+'_seen')}catch(e){}U.cs='splash';U.hist=[];U.bk=null;render();toast('Демо сброшено')},
   toWelcome:()=>{U.cs='welcome';render()},
   toHome:()=>{try{localStorage.setItem(LS+'_seen','1')}catch(e){}U.cs='home';U.hist=[];scrollTo(0,0);render()},
   replay:()=>{U.cs='splash';U.hist=[];scrollTo(0,0);render()},
@@ -1130,7 +1156,7 @@ const A={
   vt:d=>{if(U.vt===d.v)return;hap();const sg=document.querySelector('.segc');if(sg)sg.dataset.i=d.v==='act'?0:1;setTimeout(()=>{U.vt=d.v;render()},200)},
   help:()=>modal(`<div class="row between"><div class="h2">Помощь и контакты</div><button class="ib" data-act="closeM">✕</button></div><div class="irow">${ic('map',18)} Адрес студии · уточнить у Тани</div><div class="irow">${ic('clock',18)} Пн–сб, ${S.settings.open}:00–${S.settings.close}:00</div><div class="irow">${ic('msg',18)} Написать Тане · мессенджер уточнить</div><div class="sm mut" style="margin-top:8px">Здесь же будет памятка «как подготовиться к сеансу», её напишет Таня.</div>`),
   cResched:d=>{const a=S.appts.find(x=>x.id===d.id);startBook(a.zones,a.id,a.bonusUsed)},
-  cCancel:d=>{if(!confirm('Отменить запись?'))return;S.appts.find(x=>x.id===d.id).status='cancel';save();render();toast('Запись отменена, Таня увидит')},
+  cCancel:d=>{if(!confirm('Отменить запись?'))return;{const a=S.appts.find(x=>x.id===d.id);a.status='cancel';putAppt(a)}save();render();toast('Запись отменена, Таня увидит')},
   cRev:()=>{const c=C(U.cid);c.review=true;c.bonus+=S.settings.review;S.tx.push({cid:c.id,date:TODAY,amt:S.settings.review,note:'За отзыв на картах'});save();setTimeout(render,300)},
   bkM:d=>{const b=U.bk;b.m+=+d.v;if(b.m<0){b.m=11;b.y--}if(b.m>11){b.m=0;b.y++}render()},
   bkDate:d=>{U.bk.date=d.v;U.bk.time=null;render()},
@@ -1138,8 +1164,8 @@ const A={
   bkNext:()=>go('confirm'),
   bkBonus:()=>{U.bk.bonus=!U.bk.bonus;render()},
   bkDone:()=>{const b=U.bk,c=C(U.cid);const price=zsum(b.zones,'price'),dur=zsum(b.zones,'dur');const max=Math.min(c.bonus,Math.floor(price*S.settings.maxShare/100));
-    if(b.resched){const a=S.appts.find(x=>x.id===b.resched);Object.assign(a,{date:b.date,time:b.time,status:'new',zones:b.zones,dur,sum:price,bonusUsed:b.bonus?max:0});b.done=a.id}
-    else{const a={id:'a'+S.seq++,cid:c.id,date:b.date,time:b.time,zones:[...b.zones],dur,sum:price,status:'new',bonusUsed:b.bonus?max:0,session:Math.min(c.course.done+1,c.course.total)};S.appts.push(a);b.done=a.id;
+    if(b.resched){const a=S.appts.find(x=>x.id===b.resched);Object.assign(a,{date:b.date,time:b.time,status:'new',zones:b.zones,dur,sum:price,bonusUsed:b.bonus?max:0});b.done=a.id;putAppt(a)}
+    else{const a={id:newId(),cid:c.id,date:b.date,time:b.time,zones:[...b.zones],dur,sum:price,status:'new',bonusUsed:b.bonus?max:0,session:Math.min(c.course.done+1,c.course.total)};S.appts.push(a);putAppt(a);b.done=a.id;
       const o=S.outreach.filter(o=>o.cid===c.id&&!o.booked).pop();if(o)o.booked=true}
     save();U.hist=[];U.cs='done';scrollTo(0,0);render()},
   copyTxt:d=>copy(d.t),
@@ -1152,14 +1178,14 @@ const A={
   copyMsg:()=>copy(document.getElementById('msgT').innerText),
   sent:d=>{S.outreach.push({cid:d.id,kind:d.k,date:TODAY,booked:false});if(d.k==='review')C(d.id).review=true;save();closeM();render();toast('Отмечено. Клиент уйдёт из списка на неделю')},
   closeM:()=>{closeM();render()},
-  aSt:d=>{const a=S.appts.find(x=>x.id===d.id);a.status=d.v;if(d.v==='done')earn(a);save();closeM();render();toast({ok:'Запись подтверждена, клиент получит уведомление',done:'Визит отмечен, бонусы начислены',noshow:'Отмечено: не пришла',cancel:'Заявка отклонена'}[d.v])},
+  aSt:d=>{const a=S.appts.find(x=>x.id===d.id);a.status=d.v;if(d.v==='done')earn(a);putAppt(a);save();closeM();render();toast({ok:'Запись подтверждена, клиент получит уведомление',done:'Визит отмечен, бонусы начислены',noshow:'Отмечено: не пришла',cancel:'Заявка отклонена'}[d.v])},
   newAppt:d=>newAppt(d.id||'',d.date,d.time),
   naPick:d=>{const n=U.na;n.cid=d.id;n.zones=d.id?[...C(d.id).course.zones]:[];n.q='';naRender()},
   naZone:d=>{const z=U.na.zones;const i=z.indexOf(d.id);i<0?z.push(d.id):z.splice(i,1);naRender()},
   naDate:d=>{U.na.date=d.v;U.na.time='';naRender()},
   naTime:d=>{U.na.time=d.v;naRender()},
   naSave:()=>{const n=U.na,c=C(n.cid);if(!c||!n.time||!n.zones.length){toast('Выберите клиента, зоны и время');return}
-    S.appts.push({id:'a'+S.seq++,cid:c.id,date:n.date,time:n.time,zones:[...n.zones],dur:zsum(n.zones,'dur'),sum:zsum(n.zones,'price'),status:'ok',bonusUsed:0,session:Math.min(c.course.done+1,c.course.total)});
+    S.appts.push({id:newId(),cid:c.id,date:n.date,time:n.time,zones:[...n.zones],dur:zsum(n.zones,'dur'),sum:zsum(n.zones,'price'),status:'ok',bonusUsed:0,session:Math.min(c.course.done+1,c.course.total)});putAppt(S.appts[S.appts.length-1]);
     const o=S.outreach.filter(o=>o.cid===c.id&&!o.booked).pop();if(o)o.booked=true;
     save();closeM();U.av='sch';U.cv='day';U.ad=n.date;scrollTo(0,0);render();toast('Записано: '+first(c.name)+', '+fdw(n.date)+' '+n.time)},
   cv:d=>{if(U.cv===d.v)return;const sg=document.querySelector('.segc');if(sg)sg.dataset.i=d.v==='day'?0:1;setTimeout(()=>{U.cv=d.v;render()},180)},
@@ -1188,7 +1214,7 @@ document.addEventListener('change',e=>{
   if(t.dataset.set){S.settings[t.dataset.set]=Math.max(0,+t.value||0);save()}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
-load();render();
+load();render();boot();
 let scT=0;addEventListener('scroll',()=>{if(scT)return;scT=requestAnimationFrame(()=>{scT=0;document.body.classList.toggle('scrolled',scrollY>60)})},{passive:true});
 /* жест «назад» от левого края и шторка вниз */
 let tx0=null,ty0=null,mEl=null;
@@ -1198,7 +1224,7 @@ addEventListener('touchend',e=>{const t=e.changedTouches[0];const dx=t.clientX-t
   if(mEl){mEl.style.transition='transform .25s';if(dy>110){mEl.style.transform='translateY(100%)';setTimeout(closeM,200)}else mEl.style.transform='';mEl=null;return}
   if(U.mode==='client'&&tx0!==null&&tx0<28&&dx>80&&Math.abs(dy)<60&&U.hist.length&&!['home','visits','bonus','profile'].includes(U.cs)){hap();A.back()}
   tx0=null},{passive:true});
-if('serviceWorker' in navigator&&location.protocol==='https:')void 0.catch(()=>{});
+if('serviceWorker' in navigator&&location.protocol==='https:')Promise.resolve().catch(()=>{});
 </script>
 </body>
 </html>
