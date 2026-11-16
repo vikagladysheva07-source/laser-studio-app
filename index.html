@@ -488,6 +488,7 @@ function seed(){
       const m=S.clients[0];m.bonus+=S.settings.friend;S.tx.push({cid:'c1',date:dt,amt:S.settings.friend,note:'Подруга пришла по вашему коду'})}
     if(!dormant&&i!==0&&c.course.done<total&&r()<.7){
       const lastD=S.appts.filter(a=>a.cid===c.id).map(a=>a.date).sort().pop();
+      if(lastD){
       let off=Math.max(0,dd(iso(add(pd(lastD),iv)),TODAY))+Math.floor(r()*3);
       if(off<=13){
         let d=add(T,off);if(d.getDay()===0)d=add(d,1);let ds=iso(d);
@@ -495,7 +496,7 @@ function seed(){
         if(!t){d=add(d,d.getDay()===6?2:1);ds=iso(d);t=free(ds,dur)}
         if(t)S.appts.push({id:'a'+S.seq++,cid:c.id,date:ds,time:t,zones:zs,dur,sum:price,status:r()<.8?'ok':'new',bonusUsed:0,session:c.course.done+1});
       }
-    }
+    }}
     S.clients.push(c);
   });
 }
