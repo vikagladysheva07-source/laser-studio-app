@@ -733,6 +733,29 @@ html{background:var(--cream)!important}
 .tb2 button{width:54px;height:50px;padding:0!important;justify-content:center;border-radius:25px}
 .tb2 button.on{padding:0!important;width:64px}
 @media (max-width:900px){.nav .show-m,.nav .hide-m{display:none!important}.nav{width:48px!important;justify-content:center;padding:0!important}.nav.on{width:60px!important;padding:0!important}}
+
+/* ===== клиент: воздух и объём (17.11) ===== */
+.pt3{margin:8px 2px 22px!important;font-size:30px}
+.vc3{background:rgba(255,255,255,.84);border-radius:26px;box-shadow:var(--gl-sh);padding:18px;display:flex;flex-direction:column;gap:16px}
+.gch3{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:12px;background:var(--tA);color:var(--p3d);font-size:13px;font-weight:700}
+.gch3 svg{color:var(--p3)}
+.sp3i{margin-top:16px}.sp3i>div{padding:14px 8px;gap:4px;align-items:center}
+.sp3i span{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:var(--tA);color:var(--p3);margin-bottom:4px}
+.sp3i b{font-size:14.5px}.sp3i i{font-style:normal;font-size:11.5px;color:var(--mut)}
+.bn3{margin-top:16px;text-align:left;width:100%}
+.sr3+.sr3{margin-top:0}
+.code3{font-size:26px;font-weight:800;letter-spacing:.08em}
+.hi3{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:#E3F5EC;color:#2E9E6B;flex:none}.hi3.neg{background:var(--tA);color:var(--p3)}
+.menu3{gap:0;padding:6px 16px}
+.mi3{display:flex;align-items:center;gap:14px;padding:12px 0;width:100%;text-align:left;font-weight:600;font-size:15px;border-top:1px solid var(--line)}
+.mi3:first-child{border-top:0}
+.tpi.t1c{background:var(--tB);color:#7C68E6}.tpi.t2c{background:var(--tD);color:#2E9E6B}
+.cardw{margin-bottom:4px}
+.segc{background:rgba(255,255,255,.7)!important;box-shadow:inset 0 1px 2px rgba(70,40,50,.08)!important;padding:5px!important}
+.segc button{min-height:42px!important}
+.segc button.on{background:var(--p3)!important;color:#fff!important;box-shadow:0 8px 16px -8px rgba(212,71,127,.8)!important}
+.vc3 .pearls{margin-top:-4px}
+.sech{margin:34px 2px 16px!important}
 </style>
 </head>
 <body>
@@ -1171,12 +1194,11 @@ function cBook(c){
 function cConfirm(c){
   const b=U.bk;const dur=zsum(b.zones,'dur'),price=zsum(b.zones,'price');const max=Math.min(c.bonus,Math.floor(price*S.settings.maxShare/100));const use=b.bonus?max:0;
   return `${nb('Подтверждение')}
-  <div class="card"><div class="row">${thumb(b.zones)}<div class="grow"><div class="b">${zn(b.zones)}</div><div class="sm mut">${rub(price)} · ${dur} мин</div></div></div>
-   <div class="hr" style="margin:14px 0 4px"></div>
-   <div class="irow">${ic('cal',18)} ${fdl(b.date)}</div><div class="irow">${ic('clock',18)} ${b.time}</div><div class="irow">${ic('user',18)} Мастер: Таня</div></div>
-  <div class="card row" style="margin-top:12px;cursor:pointer" data-act="bkBonus"><div class="ci" style="width:44px;height:44px">${ic('gift',20)}</div><div class="grow"><div class="b">Списать бонусы</div><div class="sm mut">${max?'до '+rub(max)+' · у вас '+num(c.bonus):'пока нечего списать'}</div></div><div class="sw ${use?'on':''}"></div></div>
-  <div class="flat row" style="margin-top:12px;align-items:flex-start;background:transparent"><span style="color:var(--mocha)">${ic('info',18)}</span><div class="sm"><b>Напоминание</b><div class="mut">Перенести или отменить запись можно не позднее чем за 12 часов.</div></div></div>
-  <div class="cta"><div><div class="xs mut">К оплате в студии</div><div class="h2">${rub(price-use)}</div></div><button class="btn dk" data-act="bkDone">Подтвердить</button></div>`;
+  <div class="srow sr3" style="cursor:default"><span class="zt3 t1" style="width:72px;height:72px;flex:none"><span class="ph pi" style="${zph(Z(b.zones[0]),220)}"></span></span><div class="grow"><div class="b" style="font-size:16px">${zn(b.zones)}</div><div class="sm mut">${dur} мин · Таня</div></div><div class="pr3">${rub(price)}</div></div>
+  <div class="sp3 sp3i"><div><span>${ic('cal',16)}</span><b>${fd(b.date)}</b><i>${WDL[pd(b.date).getDay()]}</i></div><div><span>${ic('clock',16)}</span><b>${b.time}</b><i>${dur} мин</i></div><div><span>${ic('user',16)}</span><b>Таня</b><i>мастер</i></div></div>
+  <button class="srow sr3 bn3" data-act="bkBonus"><span class="tpi">${ic('gift',20)}</span><div class="grow"><div class="b">Списать бонусы</div><div class="sm mut">${max?'до '+rub(max):'пока нечего списать'}</div></div><div class="sw ${use?'on':''}"></div></button>
+  <div class="row xs mut" style="gap:8px;margin-top:16px;justify-content:center">${ic('info',15)} Перенести или отменить можно за 12 часов</div>
+  <div class="cta cta3"><div><div class="xs mut">К оплате в студии</div><div class="h2">${rub(price-use)}</div></div><button class="btn dk" data-act="bkDone">Подтвердить</button></div>`;
 }
 function cDone(){
   const a=S.appts.find(x=>x.id===U.bk.done);const z=Z(a.zones[0]);
@@ -1194,17 +1216,20 @@ function cDone(){
 }
 function cVisits(c){
   const up=upc(c.id);const past=S.appts.filter(a=>a.cid===c.id&&!up.includes(a)).sort(byDT).reverse();const list=U.vt==='act'?up:past;
-  return `<div class="h1" style="margin:6px 0 16px">Мои записи</div>
+  return `<div class="h1 pt3">Мои записи</div>
   <div class="segc" data-i="${U.vt==='act'?0:1}"><button class="${U.vt==='act'?'on':''}" data-act="vt" data-v="act">Активные</button><button class="${U.vt==='past'?'on':''}" data-act="vt" data-v="past">Прошедшие</button></div>
-  <div class="col" style="margin-top:16px">${list.map(a=>`<div class="card row" style="align-items:flex-start">${thumb(a.zones)}<div class="grow"><div class="b">${zn(a.zones)}</div><div class="sm mut">Таня</div><div class="sm mut">${fd(a.date)}, ${a.time}${a.status==='done'?' · сеанс '+a.session:''}</div><div style="margin-top:8px">${stChip(a)}</div>
-    ${U.vt==='act'?`<div class="row" style="margin-top:12px"><button class="btn sm" data-act="cResched" data-id="${a.id}">Перенести</button><button class="btn sm" data-act="cCancel" data-id="${a.id}">Отменить</button></div>`:''}</div></div>`).join('')||`<div class="card" style="text-align:center"><div class="mut">${U.vt==='act'?'Активных записей нет':'Пока пусто'}</div>${U.vt==='act'?'<button class="btn dk" style="margin-top:14px" data-act="bookCourse">Записаться</button>':''}</div>`}</div>`;
+  <div class="col" style="margin-top:20px;gap:16px">${list.map((a,i)=>`<div class="vc3">
+    <div class="row" style="gap:14px"><span class="zt3 t${i%5}" style="width:64px;height:64px;flex:none"><span class="ph pi" style="${zph(Z(a.zones[0]),200)}"></span></span><div class="grow"><div class="b" style="font-size:16px">${zn(a.zones)}</div><div style="margin-top:6px">${stChip(a)}</div></div></div>
+    <div class="row" style="gap:8px;flex-wrap:wrap"><span class="gch3">${ic('cal',15)} ${cap(fdw(a.date))}</span><span class="gch3">${ic('clock',15)} ${a.time}</span>${a.status==='done'?`<span class="gch3">сеанс ${a.session}</span>`:''}</div>
+    ${U.vt==='act'?`<div class="row" style="gap:10px"><button class="btn sm grow" data-act="cResched" data-id="${a.id}">Перенести</button><button class="btn sm grow ghost3" data-act="cCancel" data-id="${a.id}">Отменить</button></div>`:''}</div>`).join('')||`<div class="vc3" style="text-align:center;align-items:center"><span class="tpi">${ic('cal',20)}</span><div class="mut">${U.vt==='act'?'Активных записей нет':'Пока пусто'}</div>${U.vt==='act'?'<button class="btn dk" data-act="bookCourse">Записаться</button>':''}</div>`}</div>`;
 }
 function cBonus(c){
-  const tx=S.tx.filter(t=>t.cid===c.id).sort((a,b)=>b.date.localeCompare(a.date));
-  return `<div class="h1" style="margin:6px 0 16px">Бонусы</div>
+  const tx=S.tx.filter(t=>t.cid===c.id).sort((a,b)=>b.date.localeCompare(a.date));const t=tier(c);
+  const ways=[['spark',S.settings.bonusPct+'%','с каждого визита'],['gift','до '+S.settings.maxShare+'%','визита бонусами'],['heart','+'+S.settings.friend,'за подругу'],['star','+'+S.settings.review,'за отзыв']];
+  return `<div class="h1 pt3">Бонусы</div>
   <div class="cardw"><div class="club3d tilt" data-act="flip">
    <div class="face">
-    <div class="row between"><div class="row" style="gap:8px"><span style="color:#C2577F">${ic('lotus',28,1.4)}</span><div><div class="rg" style="font-weight:800;font-size:16px;letter-spacing:.02em">Студия Тани</div><div style="font-size:9px;letter-spacing:.32em;color:#B0577E;margin-top:1px">PRIVATE CLUB</div></div></div><span class="tierb">${tier(c).n.toUpperCase()}</span></div>
+    <div class="row between"><div class="row" style="gap:8px"><span style="color:#C2577F">${ic('lotus',28,1.4)}</span><div><div class="rg" style="font-weight:800;font-size:16px;letter-spacing:.02em">Студия Тани</div><div style="font-size:9px;letter-spacing:.32em;color:#B0577E;margin-top:1px">PRIVATE CLUB</div></div></div><span class="tierb">${t.n.toUpperCase()}</span></div>
     <div class="row between" style="align-items:flex-end"><div><div style="font-size:11px;color:#8C8186;letter-spacing:.06em">Бонусы на счёте</div><div class="rg" style="font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.05"><span data-count="${c.bonus}">${num(c.bonus)}</span></div></div><div class="col" style="gap:8px;align-items:flex-end"><div class="chipc"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B98A80" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 3a13 13 0 0 1 0 18"/></svg></div></div>
     <div class="row between"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3E3038">${esc(c.name)}</div><div style="font-size:12px;letter-spacing:.18em;color:#9E5B52">${c.code}</div></div>
    </div>
@@ -1213,29 +1238,27 @@ function cBonus(c){
     <div style="padding:16px 22px" class="col"><div class="bars">${barcode(c.code)}</div><div class="row between"><div class="xs" style="color:#8C8186">Покажите карту при оплате</div><div class="rg b" style="letter-spacing:.18em">${c.code}</div></div></div>
    </div>
   </div></div>
-  <div class="xs mut" style="text-align:center;margin-top:10px">Нажмите на карту, чтобы перевернуть</div>
-  ${(()=>{const t=tier(c);return t.next?`<div class="card" style="margin-top:14px"><div class="row between"><div class="b">До уровня ${t.next}</div><span class="sm mut">${t.left} ${plural(t.left,'визит','визита','визитов')}</span></div><div class="bar" style="height:7px;margin-top:10px"><i style="width:${t.p}%"></i></div><div class="xs mut" style="margin-top:8px">${t.perk}</div></div>`:`<div class="card" style="margin-top:14px"><div class="b">Высший уровень ${t.n}</div><div class="xs mut" style="margin-top:4px">${t.perk}</div></div>`})()}
-  <div class="card" style="margin-top:14px"><div class="b" style="margin-bottom:4px">Как получить</div>
-    ${[['spark',S.settings.bonusPct+'% от каждого визита'],['gift','Оплатить можно до '+S.settings.maxShare+'% визита'],['heart',S.settings.friend+' за подругу — вам обеим'],['star',S.settings.review+' за отзыв на картах']].map(([i,t])=>`<div class="irow">${ic(i,18)} ${t}</div>`).join('')}</div>
-  <div class="card" style="margin-top:14px"><div class="b">Пригласите подругу</div><div class="sm mut" style="margin:4px 0 12px">Подруга называет код при записи, после её первого визита бонусы придут обеим.</div>
-    <div class="row between"><span class="serif" style="font-size:26px;font-weight:600;letter-spacing:.06em">${c.code}</span><button class="btn sm dk" data-act="share" data-t="Запишись к Тане на лазерную эпиляцию с моим кодом ${c.code} — получишь ${S.settings.friend} бонусов на первый визит.">${ic('copy',15)} Поделиться</button></div></div>
-  <div class="card" style="margin-top:14px"><div class="b">История</div>${tx.map(t=>`<div class="li"><div class="grow"><div class="sm b">${t.note}</div><div class="xs mut">${fd(t.date)}</div></div><div class="b" style="color:${t.amt>0?'var(--ok)':'var(--ink)'}">${t.amt>0?'+':''}${num(t.amt)}</div></div>`).join('')}</div>`;
+  ${t.next?`<div class="vc3" style="margin-top:22px;gap:12px"><div class="row between"><div class="b">До ${t.next}</div><span class="sm mut">${t.left} ${plural(t.left,'визит','визита','визитов')}</span></div><div class="bar3" style="height:8px"><i style="width:${t.p}%"></i></div></div>`:''}
+  <div class="sech"><div class="h2">Как копить</div></div>
+  <div class="tiles tl4" style="margin:0">${ways.map(([i,v,l],k)=>`<div class="tile"><span class="tic">${ic(i,18,1.9)}</span><div class="v">${v}</div><div class="l">${l}</div></div>`).join('')}</div>
+  <div class="vc3 inv3" style="margin-top:22px"><div class="row" style="gap:14px"><span class="tpi">${ic('heart',20)}</span><div class="grow"><div class="b">Пригласите подругу</div><div class="sm mut">+${S.settings.friend} вам обеим после её визита</div></div></div>
+    <div class="row between"><span class="code3">${c.code}</span><button class="btn sm dk" data-act="share" data-t="Запишись к Тане на лазерную эпиляцию с моим кодом ${c.code} — получишь ${S.settings.friend} бонусов на первый визит.">${ic('copy',15)} Поделиться</button></div></div>
+  <div class="sech"><div class="h2">История</div></div>
+  <div class="vc3" style="gap:0;padding:6px 18px">${tx.map(x=>`<div class="li" style="gap:12px"><span class="hi3 ${x.amt>0?'':'neg'}">${ic(x.amt>0?'plus':'gift',16,2)}</span><div class="grow"><div class="sm b">${x.note}</div><div class="xs mut">${fd(x.date)}</div></div><div class="b" style="color:${x.amt>0?'var(--ok)':'var(--ink)'}">${x.amt>0?'+':''}${num(x.amt)}</div></div>`).join('')||'<div class="mut sm" style="padding:12px 0">Пока пусто</div>'}</div>`;
 }
 function cProfile(c){
-  const L=lastV(c.id);const rev=L&&dd(TODAY,L)<=3&&!c.review;
-  return `<div class="h1" style="margin:6px 0 18px">Профиль</div>
-  <div style="text-align:center"><div class="ava" style="width:92px;height:92px;font-size:34px;margin:0 auto">${ini(c.name)}</div><div class="h2" style="margin-top:12px">${esc(c.name)}</div><div class="sm mut">${c.phone}</div></div>
-  <div class="card" style="margin-top:18px"><div class="row between"><div class="b">Мой курс</div><span class="chip bl">${c.course.done} из ${c.course.total}</span></div><div class="sm mut" style="margin:6px 0 10px">${zn(c.course.zones)}</div><div class="bar"><i style="width:${pct(c)}%"></i></div></div>
-  ${rev?`<div class="card" style="margin-top:12px"><div class="b">Как прошёл визит?</div><div class="sm mut" style="margin:4px 0 12px">Отзыв на картах помогает другим найти Таню. За отзыв +${S.settings.review} бонусов.</div><div class="row"><a class="btn sm" href="${S.settings.mapY}" target="_blank" rel="noopener" data-act="cRev">Яндекс Карты</a><a class="btn sm" href="${S.settings.map2}" target="_blank" rel="noopener" data-act="cRev">2ГИС</a></div></div>`:''}
-  <div class="card menu" style="margin-top:12px;padding:4px 16px">
-    <button class="mi" data-act="tab" data-v="visits">${ic('calok',20)}<span class="grow">Мои записи</span><span class="mut">${ic('right',16)}</span></button>
-    <button class="mi" data-act="tab" data-v="services">${ic('lotus',20)}<span class="grow">Услуги и цены</span><span class="mut">${ic('right',16)}</span></button>
-    <button class="mi" data-act="tab" data-v="bonus">${ic('gift',20)}<span class="grow">Бонусы</span><span class="b">${num(c.bonus)}</span></button>
-    <button class="mi" data-act="notif">${ic('bell',20)}<span class="grow">Уведомления</span>${unread(c)?`<span class="badge">${unread(c)}</span>`:''}</button>
-    <button class="mi" data-act="help">${ic('help',20)}<span class="grow">Помощь и контакты</span><span class="mut">${ic('right',16)}</span></button>
+  const L=lastV(c.id);const rev=L&&dd(TODAY,L)<=3&&!c.review;const n=unread(c);
+  return `<div class="h1 pt3">Профиль</div>
+  <div style="text-align:center"><div class="av3" style="width:104px;height:104px;margin:0 auto;padding:4px"><span style="font-size:34px">${ini(c.name)}</span></div><div class="h2" style="margin-top:14px;font-size:20px">${esc(c.name)}</div><div class="sm mut">${c.phone}</div></div>
+  ${c.course.total?`<div class="vc3" style="margin-top:24px"><div class="row between"><div><div class="b">Мой курс</div><div class="sm mut">${zn(c.course.zones)}</div></div>${ring3(c.course.done,c.course.total,58)}</div>${pearls(c)}</div>`:''}
+  ${rev?`<div class="vc3" style="margin-top:16px"><div class="b">Как прошёл визит?</div><div class="sm mut">Отзыв на картах: +${S.settings.review} бонусов</div><div class="row" style="gap:10px"><a class="btn sm grow" href="${S.settings.mapY}" target="_blank" rel="noopener" data-act="cRev">Яндекс Карты</a><a class="btn sm grow" href="${S.settings.map2}" target="_blank" rel="noopener" data-act="cRev">2ГИС</a></div></div>`:''}
+  <div class="vc3 menu3" style="margin-top:16px">
+    <button class="mi3" data-act="tab" data-v="services"><span class="tpi">${ic('lotus',19)}</span><span class="grow">Услуги и цены</span><span class="mut">${ic('right',16)}</span></button>
+    <button class="mi3" data-act="notif"><span class="tpi t1c">${ic('bell',19)}</span><span class="grow">Уведомления</span>${n?`<span class="badge">${n}</span>`:`<span class="mut">${ic('right',16)}</span>`}</button>
+    <button class="mi3" data-act="help"><span class="tpi t2c">${ic('help',19)}</span><span class="grow">Помощь и контакты</span><span class="mut">${ic('right',16)}</span></button>
   </div>
-  ${U.auth&&U.auth.role==='master'?`<button class="btn dk full" style="margin-top:18px" data-act="mode" data-v="admin">${ic('swap',18)} Вернуться в кабинет мастера</button>`:''}
-  <button class="btn full" style="margin-top:12px" data-act="logout">Выйти</button>`;
+  ${U.auth&&U.auth.role==='master'?`<button class="btn dk full" style="margin-top:22px" data-act="mode" data-v="admin">${ic('swap',18)} Кабинет мастера</button>`:''}
+  <button class="btn full ghost3" style="margin-top:8px" data-act="logout">Выйти</button>`;
 }
 function notes(c){
   const L=[];const u=upc(c.id);const due=dueOf(c);
