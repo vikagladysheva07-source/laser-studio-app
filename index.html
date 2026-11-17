@@ -727,6 +727,12 @@ html{background:var(--cream)!important}
  .nav.on .cnt{display:none}
  .fab{bottom:calc(96px + env(safe-area-inset-bottom))!important;box-shadow:0 16px 30px -12px rgba(212,71,127,.8)!important}
 }
+
+/* нижнее меню: только иконки (17.11) */
+.tb2 .tbl{display:none!important}
+.tb2 button{width:54px;height:50px;padding:0!important;justify-content:center;border-radius:25px}
+.tb2 button.on{padding:0!important;width:64px}
+@media (max-width:900px){.nav .show-m,.nav .hide-m{display:none!important}.nav{width:48px!important;justify-content:center;padding:0!important}.nav.on{width:60px!important;padding:0!important}}
 </style>
 </head>
 <body>
