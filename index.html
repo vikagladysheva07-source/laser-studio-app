@@ -703,6 +703,30 @@ html{background:var(--cream)!important}
 /* кабинет Тани: та же таблетка */
 .nav.on{background:var(--p3)!important;color:#fff!important}
 @media (prefers-reduced-motion:reduce){.cf3,.rg31,.rg32,.lg-logo:before,.lg-logo:after,.onl3 i{animation:none}}
+
+/* ===== кабинет: воздух, объём, меню-таблетка (17.11) ===== */
+.todayh{box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:transparent!important;margin:0 0 4px!important;padding:2px 0 10px!important;border-radius:0!important}
+:root{--gl-sh:inset 0 1px 0 #fff,0 1px 2px rgba(70,40,50,.06),0 8px 16px -10px rgba(90,50,65,.18),0 24px 44px -24px rgba(90,50,65,.38)}
+.card,.tile,.st3,.dc3,.tip3,.sp3>div,.srow,.nt{box-shadow:var(--gl-sh)!important}
+.main>.row.between:first-child{margin-bottom:26px}
+.main .card{margin-bottom:6px}
+.tiles.tl4{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+.tl4 .tile{padding:18px 18px 16px;border-radius:24px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-height:132px}
+.tl4 .tic{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:var(--tA);color:var(--p3);margin-bottom:auto}
+.tl4 .tile:nth-child(2) .tic{background:var(--tB);color:#7C68E6}.tl4 .tile:nth-child(3) .tic{background:var(--tC);color:#E07A3F}.tl4 .tile:nth-child(4) .tic{background:var(--tD);color:#2E9E6B}
+.tl4 .v{font-size:24px;margin-top:12px}
+.tl4 .l{font-size:13px}
+.g2,.g2e{gap:20px!important;margin-top:22px!important}
+@media (max-width:900px){
+ .side{padding:8px!important;gap:2px!important;justify-content:space-between!important;left:14px!important;right:14px!important;bottom:calc(12px + env(safe-area-inset-bottom))!important;border-radius:32px!important;background:rgba(255,255,255,.94)!important;box-shadow:0 1px 2px rgba(70,40,50,.06),0 22px 44px -18px rgba(90,50,65,.45)!important}
+ .nav{flex:0 0 auto!important;flex-direction:row!important;gap:0!important;height:50px;width:auto!important;padding:0 12px!important;border-radius:24px!important;color:#8F8189!important;transition:background .3s,padding .3s}
+ .nav .show-m,.nav .hide-m{max-width:0;overflow:hidden;white-space:nowrap;font-size:13px;font-weight:700;transition:max-width .35s cubic-bezier(.2,.8,.2,1),margin .35s}
+ .nav.on{background:var(--p3)!important;color:#fff!important;padding:0 16px!important;box-shadow:0 10px 20px -10px rgba(212,71,127,.8)!important}
+ .nav.on .show-m{max-width:110px;margin-left:8px}
+ .nav .cnt{position:absolute!important;top:6px!important;left:auto!important;right:2px!important;min-width:17px;height:17px;border-radius:9px!important;padding:0 4px!important;font-size:10px!important;display:grid;place-items:center;background:#E5484D!important;color:#fff!important;box-shadow:0 0 0 2px #fff}
+ .nav.on .cnt{display:none}
+ .fab{bottom:calc(96px + env(safe-area-inset-bottom))!important;box-shadow:0 16px 30px -12px rgba(212,71,127,.8)!important}
+}
 </style>
 </head>
 <body>
@@ -1288,7 +1312,7 @@ function aOverview(){
   const zs={};mv.forEach(a=>{const tot=zsum(a.zones,'price');a.zones.forEach(z=>zs[z]=(zs[z]||0)+a.sum*Z(z).price/tot)});
   const zparts=S.zones.map((z,i)=>({n:z.sh||z.name,v:zs[z.id]||0,c:ZCOL[i]})).sort((a,b)=>b.v-a.v);const ztot=zparts.reduce((s,p)=>s+p.v,0);
   const srcs={};S.clients.forEach(c=>{const l=lastV(c.id);if(l&&dd(TODAY,l)<90)srcs[c.src]=(srcs[c.src]||0)+1});const sl=Object.entries(srcs).sort((a,b)=>b[1]-a[1]);const smax=Math.max(...sl.map(x=>x[1]),1);
-  const tiles=[[wkN,'Записей на неделе','sch'],[active,'Активных клиентов','cl'],[rub(ms.avg),'Средний чек',''],[rub(ms.sum),'Выручка за месяц',''],[lcount(L),'Кому написать','msg']];
+  const tiles=[[wkN,'Записей на неделе','sch','cal'],[active,'Активные клиенты','cl','users'],[rub(ms.avg),'Средний чек','','star'],[rub(ms.sum),'За месяц','','spark']];
   return `
   <div class="row between wrap"><div><div class="eyebrow">${hello()}, Таня</div><div class="atitle">Обзор</div></div><div class="row"><button class="btn sm" data-act="mode" data-v="client">${ic('user',16)} <span class="hide-m">Как видит клиент</span><span class="show-m">Клиент</span></button><button class="btn dk hide-m" data-act="newAppt">${ic('plus',18)} Новая запись</button></div></div>
   <div class="card tcard" style="margin-bottom:16px">
@@ -1296,15 +1320,15 @@ function aOverview(){
    ${td.slice(0,U.tdAll?99:3).map(a=>{const c=C(a.cid);return `<div class="tday ${a.status}"><div class="tm">${a.time}<div class="xs mut" style="font-weight:600">${mt(tm(a.time)+a.dur)}</div></div><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer"><div class="b">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)} · ${a.session===1?'первый визит':'сеанс '+a.session+'/'+c.course.total}</div><div style="margin-top:6px">${stChip(a)}</div></div><div class="col" style="gap:6px;align-items:flex-end">${apBtns(a,1)}</div></div>`}).join('')}${td.length>3?`<button class="btn sm full" style="margin-top:10px" data-act="tdAll">${U.tdAll?'Свернуть':'Ещё '+(td.length-3)+' '+plural(td.length-3,'запись','записи','записей')}</button>`:''}
    ${g.length?`<div class="xs mut" style="margin:12px 0 6px">Свободные окна сегодня</div><div class="row wrap" style="gap:6px">${g.map(([a,b])=>`<button class="chip bl" data-act="newAppt" data-date="${TODAY}" data-time="${mt(a)}">${mt(a)}–${mt(b)}</button>`).join('')}<button class="chip" data-act="msgTab" data-v="due">${ic('msg',13)} Кому предложить</button></div>`:''}
   </div>
-  <div class="tiles">${tiles.map(([v,l,go])=>`<button class="tile ${l==='Выручка за месяц'?'plum':''}" ${go?`data-act="av" data-v="${go}"`:''}><div class="v">${v}</div><div class="l">${l}</div></button>`).join('')}</div>
+  <div class="tiles tl4">${tiles.map(([v,l,go,i])=>`<button class="tile" ${go?`data-act="av" data-v="${go}"`:''}><span class="tic">${ic(i,18,1.9)}</span><div class="v">${v}</div><div class="l">${l}</div></button>`).join('')}</div>
   <div class="g2"><div class="card">${lineChart()}</div>
-   <div class="card" style="text-align:center"><div style="text-align:left"><div class="eyebrow">${MONN[now.getMonth()]}</div><div class="h2">План месяца</div></div><div style="margin-top:14px">${gauge(ms.sum,S.settings.plan)}</div><div class="sm mut" style="margin-top:6px">Осталось ${left} ${plural(left,'день','дня','дней')}. При текущем темпе выйдете на ${rub(Math.round(fc/1000)*1000)}.</div></div></div>
+   <div class="card" style="text-align:center"><div style="text-align:left"><div class="eyebrow">${MONN[now.getMonth()]}</div><div class="h2">План месяца</div></div><div style="margin-top:14px">${gauge(ms.sum,S.settings.plan)}</div><div class="sm mut" style="margin-top:6px">Прогноз ${rub(Math.round(fc/1000)*1000)}</div></div></div>
   <div class="g2e">
    <div class="card"><div class="eyebrow">${MONN[now.getMonth()]}</div><div class="h2">Выручка по зонам</div>
     <div class="row wrap" style="margin-top:12px;gap:18px">${donut(zparts,ztot,num(Math.round(ztot/1000))+'k')}<div class="col grow" style="gap:8px;min-width:150px">${zparts.map(p=>`<div class="row sm" style="gap:8px"><i style="width:10px;height:10px;border-radius:50%;background:${p.c};flex:none"></i><span class="grow">${p.n}</span><b>${ztot?Math.round(p.v/ztot*100):0}%</b></div>`).join('')}</div></div></div>
    <div class="card"><div class="eyebrow">Активные за 90 дней</div><div class="h2">Откуда клиенты</div>
     <div class="col" style="margin-top:14px;gap:12px">${sl.map(([k,v])=>`<div><div class="row between sm"><span>${k}</span><b>${v}</b></div><div class="bar" style="height:8px;margin-top:5px"><i style="width:${v/smax*100}%"></i></div></div>`).join('')}</div>
-    <div class="xs mut" style="margin-top:12px">Карты и подруги растут — значит, работают отзывы и «приведи подругу».</div></div>
+    </div>
   </div>
   <div class="g2e">
    <div class="card"><div class="row between" style="margin-bottom:6px"><div class="h2">Ближайшие дни</div><button class="link" data-act="av" data-v="sch">Календарь ${ic('right',14)}</button></div>
