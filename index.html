@@ -756,6 +756,35 @@ html{background:var(--cream)!important}
 .segc button.on{background:var(--p3)!important;color:#fff!important;box-shadow:0 8px 16px -8px rgba(212,71,127,.8)!important}
 .vc3 .pearls{margin-top:-4px}
 .sech{margin:34px 2px 16px!important}
+
+/* ===== обзор Тани: день мастера (17.11) ===== */
+.main>.nv3{margin-top:22px}
+.av4{display:grid;place-items:center;font-weight:800;font-size:20px;background:rgba(255,255,255,.22);color:#fff}
+.qa4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:20px}
+.qa4 button{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:#4D4552}
+.qa4 span{position:relative;width:58px;height:58px;border-radius:20px;display:grid;place-items:center;background:rgba(255,255,255,.88);box-shadow:var(--gl-sh)}
+.qa4 .q0{background:var(--p3);color:#fff;box-shadow:0 14px 24px -12px rgba(212,71,127,.85)}
+.qa4 .q1{color:var(--p3)}.qa4 .q2{color:#7C68E6}.qa4 .q3{color:#2E9E6B}
+.qa4 .tbd{top:-5px;right:-5px}
+.cntp{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 7px;border-radius:12px;background:#E5484D;color:#fff;font-size:12px;font-weight:800;vertical-align:3px;margin-left:4px}
+.tl3,.rq3{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.tl3:first-child,.rq3:first-child{border-top:0}
+.tt3{width:46px;flex:none;display:flex;flex-direction:column}.tt3 b{font-size:15px}.tt3 span{font-size:11.5px;color:var(--mut);font-weight:600}
+.dot3{width:10px;height:10px;border-radius:50%;flex:none;background:#E6DCE1;box-shadow:0 0 0 3px #fff}
+.tl3.dn .dot3{background:#2E9E6B}.tl3.ns .dot3{background:#C8BCC2}.tl3.nw .dot3{background:#F2864E}
+.tl3.lv .dot3{background:var(--p3);box-shadow:0 0 0 4px rgba(212,71,127,.18);animation:pulse3r 1.8s infinite}
+@keyframes pulse3r{50%{box-shadow:0 0 0 8px rgba(212,71,127,0)}}
+.tl3.dn .nm3s,.tl3.ns .nm3s{color:var(--mut)}
+.nm3s{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb3{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#F4EEF1;color:#8C8186;flex:none}
+.rb3 svg{transform:none}.rb3:not(.ok) svg{transform:rotate(45deg)}
+.rb3.ok{background:var(--p3);color:#fff;box-shadow:0 8px 16px -8px rgba(212,71,127,.8)}
+.st3d{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:999px;background:#F4EEF1;color:var(--mut);white-space:nowrap}
+.st3d.ok{background:#E3F5EC;color:#2E8A5C}.st3d.nw{background:#FDEBDD;color:#C2622A}
+.gp3{display:flex;flex-wrap:wrap;gap:8px;padding:12px 0 8px;border-top:1px solid var(--line)}
+.main .sech .h2{font-size:19px}
+.rq3 .xs,.tl3 .xs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.adm.ov .fab{display:none!important}
 </style>
 </head>
 <body>
@@ -1329,43 +1358,65 @@ function donut(parts,total,label){
 function apBtns(a,sm){const k=sm?'btn sm':'btn';return a.status==='new'?`<button class="${k} dk" data-act="aSt" data-id="${a.id}" data-v="ok">Подтвердить</button><button class="${k}" data-act="aSt" data-id="${a.id}" data-v="cancel">Отклонить</button>`
   :a.status==='ok'&&a.date<=TODAY?`<button class="${k} dk" data-act="aSt" data-id="${a.id}" data-v="done">${ic('check',15)} Пришла</button><button class="${k}" data-act="aSt" data-id="${a.id}" data-v="noshow">Не пришла</button>`:''}
 function aOverview(){
-  const now=new Date();const ms=monthStats(now.getFullYear(),now.getMonth());
-  const dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();const left=dim-now.getDate();const fc=ms.sum/now.getDate()*dim;
+  const now=new Date();const ms=monthStats(now.getFullYear(),now.getMonth());const nm=nowMin();
+  const dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();const fc=ms.sum/now.getDate()*dim;const plan=S.settings.plan;
   const mon=add(T,-((T.getDay()+6)%7));const wkN=S.appts.filter(a=>['ok','new','done'].includes(a.status)&&a.date>=iso(mon)&&a.date<=iso(add(mon,6))).length;
   const active=S.clients.filter(c=>{const l=lastV(c.id);return l&&dd(TODAY,l)<S.settings.dormant}).length;
-  const L=lists();
+  const L=lists();const req=S.appts.filter(a=>a.status==='new'&&a.date>=TODAY).sort(byDT);
   const td=S.appts.filter(a=>a.date===TODAY&&['ok','new','done','noshow'].includes(a.status)).sort(byDT);
-  const tdSum=td.filter(a=>a.status!=='noshow').reduce((s,a)=>s+a.sum,0);const g=gaps(TODAY);
-  const up=S.appts.filter(a=>['ok','new'].includes(a.status)&&a.date>TODAY).sort(byDT).slice(0,5);
+  const tdSum=td.filter(a=>a.status!=='noshow').reduce((s,a)=>s+a.sum,0);const g=gaps(TODAY).filter(([a,b])=>b>nm);
+  const nx=td.find(a=>['ok','new'].includes(a.status)&&tm(a.time)+a.dur>nm);
+  const up=S.appts.filter(a=>['ok','new'].includes(a.status)&&a.date>TODAY).sort(byDT).slice(0,4);
   const mv=S.appts.filter(a=>a.status==='done'&&pd(a.date).getMonth()===now.getMonth()&&pd(a.date).getFullYear()===now.getFullYear());
   const zs={};mv.forEach(a=>{const tot=zsum(a.zones,'price');a.zones.forEach(z=>zs[z]=(zs[z]||0)+a.sum*Z(z).price/tot)});
   const zparts=S.zones.map((z,i)=>({n:z.sh||z.name,v:zs[z.id]||0,c:ZCOL[i]})).sort((a,b)=>b.v-a.v);const ztot=zparts.reduce((s,p)=>s+p.v,0);
   const srcs={};S.clients.forEach(c=>{const l=lastV(c.id);if(l&&dd(TODAY,l)<90)srcs[c.src]=(srcs[c.src]||0)+1});const sl=Object.entries(srcs).sort((a,b)=>b[1]-a[1]);const smax=Math.max(...sl.map(x=>x[1]),1);
-  const tiles=[[wkN,'Записей на неделе','sch','cal'],[active,'Активные клиенты','cl','users'],[rub(ms.avg),'Средний чек','','star'],[rub(ms.sum),'За месяц','','spark']];
+  const tiles=[[wkN,'Записей на неделе','sch','cal'],[active,'Активные клиенты','cl','users'],[rub(ms.avg),'Средний чек','','star'],[S.clients.filter(c=>{const v=visits(c.id);return v.length&&pd(v[0].date).getMonth()===now.getMonth()&&pd(v[0].date).getFullYear()===now.getFullYear()}).length,'Новые за месяц','cl','spark']];
+  const inM=m=>m<60?m+' мин':Math.floor(m/60)+' ч '+(m%60?m%60+' мин':'');
+  /* главная карточка: кто следующий */
+  let hero;
+  if(nx){const c=C(nx.cid);const st=tm(nx.time),en=st+nx.dur;const live=nm>=st;
+    hero=`<div class="nv3">
+     <div class="row between"><span class="ey3">${live?'Сейчас у вас':'Следующая'}</span><span class="cdp">${live?'до '+mt(en):'через '+inM(st-nm)}</span></div>
+     <div class="row" style="gap:14px;cursor:pointer" data-act="apptM" data-id="${nx.id}"><div class="nvph av4">${ini(c.name)}</div><div class="grow"><div class="nvt">${esc(c.name)}</div><div class="nvs">${zn(nx.zones)} · ${nx.session===1?'первый визит':'сеанс '+nx.session+' из '+c.course.total}</div></div></div>
+     <div class="row between"><div class="row" style="gap:8px;flex-wrap:wrap"><span class="gch">${ic('clock',15)} ${nx.time}–${mt(en)}</span><span class="gch">${rub(nx.sum)}</span></div>
+     ${nx.status==='new'?`<button class="go3" data-act="aSt" data-id="${nx.id}" data-v="ok" aria-label="Подтвердить">${ic('check',20,2.2)}</button>`:live?`<button class="go3" data-act="aSt" data-id="${nx.id}" data-v="done" aria-label="Пришла">${ic('check',20,2.2)}</button>`:`<a class="go3" href="tel:${c.phone.replace(/[^\d+]/g,'')}" aria-label="Позвонить">${ic('phone',19,2)}</a>`}</div></div>`}
+  else{hero=`<div class="nv3">
+     <div class="row between"><span class="ey3">Сегодня</span><span class="cdp soft">${td.length?td.length+' '+plural(td.length,'запись','записи','записей'):'без записей'}</span></div>
+     <div><div class="nvt" style="font-size:22px">${pd(TODAY).getDay()===0?'Выходной':td.length?'На сегодня всё':'Свободный день'}</div><div class="nvs" style="margin-top:4px">${g.length?'Есть свободные окна, можно предложить клиентам':'Новых записей на сегодня нет'}</div></div>
+     <div class="row between"><span class="gch">${rub(tdSum)} за день</span><button class="go3" data-act="${g.length?'msgTab':'av'}" data-v="${g.length?'due':'sch'}" aria-label="Дальше">${ic('arrow',20,2)}</button></div></div>`}
+  /* лента дня */
+  const row=a=>{const c=C(a.cid);const st=tm(a.time),en=st+a.dur;const past=en<=nm,live=st<=nm&&nm<en;
+    const mark=a.status==='done'?'dn':a.status==='noshow'?'ns':live?'lv':a.status==='new'?'nw':'';
+    const act=a.status==='ok'&&st<=nm?`<button class="rb3 ok" data-act="aSt" data-id="${a.id}" data-v="done" aria-label="Пришла">${ic('check',17,2.2)}</button><button class="rb3" data-act="aSt" data-id="${a.id}" data-v="noshow" aria-label="Не пришла">${ic('plus',17,2)}</button>`
+      :a.status==='done'?`<span class="st3d ok">пришла</span>`:a.status==='noshow'?`<span class="st3d">не пришла</span>`:a.status==='new'?`<span class="st3d nw">заявка</span>`:'';
+    return `<div class="tl3 ${mark}"><div class="tt3"><b>${a.time}</b><span>${mt(en)}</span></div><i class="dot3"></i><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer;min-width:0"><div class="b nm3s">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)}</div></div><div class="row" style="gap:6px">${act}</div></div>`};
+  const pp=Math.min(100,Math.round(ms.sum/plan*100));
   return `
-  <div class="row between wrap"><div><div class="eyebrow">${hello()}, Таня</div><div class="atitle">Обзор</div></div><div class="row"><button class="btn sm" data-act="mode" data-v="client">${ic('user',16)} <span class="hide-m">Как видит клиент</span><span class="show-m">Клиент</span></button><button class="btn dk hide-m" data-act="newAppt">${ic('plus',18)} Новая запись</button></div></div>
-  <div class="card tcard" style="margin-bottom:16px">
-   <div class="row between wrap plum todayh" style="gap:6px"><div><div class="eyebrow">Сегодня</div><div class="h2">${td.length?`${td.length} ${plural(td.length,'запись','записи','записей')} · ${rub(tdSum)}`:pd(TODAY).getDay()===0?'Выходной':'Записей пока нет'}</div></div><button class="link" data-act="ad" data-v="${TODAY}">Весь день ${ic('right',14)}</button></div>
-   ${td.slice(0,U.tdAll?99:3).map(a=>{const c=C(a.cid);return `<div class="tday ${a.status}"><div class="tm">${a.time}<div class="xs mut" style="font-weight:600">${mt(tm(a.time)+a.dur)}</div></div><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer"><div class="b">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)} · ${a.session===1?'первый визит':'сеанс '+a.session+'/'+c.course.total}</div><div style="margin-top:6px">${stChip(a)}</div></div><div class="col" style="gap:6px;align-items:flex-end">${apBtns(a,1)}</div></div>`}).join('')}${td.length>3?`<button class="btn sm full" style="margin-top:10px" data-act="tdAll">${U.tdAll?'Свернуть':'Ещё '+(td.length-3)+' '+plural(td.length-3,'запись','записи','записей')}</button>`:''}
-   ${g.length?`<div class="xs mut" style="margin:12px 0 6px">Свободные окна сегодня</div><div class="row wrap" style="gap:6px">${g.map(([a,b])=>`<button class="chip bl" data-act="newAppt" data-date="${TODAY}" data-time="${mt(a)}">${mt(a)}–${mt(b)}</button>`).join('')}<button class="chip" data-act="msgTab" data-v="due">${ic('msg',13)} Кому предложить</button></div>`:''}
+  <div class="row between" style="align-items:flex-start"><div><div class="xs mut" style="font-size:13px">${cap(WDL[T.getDay()])}, ${fd(TODAY)}</div><div class="atitle">${hello()}, Таня</div></div><button class="sq3" data-act="mode" data-v="client" aria-label="Как видит клиент">${ic('user',20)}</button></div>
+  ${hero}
+  <div class="qa4">
+   <button data-act="newAppt"><span class="q0">${ic('plus',22,2)}</span>Запись</button>
+   <button data-act="av" data-v="sch"><span class="q1">${ic('cal',21)}</span>Календарь</button>
+   <button data-act="av" data-v="msg"><span class="q2">${ic('msg',21)}${lcount(L)?`<i class="tbd">${lcount(L)}</i>`:''}</span>Написать</button>
+   <button data-act="av" data-v="cl"><span class="q3">${ic('users',21)}</span>Клиенты</button>
   </div>
+  ${req.length?`<div class="sech"><div class="h2">Заявки <span class="cntp">${req.length}</span></div></div>
+  <div class="vc3" style="gap:0;padding:6px 16px">${req.slice(0,4).map(a=>{const c=C(a.cid);return `<div class="rq3"><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer;min-width:0"><div class="b nm3s">${esc(c.name)}</div><div class="xs mut">${cap(fdw(a.date))}, ${a.time} · ${zn(a.zones)}</div></div><button class="rb3" data-act="aSt" data-id="${a.id}" data-v="cancel" aria-label="Отклонить">${ic('plus',17,2)}</button><button class="rb3 ok" data-act="aSt" data-id="${a.id}" data-v="ok" aria-label="Подтвердить">${ic('check',17,2.2)}</button></div>`}).join('')}${req.length>4?`<button class="link" style="padding:12px 0" data-act="av" data-v="sch">Ещё ${req.length-4} ${ic('right',14)}</button>`:''}</div>`:''}
+  <div class="sech"><div class="h2">Сегодня</div><span class="sm mut b">${rub(tdSum)}</span></div>
+  <div class="vc3" style="gap:0;padding:8px 16px">${td.map(row).join('')||'<div class="mut sm" style="padding:12px 0">Записей нет</div>'}
+   ${g.length?`<div class="gp3">${g.map(([a,b])=>`<button class="chip bl" data-act="newAppt" data-date="${TODAY}" data-time="${mt(Math.max(a,Math.ceil(nm/30)*30))}">окно ${mt(Math.max(a,Math.ceil(nm/30)*30))}–${mt(b)}</button>`).join('')}<button class="chip" data-act="msgTab" data-v="due">${ic('msg',13)} Кому предложить</button></div>`:''}</div>
+  <div class="sech"><div class="h2">Ближайшие дни</div><button class="link" data-act="av" data-v="sch">Календарь</button></div>
+  <div class="vc3" style="gap:0;padding:8px 16px">${up.map(a=>{const c=C(a.cid);return `<div class="tl3 ${a.status==='new'?'nw':''}" data-act="apptM" data-id="${a.id}" style="cursor:pointer"><div class="tt3"><b>${a.time}</b><span>${fdw(a.date).replace(/,.*/,'')}</span></div><i class="dot3"></i><div class="grow" style="min-width:0"><div class="b nm3s">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)}</div></div>${a.status==='new'?'<span class="st3d nw">заявка</span>':''}</div>`}).join('')||'<div class="mut sm" style="padding:12px 0">Пока пусто</div>'}</div>
+  <div class="sech"><div class="h2">Месяц</div><span class="sm mut">${MONN[now.getMonth()]}</span></div>
+  <div class="vc3"><div class="row between" style="align-items:flex-end"><div><div class="xs mut">Выручка</div><div style="font-size:28px;font-weight:800;letter-spacing:-.02em">${rub(ms.sum)}</div></div><div style="text-align:right"><div class="xs mut">План</div><div class="b">${rub(plan)}</div></div></div>
+   <div class="bar3" style="height:10px"><i style="width:${pp}%"></i></div><div class="row between xs"><span class="mut">${pp}% плана</span><span class="${fc>=plan?'okt':'mut'}">прогноз ${rub(Math.round(fc/1000)*1000)}</span></div></div>
   <div class="tiles tl4">${tiles.map(([v,l,go,i])=>`<button class="tile" ${go?`data-act="av" data-v="${go}"`:''}><span class="tic">${ic(i,18,1.9)}</span><div class="v">${v}</div><div class="l">${l}</div></button>`).join('')}</div>
   <div class="g2"><div class="card">${lineChart()}</div>
-   <div class="card" style="text-align:center"><div style="text-align:left"><div class="eyebrow">${MONN[now.getMonth()]}</div><div class="h2">План месяца</div></div><div style="margin-top:14px">${gauge(ms.sum,S.settings.plan)}</div><div class="sm mut" style="margin-top:6px">Прогноз ${rub(Math.round(fc/1000)*1000)}</div></div></div>
-  <div class="g2e">
-   <div class="card"><div class="eyebrow">${MONN[now.getMonth()]}</div><div class="h2">Выручка по зонам</div>
-    <div class="row wrap" style="margin-top:12px;gap:18px">${donut(zparts,ztot,num(Math.round(ztot/1000))+'k')}<div class="col grow" style="gap:8px;min-width:150px">${zparts.map(p=>`<div class="row sm" style="gap:8px"><i style="width:10px;height:10px;border-radius:50%;background:${p.c};flex:none"></i><span class="grow">${p.n}</span><b>${ztot?Math.round(p.v/ztot*100):0}%</b></div>`).join('')}</div></div></div>
-   <div class="card"><div class="eyebrow">Активные за 90 дней</div><div class="h2">Откуда клиенты</div>
-    <div class="col" style="margin-top:14px;gap:12px">${sl.map(([k,v])=>`<div><div class="row between sm"><span>${k}</span><b>${v}</b></div><div class="bar" style="height:8px;margin-top:5px"><i style="width:${v/smax*100}%"></i></div></div>`).join('')}</div>
-    </div>
-  </div>
-  <div class="g2e">
-   <div class="card"><div class="row between" style="margin-bottom:6px"><div class="h2">Ближайшие дни</div><button class="link" data-act="av" data-v="sch">Календарь ${ic('right',14)}</button></div>
-    ${up.map(a=>{const c=C(a.cid);return `<div class="li" data-act="apptM" data-id="${a.id}" style="cursor:pointer"><div class="tm">${a.time}</div><div class="grow"><div class="b">${esc(short(c.name))} <span class="xs mut">· ${fdw(a.date)}</span></div><div class="xs mut">${zn(a.zones)}</div></div>${a.status==='new'?'<span class="chip bl">заявка</span>':''}</div>`}).join('')}</div>
-   <div class="card"><div class="row between" style="margin-bottom:6px"><div class="h2">Кому написать сегодня</div><button class="link" data-act="av" data-v="msg">Все ${ic('right',14)}</button></div>
-    <div class="sm mut" style="margin-bottom:12px">Списки собираются сами из визитов, тексты готовы.</div>
-    <div class="g4">${[['due','Пора на сеанс','clock'],['dormant','Давно не были','users'],['ending','Курс заканчивается','spark'],['review','Попросить отзыв','star']].map(([k,t,i])=>`<button class="flat" style="text-align:left" data-act="msgTab" data-v="${k}"><div class="ci" style="width:38px;height:38px">${ic(i,18)}</div><div style="font-size:26px;font-weight:800;margin-top:8px;line-height:1">${L[k].length}</div><div class="xs mut">${t}</div></button>`).join('')}</div></div>
-  </div>`;
+   <div class="card"><div class="h2">Выручка по зонам</div>
+    <div class="row wrap" style="margin-top:12px;gap:18px">${donut(zparts,ztot,num(Math.round(ztot/1000))+'k')}<div class="col grow" style="gap:8px;min-width:150px">${zparts.map(p=>`<div class="row sm" style="gap:8px"><i style="width:10px;height:10px;border-radius:50%;background:${p.c};flex:none"></i><span class="grow">${p.n}</span><b>${ztot?Math.round(p.v/ztot*100):0}%</b></div>`).join('')}</div></div></div></div>
+  <div class="g2e"><div class="card"><div class="h2">Откуда клиенты</div>
+    <div class="col" style="margin-top:14px;gap:12px">${sl.map(([k,v])=>`<div><div class="row between sm"><span>${k}</span><b>${v}</b></div><div class="bar3" style="height:8px;margin-top:5px"><i style="width:${v/smax*100}%"></i></div></div>`).join('')}</div></div></div>`;
 }
 function aCalendar(){
   if(!U.cv)U.cv=innerWidth<900?'day':'week';
@@ -1488,7 +1539,7 @@ function renderAdmin(){
   const L=lists();const req=S.appts.filter(a=>a.status==='new'&&a.date>=TODAY).length;
   const nav=[['ov','home','Обзор','Обзор'],['sch','cal','Календарь','Календарь'],['cl','users','Клиенты','Клиенты'],['msg','msg','Кому написать','Написать'],['srv','lotus','Услуги','Услуги'],['bon','gift','Бонусы','Бонусы']];
   const body={sch:aCalendar,cl:aClients,msg:aMsg,srv:aServices,bon:aBonus}[U.av]||aOverview;
-  return `<div class="adm"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Студия Тани</b></div>
+  return `<div class="adm ${U.av==='ov'||!U.av?'ov':''}"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Студия Тани</b></div>
    ${nav.map(([k,i,t,sh])=>`<button class="nav ${U.av===k?'on':''}" data-act="av" data-v="${k}">${ic(i,U.av===k?21:20,U.av===k?2:1.7)}<span class="hide-m">${t}</span><span class="show-m">${sh}</span>${k==='msg'&&lcount(L)?`<span class="cnt">${lcount(L)}</span>`:''}${k==='sch'&&req?`<span class="cnt">${req}</span>`:''}</button>`).join('')}
    <div class="side-foot"><button class="nav" data-act="mode" data-v="client">${ic('user',20)}<span>Вид клиента</span></button><button class="nav" data-act="logout">${ic('left',20)}<span>Выйти</span></button></div>
   </aside><main class="main">${body()}<button class="fab" data-act="newAppt" aria-label="Новая запись">${ic('plus',26,2)}</button></main></div>`;
