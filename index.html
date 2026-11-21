@@ -10,8 +10,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Студия Тани">
-<title>Студия Тани</title>
+<meta name="apple-mobile-web-app-title" content="Epil Studio">
+<title>Epil Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -1072,7 +1072,7 @@ function cSplash(){
   return `<div class="splash plum" style="min-height:calc(100vh - 55px);border-radius:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:30px 24px 40px;text-align:center;color:#fff">
     
     <div style="color:#C2577F">${ic('lotus',64,1.1)}</div>
-    <div class="rg" style="font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:12px">Студия Тани</div>
+    <div class="rg" style="font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:12px">Epil Studio</div>
     <div style="font-size:10px;letter-spacing:.34em;color:#B0577E;margin-top:8px">PRIVATE CLUB</div>
     <div style="color:var(--mut);margin-top:14px;font-size:15px">Лазерная эпиляция<br>Время для себя</div>
     <button class="btn dk full" style="margin-top:34px;max-width:340px" data-act="toWelcome">Начать ${ic('arrow',18)}</button>
@@ -1083,7 +1083,7 @@ function cLogin(){
   const d=digits(U.lgPhone);
   return `<div class="login">
    <div class="lg-logo">${ic('lotus',40,1.3)}</div>
-   <div class="h1" style="text-align:center">Студия Тани</div>
+   <div class="h1" style="text-align:center">Epil Studio</div>
    <div class="mut" style="text-align:center;margin-top:6px">Вход в личный кабинет</div>
    <div class="gl lg-card">
     <label class="xs mut" for="lgp">Номер телефона</label>
@@ -1296,7 +1296,7 @@ function cBonus(c){
   return `<div class="h1 pt3">Бонусы</div>
   <div class="cardw"><div class="club3d tilt" data-act="flip">
    <div class="face front">
-    <div class="row between"><div class="row" style="gap:9px"><span class="cl-ic">${ic('lotus',28,1.5)}</span><div><div class="rg cl-emb" style="font-weight:800;font-size:16px;letter-spacing:.02em">Студия Тани</div><div class="cl-sub">PRIVATE CLUB</div></div></div><span class="tierb">${t.n.toUpperCase()}</span></div>
+    <div class="row between"><div class="row" style="gap:9px"><span class="cl-ic">${ic('lotus',28,1.5)}</span><div><div class="rg cl-emb" style="font-weight:800;font-size:16px;letter-spacing:.02em">Epil Studio</div><div class="cl-sub">PRIVATE CLUB</div></div></div><span class="tierb">${t.n.toUpperCase()}</span></div>
     <div class="row between" style="align-items:flex-end"><div><div class="cl-lab">Бонусы на счёте</div><div class="rg cl-num"><span data-count="${c.bonus}">${num(c.bonus)}</span></div></div><div class="col" style="gap:8px;align-items:flex-end"><div class="chipc"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 3a13 13 0 0 1 0 18"/></svg></div></div>
     <div class="row between"><div class="cl-emb" style="font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700">${esc(c.name)}</div><div class="cl-emb" style="font-size:12.5px;letter-spacing:.2em;font-weight:700">${c.code}</div></div>
    </div>
@@ -1342,7 +1342,7 @@ function cNotif(c){
   const seen=seenOf(c);const L=notes(c);(S.seenN||(S.seenN={}))[c.id]=L.map(n=>n.k);save();
   return `${nb('Уведомления')}<div class="col">${L.map(n=>`<button class="nt ${seen.includes(n.k)?'':'new'}" style="text-align:left;width:100%" data-act="${n.go==='book'?'bookCourse':'tab'}" data-v="${n.go}"><div class="ci">${ic(n.i,20)}</div><div class="grow"><div class="b">${n.t}</div><div class="sm mut">${n.x}</div></div></button>`).join('')||'<div class="card mut" style="text-align:center">Пока тихо</div>'}</div>`;
 }
-const TITLES={home:'Студия Тани',services:'Услуги',visits:'Мои записи',bonus:'Бонусы',profile:'Профиль',notif:'Уведомления',book:'Запись',confirm:'Подтверждение'};
+const TITLES={home:'Epil Studio',services:'Услуги',visits:'Мои записи',bonus:'Бонусы',profile:'Профиль',notif:'Уведомления',book:'Запись',confirm:'Подтверждение'};
 function renderClient(){
   const c=C(U.cid)||S.clients[0];const s=U.cs;
   if(s==='splash')return cSplash();
@@ -1578,7 +1578,7 @@ function renderAdmin(){
   const L=lists();const req=S.appts.filter(a=>a.status==='new'&&a.date>=TODAY).length;
   const nav=[['ov','home','Обзор','Обзор'],['sch','cal','Календарь','Календарь'],['cl','users','Клиенты','Клиенты'],['msg','msg','Кому написать','Написать'],['srv','lotus','Услуги','Услуги'],['bon','gift','Бонусы','Бонусы']];
   const body={sch:aCalendar,cl:aClients,msg:aMsg,srv:aServices,bon:aBonus}[U.av]||aOverview;
-  return `<div class="adm ${U.av==='ov'||!U.av?'ov':''}"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Студия Тани</b></div>
+  return `<div class="adm ${U.av==='ov'||!U.av?'ov':''}"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Epil Studio</b></div>
    ${nav.map(([k,i,t,sh])=>`<button class="nav ${U.av===k?'on':''}" data-act="av" data-v="${k}">${ic(i,U.av===k?21:20,U.av===k?2:1.7)}<span class="hide-m">${t}</span><span class="show-m">${sh}</span>${k==='msg'&&lcount(L)?`<span class="cnt">${lcount(L)}</span>`:''}${k==='sch'&&req?`<span class="cnt">${req}</span>`:''}</button>`).join('')}
    <div class="side-foot"><button class="nav" data-act="mode" data-v="client">${ic('user',20)}<span>Вид клиента</span></button><button class="nav" data-act="logout">${ic('left',20)}<span>Выйти</span></button></div>
   </aside><main class="main">${body()}<button class="fab" data-act="newAppt" aria-label="Новая запись">${ic('plus',26,2)}</button></main></div>`;
@@ -1601,7 +1601,7 @@ const A={
   flip:(d,el)=>{hap();el.classList.toggle('flipped')},
   notif:()=>{hap();go('notif')},
   ics:d=>{const a=S.appts.find(x=>x.id===d.id);const b=new Blob([icsFor(a)],{type:'text/calendar'});const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download='zapis-'+a.date+'.ics';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('Файл для календаря готов')},
-  share:d=>{hap();if(navigator.share){navigator.share({title:'Студия Тани',text:d.t}).catch(()=>{})}else copy(d.t)},
+  share:d=>{hap();if(navigator.share){navigator.share({title:'Epil Studio',text:d.t}).catch(()=>{})}else copy(d.t)},
   mode:d=>{if(d.v==='admin'&&!(U.auth&&U.auth.role==='master'))return;U.mode=d.v;if(d.v==='client'){U.cs='home';U.hist=[]}scrollTo(0,0);render()},
   toLogin:()=>{U.cs='login';U.lgCode='';render()},
   toMaster:()=>{U.cs='master';U.lgCode='';render()},
