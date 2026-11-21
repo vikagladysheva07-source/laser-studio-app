@@ -856,76 +856,78 @@ const I={
 const ic=(n,s=20,w=1.7)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
 
 /* ---------- данные (вымышленные) ---------- */
-const LS='tanya_app_v13';
+const LS='tanya_app_v14';
 let S;
 const Z=id=>S.zones.find(z=>z.id===id);
 const C=id=>S.clients.find(c=>c.id===id);
 
+/* История визитов из тетради Тани (апрель–октябрь 2026): настоящие даты, услуги и суммы, имена ВЫДУМАНЫ, телефонов нет.
+   С 1 ноября визиты и записи смоделированы по ритму тетради. Цены услуг — оценка по тетради, сверить с прайсом. */
+const HIST={"c":[["Виктор Осипов",1],["Софья Титова",0],["Майя Жукова",0],["Илья Громов",1],["Руслан Морозов",1],["Милана Волкова",0],["Ирина Егорова",0],["Кирилл Белов",1],["Никита Белов",1],["Ирина Новикова",0],["Милана Кузнецова",0],["Любовь Белова",0],["Глеб Павлов",1],["Георгий Егоров",1],["Артём Павлов",1],["Алёна Громова",0],["Наталья Волкова",0],["Пётр Широков",1],["Ульяна Павлова",0],["Полина Абрамова",0],["Яна Белова",0],["Лев Кузнецов",1],["Светлана Ларина",0],["Яна Абрамова",0],["Юлия Жукова",0],["Майя Титова",0],["Нина Фролова",0],["Ева Сафонова",0],["Вероника Ковалёва",0],["Таисия Белкина",0],["Валерия Широкова",0],["Ярослав Соколов",1],["Ярослав Новиков",1],["Майя Ларина",0],["Георгий Громов",1],["Фёдор Осипов",1],["Алёна Лебедева",0],["Анастасия Ларина",0],["Никита Зайцев",1],["Татьяна Белова",0],["Георгий Абрамов",1],["Ирина Руденко",0],["Илья Осипов",1],["Тимофей Фролов",1],["Алёна Соколова",0],["Даниил Соколов",1],["Ирина Комарова",0],["Василиса Карпова",0],["Арина Белкина",0],["Тимофей Орлов",1],["Ольга Новикова",0],["Матвей Абрамов",1],["Майя Широкова",0],["Ярослав Громов",1],["Евгения Жукова",0],["Милана Борисова",0],["Георгий Волков",1],["Таисия Пономарёва",0],["Алёна Борисова",0],["Алёна Зайцева",0],["Дарья Гусева",0],["Семён Лебедев",1],["Ева Абрамова",0],["Тимофей Комаров",1],["Алёна Сафонова",0],["Анна Белкина",0],["Виктория Сафонова",0],["Василиса Зайцева",0],["Илья Морозов",1],["Ульяна Белкина",0],["Лилия Лебедева",0],["Виктор Комаров",1],["Юлия Зайцева",0],["Матвей Ковалёв",1],["Злата Карпова",0],["Алина Осипова",0],["Степан Белов",1],["Тимофей Егоров",1],["Диана Борисова",0],["Тимофей Лебедев",1],["Нина Пономарёва",0],["Ульяна Руденко",0],["Арина Осипова",0],["Вероника Павлова",0],["Яна Сафонова",0],["Фёдор Ковалёв",1],["Евгения Руденко",0],["Анна Ларина",0],["Олеся Соколова",0],["Никита Широков",1],["Валерия Фролова",0],["Полина Сафонова",0],["Мария Гусева",0],["Елена Титова",0],["Арсений Белов",1],["Алёна Волкова",0],["Ксения Морозова",0],["Екатерина Кузнецова",0],["Степан Кузнецов",1],["Диана Жукова",0],["Пётр Смирнов",1],["Диана Осипова",0],["Арина Соколова",0],["Любовь Борисова",0],["Даниил Осипов",1],["Нина Жукова",0],["Георгий Осипов",1],["Софья Смирнова",0],["Карина Фролова",0],["Мария Пономарёва",0],["Виктория Фролова",0],["Даниил Комаров",1],["Вероника Борисова",0],["Ксения Белкина",0],["Таисия Осипова",0],["Мария Егорова",0],["Руслан Абрамов",1],["Анастасия Белкина",0],["Семён Морозов",1],["Татьяна Осипова",0],["Софья Зайцева",0],["Евгения Широкова",0],["Милана Карпова",0],["Вероника Власова",0],["Марк Зайцев",1],["Наталья Абрамова",0],["Таисия Гусева",0],["Регина Ларина",0],["Богдан Кузнецов",1],["Майя Белова",0],["Валерия Руденко",0],["Милана Жукова",0],["Карина Жукова",0],["Вероника Орлова",0],["Карина Осипова",0],["Лев Новиков",1],["Матвей Широков",1],["Глеб Фролов",1],["Диана Орлова",0],["Георгий Широков",1],["Ярослав Власов",1],["Арсений Павлов",1],["Виктория Титова",0],["Илья Смирнов",1],["Маргарита Абрамова",0],["Екатерина Ковалёва",0],["Даниил Орлов",1],["Илья Павлов",1],["Ярослав Смирнов",1],["Алёна Белова",0],["Ирина Смирнова",0],["Светлана Кузнецова",0],["Светлана Жукова",0],["Надежда Соколова",0],["Татьяна Власова",0],["Юлия Пономарёва",0],["Светлана Егорова",0],["Ульяна Волкова",0],["Софья Абрамова",0],["Елена Волкова",0],["Глеб Морозов",1],["Матвей Громов",1],["Маргарита Зайцева",0],["Софья Морозова",0],["Яна Волкова",0],["Ольга Егорова",0],["Георгий Ковалёв",1],["Арина Лебедева",0],["Елена Борисова",0],["Яна Егорова",0],["Карина Карпова",0],["Лев Громов",1],["Евгения Павлова",0],["Ольга Белова",0],["Злата Соколова",0],["Семён Ковалёв",1],["Анастасия Жукова",0],["Наталья Борисова",0],["Милана Морозова",0],["Анастасия Громова",0],["Виктор Ковалёв",1],["Елена Абрамова",0],["Яна Лебедева",0],["Лев Лебедев",1],["Артём Белов",1],["Майя Морозова",0],["Матвей Кузнецов",1],["Софья Павлова",0],["Василиса Ковалёва",0],["Анна Титова",0],["Степан Павлов",1],["Кристина Соколова",0],["Георгий Павлов",1],["Василиса Белкина",0],["Анастасия Орлова",0],["Богдан Комаров",1],["Вероника Карпова",0],["Василиса Волкова",0],["Майя Егорова",0],["Маргарита Власова",0],["Таисия Борисова",0],["Светлана Белкина",0],["Полина Ларина",0],["Ирина Волкова",0],["Глеб Новиков",1],["Лев Фролов",1],["Степан Смирнов",1],["Юлия Егорова",0],["Лилия Власова",0],["Алина Громова",0],["Никита Фролов",1],["Пётр Комаров",1],["Ирина Белова",0],["Ксения Ковалёва",0],["Виктория Волкова",0],["Кристина Широкова",0],["Илья Фролов",1],["Семён Павлов",1],["Ярослав Осипов",1],["Арина Смирнова",0],["Олеся Зайцева",0],["Семён Кузнецов",1],["Матвей Осипов",1],["Екатерина Смирнова",0],["Регина Карпова",0],["Злата Руденко",0],["Артём Комаров",1],["Регина Новикова",0],["Екатерина Титова",0],["Екатерина Зайцева",0],["Марк Белов",1],["Светлана Лебедева",0],["Милана Смирнова",0],["Карина Абрамова",0],["Злата Титова",0],["Софья Комарова",0],["Ольга Орлова",0],["Тимофей Новиков",1],["Яна Фролова",0],["Татьяна Белкина",0],["Богдан Осипов",1],["Алина Руденко",0],["Светлана Гусева",0],["Злата Громова",0],["Руслан Власов",1],["Илья Комаров",1],["Марк Комаров",1],["Никита Волков",1],["Никита Орлов",1],["Тимофей Абрамов",1],["Юлия Власова",0],["Виктор Абрамов",1],["Дарья Лебедева",0],["Ева Ковалёва",0],["Регина Власова",0],["Кристина Орлова",0],["Ульяна Орлова",0],["Яна Осипова",0],["Руслан Волков",1],["Екатерина Карпова",0],["Карина Ларина",0],["Анна Пономарёва",0],["Анна Сафонова",0],["Валерия Комарова",0]],"v":[["0402",0,"lbik",2500],["0402",1,"lhands",1500],["0402",2,"lbik,larm,llegs",5200],["0403",3,"lbik,larm,lshin,llegs",7000],["0403",4,"llegs",4500],["0403",5,"wbik,warm",1700],["0403",6,"wcx",200],["0404",7,"lbik",2500],["0404",8,"lbik,larm",4000],["0404",9,"llegs",2800],["0406",10,"wbik,warm",1800],["0406",11,"lbik,larm",4500],["0406",12,"wlegs,wlip",600],["0406",13,"lbik,larm,wnose",3300],["0407",14,"lcx",5000],["0408",15,"wcx,warm",2500],["0408",16,"llip",500],["0408",17,"lbik,larm",5000],["0409",18,"wbik,warm",1800],["0409",19,"lcx",2500],["0409",14,"larm",5000],["0409",20,"lbik,larm",2000],["0409",21,"lbik,larm",4500],["0409",22,"wbik",1300],["0409",23,"wcx,wbik,warm,wlegs",3000],["0410",24,"wbik,warm",1700],["0410",25,"lbik",2000],["0411",26,"wbik",1300],["0411",27,"lcx",2400],["0411",28,"lbik,larm,llegs",5000],["0411",29,"lcx",5000],["0413",30,"lhands",4500],["0414",31,"wbik,wnose",2000],["0414",32,"wcx",2000],["0414",33,"llegs",2600],["0414",34,"wcx",2000],["0415",35,"lcx",7000],["0415",36,"larm",3500],["0416",37,"wcx",1600],["0416",38,"wbik,warm,wshin,wlegs",5000],["0416",39,"wcx",1800],["0416",40,"lbik,wnose",3000],["0416",41,"wbik",1300],["0416",42,"wlip,wnose",500],["0417",43,"lbik,larm",4500],["0417",44,"lcx,larm",3000],["0417",45,"wcx",1500],["0417",46,"lcx",6000],["0417",47,"lbik,larm",2600],["0418",48,"llegs",2500],["0418",49,"llegs",2500],["0419",50,"llegs",3000],["0419",51,"wcx",1500],["0420",52,"wbik,warm,wlip",4300],["0420",53,"warm,wbik",3000],["0420",54,"lhands",2500],["0420",55,"wcx,wbik",1200],["0420",56,"lface",3200],["0421",57,"wlip",500],["0421",58,"wbik,warm",2500],["0421",59,"wcx",1300],["0421",14,"lcx",5000],["0422",60,"wcx",1300],["0422",61,"llegs",4500],["0423",16,"llip",500],["0423",62,"llegs",4500],["0423",63,"llegs",3000],["0423",64,"lbik",2000],["0424",65,"wlip",700],["0424",66,"llegs",4500],["0424",67,"wbik,warm",2500],["0426",68,"wlegs,wlip",600],["0426",69,"lbik",4000],["0426",8,"lcx",5000],["0426",70,"wcx",1000],["0427",71,"larm,wbik",5500],["0427",72,"wbik,warm",1500],["0428",73,"wnose",1000],["0429",74,"wbik,wlip",1500],["0429",75,"wcx",1600],["0429",76,"lcx",6500],["0429",77,"wbik,larm",4000],["0429",78,"lcx",6000],["0429",5,"llegs",2500],["0430",79,"lbik,larm",5000],["0430",80,"llegs",2500],["0501",81,"lcx",6000],["0501",82,"wlegs,wbik",2300],["0501",83,"lcx",6500],["0501",84,"lbik,larm",2800],["0502",85,"lbik,larm",3000],["0503",86,"warm",400],["0503",87,"wcx",1300],["0503",88,"wbik,wlip",1500],["0504",35,"llegs,llip",1000],["0506",32,"lbik",2500],["0506",89,"warm,wnose",1000],["0507",90,"llegs",2200],["0508",91,"wcx",300],["0508",92,"wcx",3000],["0508",93,"wbik",4000],["0508",94,"lface",1000],["0510",95,"lcx",5000],["0510",96,"wbik",1300],["0511",97,"llegs",2500],["0512",98,"wbik,larm",3500],["0512",19,"llegs",2500],["0512",99,"llegs",3000],["0512",100,"wshin,wlegs,warm",2500],["0513",101,"lcx",5000],["0513",102,"wcx",800],["0514",103,"llegs",2500],["0514",104,"wlegs,wlip",2000],["0514",105,"lbik,larm",3000],["0514",106,"lbik",3000],["0515",107,"lcx",5000],["0515",24,"lcx",2500],["0515",100,"wlegs,wlip",600],["0515",55,"llegs",2800],["0515",59,"llegs",2500],["0516",108,"wbik,warm",1500],["0516",109,"llegs",3000],["0516",110,"llegs",2900],["0518",111,"llegs",4000],["0518",41,"wcx",1300],["0519",112,"whands,wlip",2900],["0519",96,"wcx",1300],["0519",113,"wlip,wnose",700],["0519",114,"wcx",1300],["0519",46,"llegs",2200],["0519",115,"wcx",2000],["0519",10,"wcx",1600],["0520",116,"lcx",5500],["0520",22,"wbik",1300],["0520",23,"wcx",3000],["0520",1,"wcx",1500],["0520",2,"lbik,larm",2600],["0521",117,"lhands",1800],["0521",118,"wcx",1600],["0521",119,"lbik,larm",14000],["0521",120,"lcx",7000],["0521",64,"lbik",2000],["0521",121,"wbik,warm,wlip",3000],["0522",102,"lbik,larm",2800],["0522",122,"wbik,warm",2500],["0522",123,"wcx",300],["0522",124,"lbik,larm",7000],["0522",125,"llegs",2500],["0522",94,"lface",700],["0523",82,"wbik,warm",4000],["0523",59,"wcx,llegs",1600],["0523",28,"llegs,lbik,larm",5500],["0523",26,"wbik",1300],["0523",29,"llegs",4000],["0531",98,"lbik",2500],["0531",35,"llegs,llip",1000],["0531",126,"llegs",800],["0531",85,"llegs",3000],["0601",127,"wcx",1600],["0601",128,"llegs",3500],["0601",74,"wcx",1500],["0601",9,"lcx",4800],["0608",92,"wcx",3000],["0609",35,"lbik,larm,lshin,llegs,llip",7500],["0609",19,"llegs",2500],["0609",129,"wbik,larm,llegs",4000],["0609",130,"wcx",2100],["0609",131,"larm,wbik,wlegs",2500],["0609",132,"whands",1000],["0609",56,"wbik,lshin",6100],["0610",105,"llegs",4000],["0610",133,"wcx",1500],["0610",0,"llegs",2500],["0610",134,"llegs",4500],["0610",84,"lbik,larm",2600],["0610",135,"lcx",7000],["0610",44,"larm",3000],["0610",136,"wbik",2500],["0611",25,"wbik",1300],["0611",32,"lbik",2500],["0611",67,"llegs",2500],["0611",58,"llegs",2500],["0611",137,"wbik,larm",3000],["0611",102,"wcx",500],["0611",4,"llegs",4500],["0612",138,"wcx",1500],["0612",139,"lcx",5000],["0612",45,"wcx",1500],["0612",57,"wcx",500],["0612",140,"larm",1500],["0613",31,"llegs",2500],["0613",141,"wcx",1500],["0613",142,"wbik",1300],["0613",48,"llegs",4500],["0613",39,"wcx",1800],["0615",143,"wcx",500],["0615",71,"larm,wbik",3500],["0615",144,"lbik,larm",2600],["0615",145,"wbik,whands",2500],["0615",41,"wbik",1300],["0616",146,"lbik,larm",4000],["0616",147,"lcx",5000],["0616",50,"wcx",1600],["0616",38,"lbik,larm,lshin,llegs",6000],["0617",14,"lcx",5000],["0617",65,"llegs",2700],["0617",148,"llegs",3000],["0617",12,"wbik,wlip",600],["0617",33,"wnose",800],["0617",46,"lcx",4500],["0617",149,"llegs",2800],["0618",86,"wcx",400],["0618",14,"lcx",5000],["0618",88,"wnose,wlip",400],["0618",8,"lbik,larm,wlegs",5000],["0620",150,"wcx",1300],["0620",5,"llegs",2600],["0621",27,"llegs",2500],["0621",151,"llegs",3000],["0621",152,"wbik",1300],["0622",10,"wcx",1600],["0622",116,"lcx",5500],["0622",100,"wcx",600],["0623",60,"llegs",3000],["0623",153,"llegs",2500],["0623",154,"lback,larm",3000],["0623",155,"wcx",2000],["0624",142,"whands",1300],["0624",156,"lbik",2000],["0625",157,"lbik",2000],["0625",87,"wcx",1300],["0625",158,"wcx",2000],["0625",80,"wcx",2000],["0625",75,"wcx",1600],["0625",159,"wcx",1500],["0626",112,"llegs,lhands",6000],["0626",160,"llegs",3000],["0627",94,"lface",1000],["0627",76,"lcx",7000],["0627",161,"llegs",2500],["0628",98,"wnose",2500],["0629",19,"llegs",2500],["0629",162,"llegs",2500],["0630",163,"wcx",1000],["0630",164,"wcx",1300],["0701",165,"wbik,warm",3000],["0701",166,"larm",1500],["0701",167,"wbik,warm",1000],["0701",168,"warm",400],["0701",34,"wcx",2000],["0701",70,"wcx",2000],["0702",40,"lbik,larm",4000],["0702",81,"lcx",6000],["0702",169,"llegs",4500],["0702",170,"llegs",3000],["0702",35,"llegs,llip,wbik",3000],["0703",55,"wbik,wcx",700],["0703",171,"llegs,larm",2500],["0704",172,"wlegs",800],["0704",173,"larm",4000],["0706",174,"wshin,wlegs,warm",1600],["0707",32,"wbik",2000],["0707",175,"wnose",1000],["0708",107,"llegs",3000],["0708",82,"wcx",1600],["0709",48,"llegs",4500],["0709",102,"wlegs,warm,lbik,larm",4200],["0709",5,"llegs",3000],["0709",28,"lcx",5000],["0710",114,"wcx",1200],["0710",176,"wcx",1800],["0711",60,"wcx",700],["0712",177,"larm,wlegs",1500],["0713",74,"wcx",1300],["0713",45,"wcx",1500],["0713",71,"llegs",2300],["0713",85,"llegs",3000],["0713",56,"larm,wnose",1800],["0714",113,"llip,lbik",2000],["0714",178,"wcx",2000],["0714",179,"llegs",4500],["0714",41,"wbik",1300],["0715",180,"lback",3000],["0715",181,"lcx",4500],["0716",145,"wbik",1300],["0716",14,"llegs",4000],["0716",133,"wbik",1300],["0716",182,"llegs",3000],["0716",183,"llegs",3300],["0717",98,"lbik,larm,lshin,llegs",6000],["0717",184,"wcx",2000],["0717",99,"llegs",3000],["0717",3,"lcx",7000],["0720",172,"wbik",1300],["0720",185,"wbik,warm",1000],["0720",94,"wlip",1000],["0722",186,"llegs",4000],["0722",187,"llegs",2500],["0722",75,"wcx",1600],["0722",124,"lcx",6000],["0722",188,"llegs",3600],["0723",189,"llegs",3000],["0723",86,"wcx",400],["0723",190,"lcx",5000],["0723",156,"wcx",2000],["0723",58,"llegs",2500],["0723",20,"wbik,larm",2000],["0723",191,"llegs",2700],["0724",115,"llegs",2400],["0724",192,"llegs",3000],["0724",157,"llegs",2600],["0726",19,"llegs",2500],["0727",193,"llegs",3600],["0727",194,"wcx",300],["0727",12,"wcx",600],["0727",50,"llegs",2800],["0728",195,"llegs",4000],["0728",25,"wbik",1300],["0728",44,"llegs",3100],["0728",100,"wnose",800],["0729",119,"wbik,warm",2600],["0729",61,"lbik,larm",4500],["0729",35,"wcx",1500],["0729",152,"wbik",1300],["0729",196,"lbik,larm,llegs,llip",3000],["0729",116,"lcx",5500],["0729",197,"wcx",1300],["0730",10,"wcx",1600],["0730",38,"lcx",6000],["0730",105,"wcx",400],["0730",198,"lcx",3000],["0730",5,"llegs",2500],["0730",9,"llegs",2800],["0730",17,"lcx",5000],["0731",199,"lbik",1600],["0731",200,"wbik,wlip",1500],["0801",24,"wbik,warm",1700],["0801",126,"llegs",2100],["0802",8,"lbik,larm",8000],["0802",173,"llegs",4000],["0804",180,"lbik",2500],["0804",89,"wcx",1000],["0804",201,"llegs",3000],["0804",202,"larm",1500],["0804",66,"lcx",6000],["0805",203,"llegs",2600],["0805",153,"llegs",2600],["0805",29,"lcx",6000],["0805",46,"lbik,llip",2200],["0805",7,"llegs",2500],["0806",60,"wbik,wlegs,larm",3400],["0806",204,"wlegs",600],["0806",205,"wcx",600],["0806",63,"llegs",3500],["0806",117,"llegs",2500],["0809",71,"wbik",2500],["0810",206,"wnose",200],["0810",92,"llegs",3000],["0810",110,"llegs",2400],["0811",207,"lcx",5000],["0811",1,"wcx",1500],["0811",208,"warm",2800],["0812",14,"lcx",5000],["0812",209,"wbik,wlip",1500],["0812",122,"wbik,warm",2600],["0812",210,"wlip,wcx,wbik,warm",3000],["0812",112,"llegs,lhands",6500],["0813",211,"lcx",5000],["0813",3,"wcx",500],["0813",130,"wcx",2000],["0813",8,"larm,wbik",5000],["0814",31,"wbik,warm",2500],["0814",67,"lcx",2500],["0814",142,"wbik",1300],["0814",33,"wlegs",800],["0815",212,"wbik,larm",2100],["0815",45,"wcx",1500],["0815",213,"wcx",1600],["0817",214,"wbik,warm,wlegs",5300],["0818",26,"wcx",1300],["0820",75,"wbik,warm",1600],["0820",215,"wbik,warm",700],["0820",145,"wcx",1300],["0820",28,"lcx",5300],["0820",72,"wbik,warm,wlegs",2000],["0820",216,"lbik,larm",3000],["0820",217,"wcx",2000],["0821",80,"wcx",2000],["0821",186,"llegs",4000],["0821",218,"wcx",1300],["0821",219,"wcx",400],["0821",162,"wcx,wbik,warm",3000],["0823",76,"lcx",6000],["0823",32,"llegs",2500],["0823",220,"wbik,warm,wlegs",1800],["0824",69,"lbik,larm,llegs",4500],["0824",221,"wbik,wlip,wlegs",1000],["0825",19,"llegs",2500],["0826",14,"wnose",5000],["0826",222,"wbik,warm,wshin",3300],["0828",163,"wcx",1600],["0828",223,"wbik,wlip",700],["0828",113,"wbik,wlip,wnose",3000],["0829",48,"llegs",2500],["0829",35,"lshin,lbik,larm,wnose,llip",7000],["0830",58,"wcx",2000],["0830",81,"llegs",4500],["0830",123,"warm",400],["0831",40,"lbik,larm,llegs",5000],["0901",95,"lcx",5000],["0901",5,"lcx",3000],["0902",224,"llegs",3300],["0902",152,"wbik",1300],["0902",39,"wbik,wlegs,wlip",1800],["0902",128,"llegs",3000],["0902",109,"wbik,wlegs,warm",3200],["0902",46,"lbik,larm,llegs,wnose",4500],["0902",115,"llegs",2500],["0904",180,"wbik,warm,wlip",3000],["0904",3,"wcx",600],["0904",114,"wcx",1500],["0905",225,"lcx",6000],["0905",177,"larm",800],["0906",161,"lbik,larm",3000],["0906",226,"wcx",1500],["0906",30,"warm,wbik,wlegs",4000],["0907",87,"lbik",1500],["0907",33,"lbik,larm",5000],["0909",14,"wbik",5000],["0909",227,"lbik,larm,llegs",5000],["0909",228,"wbik,warm",1800],["0909",124,"lcx",7000],["0910",180,"llegs",2800],["0910",45,"wcx",1000],["0910",130,"lbik,larm",3000],["0910",229,"wcx",1500],["0910",8,"lbik,larm,llegs",5000],["0910",182,"wbik,warm,wlegs",2700],["0911",22,"wbik,warm",1800],["0911",230,"lbik,larm",9000],["0911",231,"llegs",2700],["0911",74,"wbik,wlip",1800],["0911",232,"lcx",3000],["0911",144,"lbik,larm",2600],["0911",9,"llegs",2800],["0916",233,"wbik,warm,wlip,wlegs",5000],["0916",41,"lbik",1500],["0916",196,"wcx",300],["0916",94,"lface",1000],["0918",76,"wnose",300],["0918",185,"wnose",200],["0918",72,"wbik,warm,llegs",3800],["0918",60,"wbik,wlegs",2500],["0919",108,"llegs",4000],["0921",10,"wcx",1800],["0921",105,"lbik,larm",4000],["0921",86,"wcx",400],["0921",234,"lbik,larm",2600],["0921",32,"llegs",2400],["0921",235,"wbik",1500],["0922",236,"wcx",1400],["0923",99,"llegs",3000],["0923",19,"llegs",2600],["0923",156,"llegs",2300],["0923",237,"wcx",2000],["0924",113,"wbik,wlip",2500],["0924",84,"warm",500],["0924",71,"llegs",2500],["0924",238,"wlegs,wlip",1500],["0924",239,"larm,wbik",2300],["0925",240,"wbik,wlegs,wlip",3000],["0925",35,"llegs",2500],["0925",205,"wcx",300],["0926",173,"llegs",4000],["0926",235,"wcx",1800],["0926",241,"wcx",400],["0926",192,"lcx",5000],["0927",92,"lcx",3000],["0927",96,"wbik",1300],["0927",142,"lbik",1500],["0928",31,"lbik",2500],["0928",100,"wcx",600],["0928",33,"lcx",1800],["0928",38,"lbik,larm,wnose",10000],["0928",162,"wbik,warm,wlegs",3000],["0929",242,"whands,warm,wlip",2000],["0929",243,"llegs",2600],["0929",69,"llegs",2000],["1001",244,"warm,wnose",1000],["1001",230,"wnose",500],["1001",94,"wlip",1000],["1001",139,"lbik,larm,wnose",5000],["1001",59,"lbik,larm,wlegs",3500],["1001",89,"warm",1000],["1002",123,"warm",500],["1002",195,"larm,wbik,wnose",4000],["1002",5,"wcx",1850],["1002",50,"wlegs",1000],["1002",34,"wcx",2000],["1002",24,"lcx",1800],["1005",3,"wcx",800],["1005",197,"wcx",1500],["1006",29,"lcx",4500],["1006",245,"llegs",2500],["1006",246,"wnose",300],["1007",14,"wbik",5000],["1007",247,"llegs",3000],["1007",129,"llegs",2500],["1007",196,"lbik",2000],["1007",56,"lface",7000],["1007",26,"lbik",1500],["1008",8,"llegs",3000],["1008",248,"wcx",2000],["1008",4,"lcx",5000],["1011",180,"wbik,warm,wcx,wlegs,wlip",6000],["1011",63,"llegs",3000],["1012",72,"wbik,warm,llegs",3800],["1012",249,"lbik,llegs",5000],["1012",250,"wbik,warm,wlegs",2600],["1014",45,"wcx",1500],["1014",76,"wbik,warm,wlegs",5000],["1014",251,"wbik,wlegs",5000],["1014",80,"llegs",2500],["1014",12,"wcx",700],["1014",252,"wcx",1000],["1016",186,"lcx",5000],["1016",253,"lbik",2000],["1016",165,"wlip,wshin",500],["1016",254,"wcx",1800],["1016",163,"wcx",1800],["1017",48,"wcx",2000],["1019",25,"wcx,llegs",1500],["1019",44,"llegs",3000],["1019",27,"llegs",2400],["1020",255,"lbik,llegs",3800],["1020",218,"wcx",1500],["1021",153,"lbik",2000],["1021",114,"lbik",1500],["1021",256,"wcx",1000],["1021",257,"warm,wlip",500],["1022",19,"lcx",2000],["1022",250,"lbik",2000],["1022",156,"llegs",2300],["1023",60,"wlegs,wbik",2000],["1023",55,"wcx",2000],["1023",161,"llegs",2500],["1023",112,"whands,wlip",2000],["1023",258,"lcx",7000],["1024",58,"llegs",2600],["1024",87,"wcx",1800],["1024",170,"llegs",3200],["1025",192,"lcx",5000],["1026",41,"lbik",1500],["1026",116,"lcx",5000],["1027",137,"wbik,larm",3000],["1027",259,"lbik,larm,llegs",6000],["1027",162,"wcx",2000],["1029",24,"wbik,warm",1800],["1029",260,"wcx,llegs",2000],["1029",28,"lcx",5500],["1030",261,"larm,llip",1250],["1030",132,"whands",1250],["1031",262,"wcx",3200],["1031",126,"larm",1000],["1031",17,"lcx",5000],["1031",85,"llegs",3000],["1031",263,"lbik",1800]]};
+const ZONES=[
+ {id:'llegs',m:'laser',img:'1700760933574-9f0f4ea9aa3b',sh:'Ноги',name:'Ноги полностью · лазер',price:4000,dur:60,int:45,desc:'Бёдра, колени и голени за один визит. Обычно это курс, интервал между сеансами подбирает Таня.'},
+ {id:'lshin',m:'laser',img:'1661308675370-31455561e15e',sh:'Голени',name:'Голени · лазер',price:2500,dur:40,int:45,desc:'Если нужно только от колена вниз.'},
+ {id:'lbik',m:'laser',img:'1467632499275-7a693a761056',sh:'Бикини',name:'Бикини · лазер',price:2500,dur:40,int:35,desc:'Деликатная зона, работаем бережно и спокойно.'},
+ {id:'larm',m:'laser',img:'1544717304-a2db4a7b16ee',sh:'Подмышки',name:'Подмышки · лазер',price:1500,dur:20,int:30,desc:'Короткий сеанс, удобно совмещать с другими зонами.'},
+ {id:'lhands',m:'laser',img:'1785861433534-8cd4c7b994fa',sh:'Руки',name:'Руки · лазер',price:3000,dur:30,int:40,desc:'Плечи, предплечья и кисти.'},
+ {id:'llip',m:'laser',img:'1785861775561-c6db7da314a0',sh:'Усики',name:'Усики · лазер',price:500,dur:10,int:30,desc:'Самый короткий сеанс.'},
+ {id:'lface',m:'laser',img:'1785861775561-c6db7da314a0',sh:'Лицо',name:'Лицо · лазер',price:1000,dur:20,int:30,desc:'Щёки, подбородок, шея. Перед первым визитом Таня задаст пару вопросов о коже.'},
+ {id:'lback',m:'laser',img:'studio-device.jpg',sh:'Спина',name:'Спина · лазер',price:3000,dur:40,int:45,desc:'Популярно у мужчин. Курс подбирается индивидуально.'},
+ {id:'lcx',m:'laser',img:'studio-device.jpg',sh:'Комплекс',name:'Комплекс · лазер',price:6500,dur:90,int:45,desc:'Бикини, подмышки и ноги за один визит, выгоднее, чем по отдельности.'},
+ {id:'wbik',m:'wax',img:'studio-wax.jpg',sh:'Бикини',name:'Бикини · воск или сахар',price:1300,dur:30,int:28,desc:'Глубокое или классическое, воском или сахарной пастой.'},
+ {id:'warm',m:'wax',img:'studio-wax.jpg',sh:'Подмышки',name:'Подмышки · воск или сахар',price:400,dur:15,int:28,desc:'Быстро и аккуратно.'},
+ {id:'wlegs',m:'wax',img:'studio-wax.jpg',sh:'Ноги',name:'Ноги · воск или сахар',price:2000,dur:50,int:28,desc:'Ноги полностью.'},
+ {id:'wshin',m:'wax',img:'studio-wax.jpg',sh:'Голени',name:'Голени · воск или сахар',price:1000,dur:30,int:28,desc:'От колена вниз.'},
+ {id:'whands',m:'wax',img:'studio-wax.jpg',sh:'Руки',name:'Руки · воск или сахар',price:1000,dur:30,int:28,desc:'Руки полностью или до локтя.'},
+ {id:'wlip',m:'wax',img:'studio-wax.jpg',sh:'Усики',name:'Усики · воск',price:300,dur:10,int:21,desc:'Пара минут.'},
+ {id:'wnose',m:'wax',img:'studio-wax.jpg',sh:'Нос',name:'Нос · воск',price:300,dur:10,int:21,desc:'Популярно у мужчин.'},
+ {id:'wcx',m:'wax',img:'studio-wax.jpg',sh:'Комплекс',name:'Комплекс · воск или сахар',price:3000,dur:70,int:28,desc:'Бикини, подмышки и ноги за один визит.'}
+];
 function seed(){
-  const r=rng(20261116); const pick=a=>a[Math.floor(r()*a.length)];
-  S={
-    zones:[
-      {id:'legs',img:'1700760933574-9f0f4ea9aa3b',sh:'Ноги',name:'Ноги полностью',price:3500,dur:60,int:45,cat:'body',v:2,desc:'Бёдра, колени и голени за один визит. Обычно это курс из нескольких сеансов, интервал между ними подбирает Таня.'},
-      {id:'bik',img:'1467632499275-7a693a761056',sh:'Бикини',name:'Глубокое бикини',price:2800,dur:40,int:35,cat:'body',v:4,desc:'Деликатная зона, работаем бережно и спокойно. Перед сеансом Таня расскажет, как подготовиться.'},
-      {id:'arm',img:'1544717304-a2db4a7b16ee',sh:'Подмышки',name:'Подмышки',price:1200,dur:20,int:30,cat:'body',v:3,desc:'Короткий сеанс, удобно совмещать с другими зонами в один визит.'},
-      {id:'hands',img:'1785861433534-8cd4c7b994fa',sh:'Руки',name:'Руки полностью',price:2200,dur:30,int:40,cat:'body',v:5,desc:'Плечи, предплечья и кисти. Можно отдельно или вместе с подмышками.'},
-      {id:'shin',img:'1661308675370-31455561e15e',sh:'Голени',name:'Голени',price:2000,dur:40,int:45,cat:'body',v:6,desc:'Если нужно только от колена вниз. Курс и интервал подбираются индивидуально.'},
-      {id:'face',img:'1785861775561-c6db7da314a0',sh:'Лицо',name:'Верхняя губа',price:900,dur:15,int:30,cat:'face',v:1,desc:'Самый короткий сеанс. Перед первым визитом Таня задаст пару вопросов о коже.'}
-    ],
-    settings:{bonusPct:5,maxShare:30,friend:500,review:100,plan:250000,open:10,close:20,dormant:60,courseDisc:15,
+  const r=rng(20261121); const pick=a=>a[Math.floor(r()*a.length)];
+  S={zones:ZONES.map(z=>({...z})),
+    settings:{bonusPct:5,maxShare:30,friend:500,review:100,plan:250000,open:10,close:21,off:[],dormant:60,courseDisc:15,
       mapY:'https://yandex.ru/maps/',map2:'https://2gis.ru/',
       tpl:{
-        dormant:'{имя}, привет! Это Таня. Давно не виделись. На этой неделе есть свободные окна, если захочется продолжить курс — напиши, подберу удобное время.',
-        due:'{имя}, привет! Подходит время для сеанса {сеанс} ({зоны}). Удобно прийти {когда}. Записаться можно в приложении или ответом на это сообщение.',
+        dormant:'{имя}, привет! Это Таня. Давно не виделись. На этой неделе есть свободные окна, если захочется продолжить — напиши, подберу удобное время.',
+        due:'{имя}, привет! Подходит время для следующего визита ({зоны}). Удобно прийти {когда}. Записаться можно в приложении или ответом на это сообщение.',
         ending:'{имя}, у тебя остался последний сеанс курса. Расскажу про поддерживающие визиты и бонусы на следующий курс, если интересно.',
         review:'{имя}, спасибо за визит! Если всё понравилось, оставь пару слов на картах, это очень помогает: {ссылка}'
       }},
-    clients:[],appts:[],tx:[],outreach:[],seq:1
-  };
-  const fn=['Мария','Ольга','Ирина','Ксения','Дарья','Юлия','Анна','Екатерина','Полина','Светлана','Наталья','Алина','Елена','Вероника','Карина','Софья','Яна','Ульяна','Ева','Арина','Лилия','Диана','Милана','Валерия','Олеся','Евгения','Кристина','Любовь','Надежда','Регина'];
-  const ln=['Ковалёва','Дмитриева','Белова','Морозова','Лебедева','Андреева','Смирнова','Орлова','Зайцева','Волкова','Громова','Соколова','Павлова','Новикова','Медведева','Егорова','Тихонова','Белкина','Комарова','Власова','Фролова','Кузнецова','Абрамова','Осипова','Руденко'];
-  const names=Array.from({length:200},(_,i)=>fn[i%30]+' '+ln[(i+Math.floor(i/30)*7)%25]);
-  const src=['сарафан','сарафан','сарафан','вывеска','вывеска','Яндекс Карты','2ГИС','подруга'];
-  const combos=[['legs','bik'],['arm'],['bik'],['legs','bik','arm'],['shin','arm'],['hands'],['face','arm'],['bik','arm']];
+    clients:[],appts:[],tx:[],outreach:[],seq:1};
+  const src=['сарафан','сарафан','сарафан','вывеска','Яндекс Карты','2ГИС','подруга'];
   const taken={};
-  const free=(date,dur,minStart=0)=>{
-    const L=taken[date]||(taken[date]=[]);const o=[];
+  const free=(date,dur,minStart=0)=>{const L=taken[date]||(taken[date]=[]);const o=[];
     for(let m=S.settings.open*60;m+dur<=S.settings.close*60;m+=30){if(m>=minStart&&!L.some(([a,b])=>m<b&&m+dur>a))o.push(m)}
     if(!o.length)return null;const m=pick(o);L.push([m,m+dur]);return mt(m)};
-  names.forEach((n,i)=>{
-    const zs=combos[i%combos.length];
-    const total=i===0?8:pick([6,8,8,10]);
-    const dormant=i%6===3;
-    const done=i===0?4:dormant?1+Math.floor(r()*(total-2)):1+Math.floor(r()*(total-1));
-    const iv=Math.max(...zs.map(z=>Z(z).int));
-    const price=zs.reduce((s,z)=>s+Z(z).price,0), dur=zs.reduce((s,z)=>s+Z(z).dur,0);
-    const c={id:'c'+(i+1),name:n,phone:`+7 9${pad(10+i%90)} 000-${pad(i*7%100)}-${pad(i*13%100)}`,src:i===4?'подруга':src[i%src.length],refBy:i===4?'c1':'',
-      note:'',bonus:0,code:'T'+(1000+i*37),review:false,
-      course:{zones:zs,total,done:0,price:Math.round(price*total*(1-S.settings.courseDisc/100)/100)*100}};
-    let last=i===0?iv-2:dormant?70+Math.floor(r()*80):1+Math.floor(r()*(iv+6));
-    for(let k=0;k<done;k++){
-      let d=add(T,-(last+(done-1-k)*iv));if(d.getDay()===0)d=add(d,-1);
-      const ds=iso(d),t=free(ds,dur);if(!t)continue;
-      S.appts.push({id:'a'+S.seq++,cid:c.id,date:ds,time:t,zones:zs,dur,sum:price,status:'done',bonusUsed:0,session:k+1});
-      c.course.done=k+1;const e=Math.round(price*S.settings.bonusPct/100);c.bonus+=e;
-      S.tx.push({cid:c.id,date:ds,amt:e,note:`Визит, сеанс ${k+1}`});
-    }
-    if(c.bonus>400&&r()<.35){const u=Math.min(300,c.bonus);c.bonus-=u;S.tx.push({cid:c.id,date:iso(add(T,-last)),amt:-u,note:'Оплата бонусами'})}
-    if(i===4){const dt=iso(add(T,-last-iv*(done-1)));c.bonus+=S.settings.friend;S.tx.push({cid:c.id,date:dt,amt:S.settings.friend,note:'Бонус по приглашению'});
-      const m=S.clients[0];m.bonus+=S.settings.friend;S.tx.push({cid:'c1',date:dt,amt:S.settings.friend,note:'Подруга пришла по вашему коду'})}
-    if(!dormant&&i!==0&&c.course.done<total&&r()<.7){
-      const lastD=S.appts.filter(a=>a.cid===c.id).map(a=>a.date).sort().pop();
-      if(lastD){
-      let off=Math.max(0,dd(iso(add(pd(lastD),iv)),TODAY))+Math.floor(r()*3);
-      if(off<=13){
-        let d=add(T,off);if(d.getDay()===0)d=add(d,1);let ds=iso(d);
-        let t=free(ds,dur,ds===TODAY?nowMin()+30:0);
-        if(!t){d=add(d,d.getDay()===6?2:1);ds=iso(d);t=free(ds,dur)}
-        if(t)S.appts.push({id:'a'+S.seq++,cid:c.id,date:ds,time:t,zones:zs,dur,sum:price,status:r()<.8?'ok':'new',bonusUsed:0,session:c.course.done+1});
-      }
-    }}
-    S.clients.push(c);
-  });
+  const zdur=zs=>zs.reduce((s,z)=>s+Z(z).dur,0);
+  HIST.c.forEach(([n,ml],i)=>S.clients.push({id:'c'+(i+1),name:n,male:!!ml,phone:`+7 9${pad(10+i%90)} 000-${pad(i*7%100)}-${pad(i*13%100)}`,src:src[i%src.length],refBy:'',note:'',bonus:0,code:'T'+(1000+i*37),review:false,course:{zones:[],total:0,done:0,price:0}}));
+  const per={};
+  HIST.v.forEach(([md,ci,zs,sum])=>{const c=S.clients[ci];const zones=zs.split(',');const ds='2026-'+md.slice(0,2)+'-'+md.slice(2);
+    const k=(per[c.id]=(per[c.id]||0)+1);const t=free(ds,zdur(zones))||'20:30';
+    S.appts.push({id:'a'+S.seq++,cid:c.id,date:ds,time:t,zones,dur:zdur(zones),sum,status:'done',bonusUsed:0,session:k});
+    const e=Math.round(sum*S.settings.bonusPct/100);c.bonus+=e;S.tx.push({cid:c.id,date:ds,amt:e,note:`Визит ${pd(ds).getDate()} ${MON[pd(ds).getMonth()]}`})});
+  /* курс: у лазерных клиентов — самая частая зона, у восковых курса нет */
+  S.clients.forEach(c=>{const v=S.appts.filter(a=>a.cid===c.id);const cnt={};v.forEach(a=>a.zones.forEach(z=>cnt[z]=(cnt[z]||0)+1));
+    const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);const lz=top.filter(z=>Z(z).m==='laser');
+    if(lz.length){const zs=lz.slice(0,2);const done=v.filter(a=>a.zones.some(z=>Z(z).m==='laser')).length;const total=Math.max(8,done);
+      c.course={zones:zs,total,done,price:Math.round(zs.reduce((s,z)=>s+Z(z).price,0)*total*(1-S.settings.courseDisc/100)/100)*100}}
+    else c.course={zones:top.slice(0,2),total:0,done:0,price:0};
+    if(c.bonus>400&&r()<.3){const u=Math.min(300,c.bonus);c.bonus-=u;S.tx.push({cid:c.id,date:v[v.length-1].date,amt:-u,note:'Оплата бонусами'})}});
+  /* с 1 ноября: моделируем по ритму тетради — кто «созрел», тот приходит */
+  const reg=S.clients.filter(c=>S.appts.filter(a=>a.cid===c.id).length>=2);
+  const avg=c=>{const v=S.appts.filter(a=>a.cid===c.id);return Math.round(v.reduce((s,a)=>s+a.sum,0)/v.length/100)*100};
+  const lastZ=c=>{const v=S.appts.filter(a=>a.cid===c.id).sort(byDT);return v[v.length-1].zones};
+  for(let d=pd('2026-11-01');d<=add(T,13);d=add(d,1)){const ds=iso(d);const future=ds>=TODAY;
+    const want=future?(ds===TODAY?3:1+Math.floor(r()*3)):2+Math.floor(r()*3);
+    const pool=reg.filter(c=>{const l=lastV(c.id);const nxt=S.appts.some(a=>a.cid===c.id&&a.date>=ds);return !nxt&&l&&dd(ds,l)>=iv(c)-3});
+    for(let k=0;k<want&&pool.length;k++){const c=pool.splice(Math.floor(r()*pool.length),1)[0];const zs=lastZ(c);const sum=avg(c);
+      const t=free(ds,zdur(zs),ds===TODAY?nowMin()+30:0);if(!t)continue;
+      const sess=S.appts.filter(a=>a.cid===c.id).length+1;
+      if(!future){S.appts.push({id:'a'+S.seq++,cid:c.id,date:ds,time:t,zones:zs,dur:zdur(zs),sum,status:'done',bonusUsed:0,session:sess});
+        const e=Math.round(sum*S.settings.bonusPct/100);c.bonus+=e;S.tx.push({cid:c.id,date:ds,amt:e,note:`Визит ${d.getDate()} ${MON[d.getMonth()]}`});
+        if(c.course.total&&zs.some(z=>Z(z).m==='laser')){c.course.done++;c.course.total=Math.max(c.course.total,c.course.done)}}
+      else S.appts.push({id:'a'+S.seq++,cid:c.id,date:ds,time:t,zones:zs,dur:zdur(zs),sum,status:r()<.8?'ok':'new',bonusUsed:0,session:sess});}}
 }
 /* ---------- общая база (Supabase, только вымышленные данные) ---------- */
 const DB={url:'',key:'',sk:'studio-demo-2026',ok:null,stateAt:null,pending:null,busy:false};
@@ -963,7 +965,7 @@ const lastV=cid=>{const v=visits(cid);return v.length?v[v.length-1].date:null};
 const upc=cid=>S.appts.filter(a=>a.cid===cid&&(a.status==='ok'||a.status==='new')&&a.date>=TODAY).sort(byDT);
 const iv=c=>c.course.zones.length?Math.max(...c.course.zones.map(z=>Z(z).int)):40;
 const dueOf=c=>{const l=lastV(c.id);return l?iso(add(pd(l),iv(c))):TODAY};
-const zn=zs=>zs.map(z=>Z(z).name).join(' + ');
+const zn=zs=>{const g={};zs.forEach(id=>{const z=Z(id);if(!z)return;(g[z.m]=g[z.m]||[]).push(z.sh)});return Object.entries(g).map(([m,a])=>a.map((x,i)=>i?x.toLowerCase():x).join(' + ')+(m==='laser'?' · лазер':' · воск')).join(', ')};
 const zsum=(zs,f)=>zs.reduce((s,z)=>s+Z(z)[f],0);
 const pct=c=>c.course.total?Math.round(c.course.done/c.course.total*100):0;
 const first=n=>n.split(' ')[0];
@@ -975,15 +977,16 @@ function lists(){
   S.clients.forEach(c=>{
     const l=lastV(c.id);if(!l)return;const fut=upc(c.id).length;const ago=dd(TODAY,l);
     if(!fut&&ago>=S.settings.dormant){if(!sent(c.id,'dormant'))L.dormant.push(c);return}
-    if(!fut&&c.course.done<c.course.total&&dd(dueOf(c),TODAY)<=3&&!sent(c.id,'due'))L.due.push(c);
+    if(!fut&&(c.course.done<c.course.total||!c.course.total)&&dd(dueOf(c),TODAY)<=3&&!sent(c.id,'due'))L.due.push(c);
     if(c.course.total-c.course.done===1&&!sent(c.id,'ending'))L.ending.push(c);
     if(ago<=3&&!c.review&&!sent(c.id,'review'))L.review.push(c);
   });
   return L;
 }
 const lcount=L=>L.dormant.length+L.due.length+L.ending.length+L.review.length;
+const isOff=d=>(S.settings.off||[]).includes(d.getDay());
 function slotsFor(date,dur,ignore){
-  const d=pd(date);if(d.getDay()===0||date<TODAY)return[];
+  const d=pd(date);if(isOff(d)||date<TODAY)return[];
   const busy=S.appts.filter(a=>a.date===date&&a.id!==ignore&&['ok','new','done'].includes(a.status)).map(a=>[tm(a.time),tm(a.time)+a.dur]);
   const o=[];for(let m=S.settings.open*60;m+dur<=S.settings.close*60;m+=30){
     if(date===TODAY&&m<nowMin()+60)continue;if(!busy.some(([a,b])=>m<b&&m+dur>a))o.push(mt(m))}
@@ -1002,7 +1005,7 @@ function earn(a){
 }
 const PH=(id,w)=>`background-image:url(https://images.unsplash.com/photo-${id}?w=${w}&q=75&auto=format&fit=crop)`;
 const ZIMG={legs:'1700760933574-9f0f4ea9aa3b',bik:'1467632499275-7a693a761056',arm:'1544717304-a2db4a7b16ee',hands:'1785861433534-8cd4c7b994fa',shin:'1661308675370-31455561e15e',face:'1785861775561-c6db7da314a0'};
-const zph=(z,w)=>PH(z.img||ZIMG[z.id],w);
+const zph=(z,w)=>{const i=z.img||ZIMG[z.id];return /\.(jpe?g|png)$/.test(i)?`background-image:url(${i})`:PH(i,w)};
 const hello=()=>{const h=new Date().getHours();return h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер'};
 function ring(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.total?c.course.done/c.course.total:0;const id='rg'+n;return `<svg width="${n}" height="${n}" viewBox="0 0 ${n} ${n}" style="flex:none"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8A6BE"/><stop offset="1" stop-color="#A93A68"/></linearGradient></defs><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="#F6E6EF" stroke-width="6"/><circle cx="${n/2}" cy="${n/2}" r="${r}" fill="none" stroke="url(#${id})" stroke-width="6" stroke-linecap="round" stroke-dasharray="${L*p} ${L}" transform="rotate(-90 ${n/2} ${n/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="${n*.24}" font-weight="800" fill="#231B2E" font-family="Manrope">${c.course.done}/${c.course.total}</text></svg>`}
 function tier(c){const v=visits(c.id).length;const T=[{n:'Pink',from:0,perk:'На уровне Rose Gold — 7% бонусами с каждого визита.'},{n:'Rose Gold',from:5,perk:'На уровне Platinum — 10% бонусами и приоритетная запись.'},{n:'Platinum',from:10,perk:'10% бонусами, приоритетная запись и подарок ко дню рождения.'}];
@@ -1116,7 +1119,7 @@ function cWelcome(){
 }
 function cHome(c){
   const u=upc(c.id)[0];const due=dueOf(c);const left=c.course.total-c.course.done;const n=unread(c);
-  const pop=['legs','bik','arm','hands','shin','face'];
+  const pop=['lcx','llegs','lbik','wbik','wcx','larm'];
   let hero;
   if(u){const z=Z(u.zones[0]);hero=`<div class="nv3 tilt">
     <div class="row between"><span class="ey3">Ближайший визит</span><span class="cdp cd2" data-at="${u.date}T${u.time}">${untilHM(u)}</span></div>
@@ -1126,6 +1129,10 @@ function cHome(c){
     <div class="row between"><span class="ey3">Ваш курс</span><span class="cdp ${late?'':'soft'}">${late?'пора записаться':'с '+fd(due)}</span></div>
     <div class="row" style="gap:14px"><div class="ph pi nvph" style="${zph(z,240)}"></div><div class="grow"><div class="nvt">Сеанс ${c.course.done+1} из ${c.course.total}</div><div class="nvs">${zn(c.course.zones)}</div></div></div>
     <div class="row between">${pearls(c)}<button class="go3" data-act="bookCourse" aria-label="Выбрать время">${ic('arrow',20,2)}</button></div></div>`}
+  else if(c.course.total===0&&lastV(c.id)){const late=dd(due,TODAY)<=0;const z=Z(c.course.zones[0]);hero=`<div class="nv3 tilt">
+    <div class="row between"><span class="ey3">Ваш следующий визит</span><span class="cdp ${late?'':'soft'}">${late?'пора записаться':'с '+fd(due)}</span></div>
+    <div class="row" style="gap:14px"><div class="ph pi nvph" style="${zph(z,240)}"></div><div class="grow"><div class="nvt">${zn(c.course.zones)}</div><div class="nvs">Таня · последний визит ${fd(lastV(c.id))}</div></div></div>
+    <div class="row between"><span class="gch">${ic('clock',15)} раз в ${Math.round(iv(c)/7)} недели</span><button class="go3" data-act="bookCourse" aria-label="Записаться">${ic('arrow',20,2)}</button></div></div>`}
   else if(c.course.total===0){hero=`<div class="nv3 tilt">
     <div class="row between"><span class="ey3">Добро пожаловать</span><span class="cdp soft">+${S.settings.friend} бонусов</span></div>
     <div><div class="nvt" style="font-size:22px">Первый визит</div><div class="nvs" style="margin-top:4px">Выберите зону, курс и интервал Таня подберёт на консультации</div></div>
@@ -1140,6 +1147,9 @@ function cHome(c){
     <div class="st3"><div class="sth">${ic('lotus',15,2)} Курс</div>${ring3(c.course.done,c.course.total,64)}</div>
     <div class="st3"><div class="sth">${ic('gift',15,2)} Бонусы</div><div class="stv" data-count="${c.bonus}">${num(c.bonus)}</div><div class="xs mut">до ${S.settings.maxShare}% визита</div></div>
     <div class="st3"><div class="sth">${ic('clock',15,2)} Сеанс</div><div class="stv">${u&&dleft===0?'сегодня':dleft<=0?'пора':dleft+' '+plural(dleft,'день','дня','дней')}</div><div class="bar3"><i style="width:${Math.min(100,Math.round(passed/ivs*100))}%"></i></div><div class="xs ${!u&&dleft<=0?'okt':'mut'}">${u?'до визита':dleft<=0?'окно открыто':'до сеанса'}</div></div>`
+   :L?`<div class="st3"><div class="sth">${ic('calok',15,2)} Визиты</div><div class="stv">${visits(c.id).length}</div><div class="xs mut">с ${fd(visits(c.id)[0].date)}</div></div>
+    <div class="st3"><div class="sth">${ic('gift',15,2)} Бонусы</div><div class="stv" data-count="${c.bonus}">${num(c.bonus)}</div><div class="xs mut">до ${S.settings.maxShare}% визита</div></div>
+    <div class="st3"><div class="sth">${ic('clock',15,2)} Визит</div><div class="stv">${dleft<=0?'пора':dleft+' '+plural(dleft,'день','дня','дней')}</div><div class="bar3"><i style="width:${Math.min(100,Math.round(passed/ivd*100))}%"></i></div><div class="xs ${dleft<=0?'okt':'mut'}">${u?'до визита':dleft<=0?'окно открыто':'до следующего'}</div></div>`
    :`<div class="st3"><div class="sth">${ic('gift',15,2)} Бонусы</div><div class="stv" data-count="${c.bonus}">${num(c.bonus)}</div><div class="xs mut">за первый визит</div></div>
     <div class="st3"><div class="sth">${ic('lotus',15,2)} Курс</div><div class="stv">−${S.settings.courseDisc}%</div><div class="xs mut">8 сеансов выгоднее</div></div>
     <div class="st3"><div class="sth">${ic('heart',15,2)} Подруге</div><div class="stv">+${S.settings.friend}</div><div class="xs mut">бонусов вам обеим</div></div>`;
@@ -1151,14 +1161,15 @@ function cHome(c){
   <div class="row" style="gap:10px;margin-top:20px"><button class="search3" data-act="tab" data-v="services">${ic('search',18)}<span>Услуга или зона</span></button><button class="flt3" data-act="tab" data-v="services" aria-label="Все услуги">${ic('sliders',20)}</button></div>
   <div style="margin-top:20px">${hero}</div>
   <div class="sech"><div class="h2">Зоны</div><button class="link" data-act="tab" data-v="services">Все</button></div>
-  <div class="hs zr3">${S.zones.map((z,i)=>`<button data-act="openZ" data-id="${z.id}"><span class="zt3 t${i%5}"><span class="ph pi" style="${zph(z,180)}"></span></span>${z.sh||z.name}</button>`).join('')}</div>
-  <div class="sech"><div class="h2">${c.course.total?'Ваш курс сегодня':'Для вас'}</div></div>
+  <div class="hs zr3">${S.zones.filter(z=>z.m==='laser').map((z,i)=>`<button data-act="openZ" data-id="${z.id}"><span class="zt3 t${i%5}"><span class="ph pi" style="${zph(z,180)}"></span></span>${z.sh||z.name}</button>`).join('')}<button data-act="cats" data-v="wax"><span class="zt3 t2"><span class="ph pi" style="background-image:url(studio-wax.jpg)"></span></span>Воск</button></div>
+  <div class="sech"><div class="h2">${c.course.total?'Ваш курс сегодня':L?'Ваши визиты':'Для вас'}</div></div>
   <div class="sts3">${tiles}</div>
   <div class="sech"><div class="h2">Популярное</div><button class="link" data-act="tab" data-v="services">Все</button></div>
   <div class="hs">${pop.map((id,i)=>{const z=Z(id);return `<div class="dc3"><button class="dcph t${i%5}" data-act="openZ" data-id="${id}"><span class="ph pi" style="${zph(z,420)}"></span></button><button class="fv3" data-act="fav" aria-label="В избранное">${ic('heart',16,2)}</button>
-    <button class="dct" data-act="openZ" data-id="${id}"><div class="b">${z.name}</div><div class="xs mut">${z.cat==='face'?'Лицо':'Тело'} · курс −${S.settings.courseDisc}%</div><div class="row between" style="margin-top:10px"><span class="xs mut row" style="gap:4px">${ic('clock',13)} ${z.dur} мин</span><span class="pr3">${rub(z.price)}</span></div></button></div>`}).join('')}</div>
+    <button class="dct" data-act="openZ" data-id="${id}"><div class="b">${z.name}</div><div class="xs mut">${z.m==='laser'?'Лазер · курс −'+S.settings.courseDisc+'%':'Воск и сахар'}</div><div class="row between" style="margin-top:10px"><span class="xs mut row" style="gap:4px">${ic('clock',13)} ${z.dur} мин</span><span class="pr3">${rub(z.price)}</span></div></button></div>`}).join('')}</div>
   <div class="tip3"><span class="tpi">${ic(tip[0],20)}</span><div><div class="b">${tip[1]}</div><div class="sm mut">${tip[2]}</div></div></div>
   <div class="sech"><div class="h2">Студия</div></div>
+  <div class="ph pi" style="height:190px;border-radius:24px;background-image:url(studio-wall.jpg);margin-bottom:12px;box-shadow:var(--gl-sh)"></div>
   <div class="card col" style="gap:0;padding:4px 16px">
    <div class="irow">${ic('map',18)}<span class="grow">Адрес студии</span><a class="link" href="https://yandex.ru/maps/" target="_blank" rel="noopener">Маршрут</a></div>
    <div class="irow" style="border-top:1px solid var(--line)">${ic('clock',18)}<span class="grow">Пн–сб, ${S.settings.open}:00–${S.settings.close}:00</span></div>
@@ -1176,7 +1187,7 @@ function pick3(b,dur){
   const strip=days.map((s,i)=>{const d=pd(s);const n=slotsFor(s,dur,b.resched).length;const top=i===0?'Сегодня':i===1?'Завтра':cap(WD[d.getDay()]);
     return `<button class="db db3 ${s===b.date?'on':''} ${n?'':'off'} ${due&&n&&s>=due&&s<=iso(add(pd(due),7))?'due':''}" data-act="bkDate" data-v="${s}" ${n?'':'disabled'}><span>${top}</span><b>${d.getDate()}</b></button>`}).join('');
   const free=slotsFor(b.date,dur,b.resched);let all=[];
-  if(pd(b.date).getDay()!==0)for(let m=S.settings.open*60;m+dur<=S.settings.close*60;m+=30)all.push(mt(m));
+  if(!isOff(pd(b.date)))for(let m=S.settings.open*60;m+dur<=S.settings.close*60;m+=30)all.push(mt(m));
   const grid=all.length?`<div class="tg3">${all.map(t=>{const ok=free.includes(t);return `<button class="tm3 ${ok?'':'busy'} ${b.time===t?'on':''}" ${ok?`data-act="bkTime" data-v="${t}"`:'disabled'}>${t}</button>`}).join('')}</div>`:'<div class="mut sm">В этот день студия не работает</div>';
   return `<div class="h2" style="margin:26px 0 12px">Выберите день</div><div class="dstrip ds3">${strip}</div>
   <div class="h2" style="margin:24px 0 12px">Выберите время</div>${grid}
@@ -1188,13 +1199,13 @@ function ringDark(c,n){const r=n/2-5,L=2*Math.PI*r,p=c.course.total?c.course.don
 function cServices(){
   const q=U.q.trim().toLowerCase();
   let list=S.zones.filter(z=>!q||z.name.toLowerCase().includes(q));
-  if(U.cat==='body')list=list.filter(z=>z.cat==='body');if(U.cat==='face')list=list.filter(z=>z.cat==='face');
+  if(U.cat==='laser'||U.cat==='course')list=list.filter(z=>z.m==='laser');if(U.cat==='wax')list=list.filter(z=>z.m==='wax');
   const course=U.cat==='course';
   return `<div class="row between" style="align-items:flex-end;margin-top:4px"><div><div class="xs mut" style="font-size:14px">Выберите</div><div class="h1" style="font-size:32px">Услугу</div></div><span class="onl3"><i></i>онлайн-запись</span></div>
   <label class="search3" style="margin-top:18px">${ic('search',18)}<input placeholder="Услуга или зона" data-inp="q" value="${esc(U.q)}"></label>
-  <div class="fchips ch3">${[['all','Все','more'],['body','Тело','legs'],['face','Лицо','face'],['course','Курсы','lotus']].map(([k,t,i])=>`<button class="${U.cat===k?'on':''}" data-act="cats" data-v="${k}">${ic(i,16)} ${t}</button>`).join('')}</div>
+  <div class="fchips ch3">${[['all','Все','more'],['laser','Лазер','spark'],['wax','Воск и сахар','drop'],['course','Курсы','lotus']].map(([k,t,i])=>`<button class="${U.cat===k?'on':''}" data-act="cats" data-v="${k}">${ic(i,16)} ${t}</button>`).join('')}</div>
   <div class="col">${list.map((z,i)=>{const cp=Math.round(z.price*8*(1-S.settings.courseDisc/100)/100)*100;return `<button class="srow sr3" data-act="openZ" data-id="${z.id}"><span class="zt3 t${i%5}" style="width:76px;height:76px;flex:none"><span class="ph pi" style="${zph(z,220)}"></span></span>
-    <div class="grow"><div class="b" style="font-size:16px">${course?'Курс · ':''}${z.name}</div><div class="sm" style="color:var(--p3);font-weight:600">${z.cat==='face'?'Лицо':'Тело'}</div><div class="row xs mut" style="gap:10px;margin-top:4px"><span class="row" style="gap:4px">${ic('clock',13)} ${z.dur} мин</span>${course?'<span>8 сеансов</span>':''}</div></div>
+    <div class="grow"><div class="b" style="font-size:16px">${course?'Курс · ':''}${z.sh}</div><div class="sm" style="color:var(--p3);font-weight:600">${z.m==='laser'?'Лазер':'Воск и сахар'}</div><div class="row xs mut" style="gap:10px;margin-top:4px"><span class="row" style="gap:4px">${ic('clock',13)} ${z.dur} мин</span>${course?'<span>8 сеансов</span>':''}</div></div>
     <div style="text-align:right"><div class="pr3">${course?rub(cp):rub(z.price)}</div>${course?`<div class="xs okt">−${S.settings.courseDisc}%</div>`:''}</div></button>`}).join('')||'<div class="mut">Ничего не нашлось</div>'}</div>`;
 }
 function cService(){
@@ -1204,7 +1215,7 @@ function cService(){
   return `<div class="dh3 t${i%5}"><button class="ib wc3" style="left:16px" data-act="back" aria-label="Назад">${ic('left',18)}</button><button class="ib wc3" style="right:16px" data-act="fav" aria-label="В избранное">${ic('heart',18)}</button>
    <div class="dhph ph pi" style="${zph(z,600)}"></div></div>
   <div class="sheet sh3">
-    <div class="row between" style="align-items:flex-start"><div><div class="h1">${z.name}</div><div class="sm" style="color:var(--p3);font-weight:600;margin-top:2px">${z.cat==='face'?'Лицо':'Тело'} · мастер Таня</div></div><div class="pr3" style="font-size:22px">${rub(z.price)}</div></div>
+    <div class="row between" style="align-items:flex-start"><div><div class="h1">${z.sh}</div><div class="sm" style="color:var(--p3);font-weight:600;margin-top:2px">${z.m==='laser'?'Лазер':'Воск и сахар'} · мастер Таня</div></div><div class="pr3" style="font-size:22px">${rub(z.price)}</div></div>
     <div class="sp3"><div><span>Сеанс</span><b>${z.dur} мин</b></div><div><span>Интервал</span><b>${Math.round(z.int/7)} нед</b></div><div><span>Курсом</span><b>−${S.settings.courseDisc}%</b></div></div>
     <div class="h2" style="margin-top:22px">О процедуре</div>
     <div class="sm" style="color:#5A5266;margin-top:6px">${z.desc}</div>
@@ -1292,6 +1303,7 @@ function cProfile(c){
 function notes(c){
   const L=[];const u=upc(c.id);const due=dueOf(c);
   u.forEach(a=>L.push({k:'a'+a.id+a.status,i:a.status==='ok'?'calok':'clock',t:a.status==='ok'?'Запись подтверждена':'Заявка у Тани',x:`${fdl(a.date)}, ${a.time} · ${zn(a.zones)}`,d:a.date,go:'visits'}));
+  if(!u.length&&!c.course.total&&lastV(c.id)&&dd(due,TODAY)<=3)L.push({k:'due'+due,i:'spark',t:'Пора на следующий визит',x:`${zn(c.course.zones)}, удобно прийти ${dd(due,TODAY)<=0?'на этой неделе':'с '+fd(due)}`,d:TODAY,go:'book'});
   if(!u.length&&c.course.done<c.course.total)L.push({k:'due'+due,i:'spark',t:dd(due,TODAY)<=0?'Пора на следующий сеанс':'Скоро следующий сеанс',x:`Сеанс ${c.course.done+1} из ${c.course.total} лучше пройти ${dd(due,TODAY)<=0?'на этой неделе':'с '+fd(due)}`,d:TODAY,go:'book'});
   const lv=lastV(c.id);if(lv&&dd(TODAY,lv)<=3&&!c.review)L.push({k:'rev'+lv,i:'star',t:'Как прошёл визит?',x:`Отзыв на картах — +${S.settings.review} бонусов`,d:lv,go:'profile'});
   S.tx.filter(t=>t.cid===c.id).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3).forEach(t=>L.push({k:'tx'+t.date+t.amt+t.note,i:'gift',t:t.amt>0?`+${num(t.amt)} бонусов`:`Списано ${num(-t.amt)} бонусов`,x:`${t.note} · ${fd(t.date)}`,d:t.date,go:'bonus'}));
@@ -1344,7 +1356,7 @@ function lineChart(){
   ${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${i===pts.length-1?4.5:3}" fill="${i===pts.length-1?'#A93A68':'#fff'}" stroke="#A93A68" stroke-width="1.6"/><text x="${p[0]}" y="${H-8}" text-anchor="middle" font-size="10" fill="#8C8497">${wk[i].s.getDate()} ${MON[wk[i].s.getMonth()].slice(0,3)}</text>`).join('')}</svg>`;
 }
 function gaps(date){
-  if(pd(date).getDay()===0)return[];
+  if(isOff(pd(date)))return[];
   const o=S.settings.open*60,cl=S.settings.close*60;
   const busy=S.appts.filter(a=>a.date===date&&['ok','new','done'].includes(a.status)).map(a=>[tm(a.time),tm(a.time)+a.dur]).sort((a,b)=>a[0]-b[0]);
   const g=[];let cur=o;if(date===TODAY)cur=Math.max(o,nowMin()+60);
@@ -1369,7 +1381,7 @@ function aOverview(){
   const up=S.appts.filter(a=>['ok','new'].includes(a.status)&&a.date>TODAY).sort(byDT).slice(0,4);
   const mv=S.appts.filter(a=>a.status==='done'&&pd(a.date).getMonth()===now.getMonth()&&pd(a.date).getFullYear()===now.getFullYear());
   const zs={};mv.forEach(a=>{const tot=zsum(a.zones,'price');a.zones.forEach(z=>zs[z]=(zs[z]||0)+a.sum*Z(z).price/tot)});
-  const zparts=S.zones.map((z,i)=>({n:z.sh||z.name,v:zs[z.id]||0,c:ZCOL[i]})).sort((a,b)=>b.v-a.v);const ztot=zparts.reduce((s,p)=>s+p.v,0);
+  let zparts=S.zones.map(z=>({n:(z.sh||z.name)+(z.m==='laser'?' · лазер':' · воск'),v:zs[z.id]||0})).sort((a,b)=>b.v-a.v);zparts=zparts.slice(0,5).concat([{n:'Остальное',v:zparts.slice(5).reduce((x,p)=>x+p.v,0)}]).map((p,i)=>({...p,c:ZCOL[i]}));const ztot=zparts.reduce((s,p)=>s+p.v,0);
   const srcs={};S.clients.forEach(c=>{const l=lastV(c.id);if(l&&dd(TODAY,l)<90)srcs[c.src]=(srcs[c.src]||0)+1});const sl=Object.entries(srcs).sort((a,b)=>b[1]-a[1]);const smax=Math.max(...sl.map(x=>x[1]),1);
   const tiles=[[wkN,'Записей на неделе','sch','cal'],[active,'Активные клиенты','cl','users'],[rub(ms.avg),'Средний чек','','star'],[S.clients.filter(c=>{const v=visits(c.id);return v.length&&pd(v[0].date).getMonth()===now.getMonth()&&pd(v[0].date).getFullYear()===now.getFullYear()}).length,'Новые за месяц','cl','spark']];
   const inM=m=>m<60?m+' мин':Math.floor(m/60)+' ч '+(m%60?m%60+' мин':'');
@@ -1383,7 +1395,7 @@ function aOverview(){
      ${nx.status==='new'?`<button class="go3" data-act="aSt" data-id="${nx.id}" data-v="ok" aria-label="Подтвердить">${ic('check',20,2.2)}</button>`:live?`<button class="go3" data-act="aSt" data-id="${nx.id}" data-v="done" aria-label="Пришла">${ic('check',20,2.2)}</button>`:`<a class="go3" href="tel:${c.phone.replace(/[^\d+]/g,'')}" aria-label="Позвонить">${ic('phone',19,2)}</a>`}</div></div>`}
   else{hero=`<div class="nv3">
      <div class="row between"><span class="ey3">Сегодня</span><span class="cdp soft">${td.length?td.length+' '+plural(td.length,'запись','записи','записей'):'без записей'}</span></div>
-     <div><div class="nvt" style="font-size:22px">${pd(TODAY).getDay()===0?'Выходной':td.length?'На сегодня всё':'Свободный день'}</div><div class="nvs" style="margin-top:4px">${g.length?'Есть свободные окна, можно предложить клиентам':'Новых записей на сегодня нет'}</div></div>
+     <div><div class="nvt" style="font-size:22px">${isOff(pd(TODAY))?'Выходной':td.length?'На сегодня всё':'Свободный день'}</div><div class="nvs" style="margin-top:4px">${g.length?'Есть свободные окна, можно предложить клиентам':'Новых записей на сегодня нет'}</div></div>
      <div class="row between"><span class="gch">${rub(tdSum)} за день</span><button class="go3" data-act="${g.length?'msgTab':'av'}" data-v="${g.length?'due':'sch'}" aria-label="Дальше">${ic('arrow',20,2)}</button></div></div>`}
   /* лента дня */
   const row=a=>{const c=C(a.cid);const st=tm(a.time),en=st+a.dur;const past=en<=nm,live=st<=nm&&nm<en;
@@ -1428,12 +1440,12 @@ function aCalendar(){
 function calDay(){
   const d=U.ad||TODAY;const start=add(T,-3);const strip=[...Array(21)].map((_,i)=>iso(add(start,i)));
   const ap=S.appts.filter(a=>a.date===d&&a.status!=='cancel').sort(byDT);
-  const items=[];if(pd(d).getDay()!==0){
+  const items=[];if(!isOff(pd(d))){
     const g=gaps(d);ap.forEach(a=>items.push({t:tm(a.time),a}));g.forEach(([x,y])=>items.push({t:x,g:[x,y]}));items.sort((p,q)=>p.t-q.t);}
   const sum=ap.filter(a=>a.status!=='noshow').reduce((s,a)=>s+a.sum,0);
-  return `<div class="dstrip" style="margin:16px 0 12px">${strip.map(s=>{const x=pd(s);const n=S.appts.filter(a=>a.date===s&&['ok','new','done'].includes(a.status)).length;return `<button class="db ${s===d?'on':''} ${s===TODAY?'td':''}" data-act="ad" data-v="${s}"><span>${WD[x.getDay()]}</span><b>${x.getDate()}</b><i>${x.getDay()===0?'вых':n||'—'}</i></button>`}).join('')}</div>
+  return `<div class="dstrip" style="margin:16px 0 12px">${strip.map(s=>{const x=pd(s);const n=S.appts.filter(a=>a.date===s&&['ok','new','done'].includes(a.status)).length;return `<button class="db ${s===d?'on':''} ${s===TODAY?'td':''}" data-act="ad" data-v="${s}"><span>${WD[x.getDay()]}</span><b>${x.getDate()}</b><i>${isOff(x)?'вых':n||'—'}</i></button>`}).join('')}</div>
   <div class="row between" style="margin-bottom:10px"><div class="h2">${fdl(d)[0].toUpperCase()+fdl(d).slice(1)}</div><span class="sm mut">${ap.length} ${plural(ap.length,'запись','записи','записей')}${sum?' · '+rub(sum):''}</span></div>
-  ${pd(d).getDay()===0?'<div class="card mut" style="text-align:center">Воскресенье — выходной</div>':`<div class="col" style="gap:10px">${items.map(it=>{
+  ${isOff(pd(d))?'<div class="card mut" style="text-align:center">Выходной</div>':`<div class="col" style="gap:10px">${items.map(it=>{
     if(it.g){const[x,y]=it.g;return `<button class="gap" data-act="newAppt" data-date="${d}" data-time="${mt(x)}"><span class="tm">${mt(x)}</span><span class="grow">Свободно до ${mt(y)} · ${Math.floor((y-x)/60)?Math.floor((y-x)/60)+' ч ':''}${(y-x)%60?(y-x)%60+' мин':''}</span>${ic('plus',18)}</button>`}
     const a=it.a,c=C(a.cid);return `<div class="tday ${a.status}" style="background:#fff;border-radius:18px;box-shadow:var(--sh);padding:14px"><div class="tm">${a.time}<div class="xs mut" style="font-weight:600">${mt(tm(a.time)+a.dur)}</div></div><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer"><div class="b">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)} · ${a.session===1?'первый визит':'сеанс '+a.session+'/'+c.course.total} · ${rub(a.sum)}</div><div style="margin-top:6px">${stChip(a)}</div></div><div class="col" style="gap:6px;align-items:flex-end">${apBtns(a,1)}</div></div>`}).join('')}</div>`}`;
 }
@@ -1511,7 +1523,7 @@ function naRender(){
   ${c?`<div class="flat row"><span class="ava" style="width:40px;height:40px;font-size:14px">${ini(c.name)}</span><div class="grow"><div class="b">${esc(c.name)}</div><div class="xs mut">курс ${c.course.done}/${c.course.total}</div></div><button class="btn sm" data-act="naPick" data-id="">Сменить</button></div>`
    :`<label class="search">${ic('search',18)}<input placeholder="Начните вводить имя" data-nq="1" value="${esc(n.q)}"></label><div id="naRes" class="col" style="gap:6px;margin-top:8px">${naRes()}</div>`}
   ${c?`<div class="xs mut" style="margin:16px 0 6px">Зоны</div><div class="row wrap" style="gap:6px">${S.zones.map(z=>`<button class="chip ${n.zones.includes(z.id)?'on':''}" data-act="naZone" data-id="${z.id}">${z.sh||z.name}</button>`).join('')}</div>
-  <div class="xs mut" style="margin:16px 0 6px">День</div><div class="dstrip">${strip.map(s=>{const x=pd(s);const k=n.zones.length?slotsFor(s,dur).length:0;return `<button class="db ${s===n.date?'on':''} ${k?'':'off'}" data-act="naDate" data-v="${s}"><span>${WD[x.getDay()]}</span><b>${x.getDate()}</b><i>${x.getDay()===0?'вых':k?k+' окон':'нет'}</i></button>`}).join('')}</div>
+  <div class="xs mut" style="margin:16px 0 6px">День</div><div class="dstrip">${strip.map(s=>{const x=pd(s);const k=n.zones.length?slotsFor(s,dur).length:0;return `<button class="db ${s===n.date?'on':''} ${k?'':'off'}" data-act="naDate" data-v="${s}"><span>${WD[x.getDay()]}</span><b>${x.getDate()}</b><i>${isOff(x)?'вых':k?k+' окон':'нет'}</i></button>`}).join('')}</div>
   <div class="xs mut" style="margin:16px 0 6px">Время</div>${sl.length?`<div class="slots">${sl.map(t=>`<button class="slot ${n.time===t?'on':''}" data-act="naTime" data-v="${t}">${t}</button>`).join('')}</div>`:'<div class="sm mut">В этот день окон нет</div>'}
   <div class="row between" style="margin-top:18px"><div><div class="xs mut">${n.time?fdw(n.date)+', '+n.time+' · '+dur+' мин':'Выберите время'}</div><div class="h2">${rub(price)}</div></div><button class="btn dk" data-act="naSave" ${n.time&&n.zones.length?'':'disabled'}>Записать</button></div>`:''}`;
   const m=document.querySelector('.ov-m .modal');if(m){const st=m.scrollTop;m.innerHTML=h;m.scrollTop=st}else modal(h);
@@ -1584,7 +1596,7 @@ const A={
   openZ:d=>{U.zone=d.id;go('service')},
   fav:()=>toast('Добавлено в избранное'),
   bookZone:d=>startBook([d.id]),
-  bookCourse:()=>{const c=C(U.cid);if(!c.course.total){A.tab({v:'services'});return}if(upc(c.id).length){U.vt='act';A.tab({v:'visits'});return}startBook(c.course.zones)},
+  bookCourse:()=>{const c=C(U.cid);if(!c.course.zones.length){A.tab({v:'services'});return}if(upc(c.id).length){U.vt='act';A.tab({v:'visits'});return}startBook(c.course.zones)},
   vt:d=>{if(U.vt===d.v)return;hap();const sg=document.querySelector('.segc');if(sg)sg.dataset.i=d.v==='act'?0:1;setTimeout(()=>{U.vt=d.v;render()},200)},
   help:()=>modal(`<div class="row between"><div class="h2">Помощь и контакты</div><button class="ib" data-act="closeM">✕</button></div><div class="irow">${ic('map',18)} Адрес студии · уточнить у Тани</div><div class="irow">${ic('clock',18)} Пн–сб, ${S.settings.open}:00–${S.settings.close}:00</div><div class="irow">${ic('msg',18)} Написать Тане · мессенджер уточнить</div><div class="sm mut" style="margin-top:8px">Здесь же будет памятка «как подготовиться к сеансу», её напишет Таня.</div>`),
   cResched:d=>{const a=S.appts.find(x=>x.id===d.id);startBook(a.zones,a.id,a.bonusUsed)},
@@ -1597,7 +1609,7 @@ const A={
   bkBonus:()=>{U.bk.bonus=!U.bk.bonus;render()},
   bkDone:()=>{const b=U.bk,c=C(U.cid);const price=zsum(b.zones,'price'),dur=zsum(b.zones,'dur');const max=Math.min(c.bonus,Math.floor(price*S.settings.maxShare/100));
     if(b.resched){const a=S.appts.find(x=>x.id===b.resched);Object.assign(a,{date:b.date,time:b.time,status:'new',zones:b.zones,dur,sum:price,bonusUsed:b.bonus?max:0});b.done=a.id;putAppt(a)}
-    else{if(!c.course.total)c.course={zones:[...b.zones],total:8,done:0,price:Math.round(price*8*(1-S.settings.courseDisc/100)/100)*100};const a={id:newId(),cid:c.id,date:b.date,time:b.time,zones:[...b.zones],dur,sum:price,status:'new',bonusUsed:b.bonus?max:0,session:Math.min(c.course.done+1,c.course.total)};S.appts.push(a);putAppt(a);b.done=a.id;
+    else{if(!c.course.total&&b.zones.some(z=>Z(z).m==='laser'))c.course={zones:[...b.zones],total:8,done:0,price:Math.round(price*8*(1-S.settings.courseDisc/100)/100)*100};const a={id:newId(),cid:c.id,date:b.date,time:b.time,zones:[...b.zones],dur,sum:price,status:'new',bonusUsed:b.bonus?max:0,session:Math.min(c.course.done+1,c.course.total)};S.appts.push(a);putAppt(a);b.done=a.id;
       const o=S.outreach.filter(o=>o.cid===c.id&&!o.booked).pop();if(o)o.booked=true}
     save();U.hist=[];U.cs='done';scrollTo(0,0);render()},
   copyTxt:d=>copy(d.t),
