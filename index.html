@@ -784,7 +784,7 @@ html{background:var(--cream)!important}
 .gp3{display:flex;flex-wrap:wrap;gap:8px;padding:12px 0 8px;border-top:1px solid var(--line)}
 .main .sech .h2{font-size:19px}
 .rq3 .xs,.tl3 .xs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.adm.ov .fab{display:none!important}
+.adm.ovp .fab{display:none!important}
 
 /* клубная карта: премиальный розовый, объём (21.11) */
 .cardw{perspective:1400px;padding:6px 2px 18px}
@@ -812,6 +812,28 @@ html{background:var(--cream)!important}
 .club3d .stripe{background:linear-gradient(180deg,#7A1E45,#5E1535)!important;margin-top:24px}
 .club3d .bars{background:rgba(255,255,255,.95)}
 .club3d .bars i{background:#2B1C1E}
+
+/* обзор на ноутбуке: всё главное на одном экране (21.11) */
+.ov .g2e{display:none}
+@media (max-width:1099px){.ov-hero{margin-top:20px}}/* источники клиентов не записаны в тетради, в демо они выдуманы — не показываем */
+@media (min-width:1100px){
+ .ov{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr);gap:20px 22px;align-items:start;
+  grid-template-areas:"hd hd qa" "hero hero month" "tiles tiles tiles" "today req up" "chart chart zones"}
+ .ov .sech{margin:0 2px 12px!important}
+ .ov-hd{grid-area:hd}.ov-hero{grid-area:hero}.ov-month{grid-area:month}.ov-qa{grid-area:qa}.ov-tiles{grid-area:tiles}
+ .ov-today{grid-area:today}.ov-req{grid-area:req}.ov-up{grid-area:up}
+ .ov .g2{display:contents}
+ .ov .g2>.card:first-child{grid-area:chart}.ov .g2>.card:nth-child(2){grid-area:zones}.ov .g2e>.card{grid-area:src}
+ .ov .nv3{margin:0!important;min-height:100%}
+ .ov-hero,.ov-month{align-self:stretch}.ov-month{display:flex;flex-direction:column}.ov-month .vc3{flex:1;justify-content:center}
+ .ov .qa4{margin:0;grid-template-columns:repeat(4,1fr);gap:8px}
+ .ov .qa4 button{font-size:11.5px;gap:5px}.ov .qa4 span{width:46px;height:46px;border-radius:15px}
+ .ov-qa{align-self:end}
+ .ov .tiles.tl4{margin:0!important;gap:14px;grid-template-columns:repeat(4,minmax(0,1fr))}
+ .ov .tl4 .tile{min-height:0;padding:14px 16px}.ov .tl4 .tic{width:32px;height:32px;margin-bottom:6px}.ov .tl4 .v{font-size:20px;margin-top:4px}
+ .ov-today .vc3,.ov-req .vc3,.ov-up .vc3{max-height:420px;overflow:auto}
+ .ov .card{margin:0!important}
+}
 </style>
 </head>
 <body>
@@ -1431,31 +1453,31 @@ function aOverview(){
       :a.status==='done'?`<span class="st3d ok">пришла</span>`:a.status==='noshow'?`<span class="st3d">не пришла</span>`:a.status==='new'?`<span class="st3d nw">заявка</span>`:'';
     return `<div class="tl3 ${mark}"><div class="tt3"><b>${a.time}</b><span>${mt(en)}</span></div><i class="dot3"></i><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer;min-width:0"><div class="b nm3s">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)}</div></div><div class="row" style="gap:6px">${act}</div></div>`};
   const pp=Math.min(100,Math.round(ms.sum/plan*100));
-  return `
-  <div class="row between" style="align-items:flex-start"><div><div class="xs mut" style="font-size:13px">${cap(WDL[T.getDay()])}, ${fd(TODAY)}</div><div class="atitle">${hello()}, Таня</div></div><button class="sq3" data-act="mode" data-v="client" aria-label="Как видит клиент">${ic('user',20)}</button></div>
-  ${hero}
-  <div class="qa4">
+  return `<div class="ov">
+<div class="ov-hd">  <div class="row between" style="align-items:flex-start"><div><div class="xs mut" style="font-size:13px">${cap(WDL[T.getDay()])}, ${fd(TODAY)}</div><div class="atitle">${hello()}, Таня</div></div><button class="sq3" data-act="mode" data-v="client" aria-label="Как видит клиент">${ic('user',20)}</button></div></div>
+<div class="ov-hero">${hero}</div>
+<div class="ov-qa">  <div class="qa4">
    <button data-act="newAppt"><span class="q0">${ic('plus',22,2)}</span>Запись</button>
    <button data-act="av" data-v="sch"><span class="q1">${ic('cal',21)}</span>Календарь</button>
    <button data-act="av" data-v="msg"><span class="q2">${ic('msg',21)}${lcount(L)?`<i class="tbd">${lcount(L)}</i>`:''}</span>Написать</button>
    <button data-act="av" data-v="cl"><span class="q3">${ic('users',21)}</span>Клиенты</button>
-  </div>
-  ${req.length?`<div class="sech"><div class="h2">Заявки <span class="cntp">${req.length}</span></div></div>
-  <div class="vc3" style="gap:0;padding:6px 16px">${req.slice(0,4).map(a=>{const c=C(a.cid);return `<div class="rq3"><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer;min-width:0"><div class="b nm3s">${esc(c.name)}</div><div class="xs mut">${cap(fdw(a.date))}, ${a.time} · ${zn(a.zones)}</div></div><button class="rb3" data-act="aSt" data-id="${a.id}" data-v="cancel" aria-label="Отклонить">${ic('plus',17,2)}</button><button class="rb3 ok" data-act="aSt" data-id="${a.id}" data-v="ok" aria-label="Подтвердить">${ic('check',17,2.2)}</button></div>`}).join('')}${req.length>4?`<button class="link" style="padding:12px 0" data-act="av" data-v="sch">Ещё ${req.length-4} ${ic('right',14)}</button>`:''}</div>`:''}
-  <div class="sech"><div class="h2">Сегодня</div><span class="sm mut b">${rub(tdSum)}</span></div>
+  </div></div>
+<div class="ov-req">  ${req.length?`<div class="sech"><div class="h2">Заявки <span class="cntp">${req.length}</span></div></div>
+  <div class="vc3" style="gap:0;padding:6px 16px">${req.slice(0,4).map(a=>{const c=C(a.cid);return `<div class="rq3"><div class="grow" data-act="apptM" data-id="${a.id}" style="cursor:pointer;min-width:0"><div class="b nm3s">${esc(c.name)}</div><div class="xs mut">${cap(fdw(a.date))}, ${a.time} · ${zn(a.zones)}</div></div><button class="rb3" data-act="aSt" data-id="${a.id}" data-v="cancel" aria-label="Отклонить">${ic('plus',17,2)}</button><button class="rb3 ok" data-act="aSt" data-id="${a.id}" data-v="ok" aria-label="Подтвердить">${ic('check',17,2.2)}</button></div>`}).join('')}${req.length>4?`<button class="link" style="padding:12px 0" data-act="av" data-v="sch">Ещё ${req.length-4} ${ic('right',14)}</button>`:''}</div>`:`<div class="sech"><div class="h2">Заявки</div></div><div class="vc3 mut sm">Новых заявок нет</div>`}</div>
+<div class="ov-today">  <div class="sech"><div class="h2">Сегодня</div><span class="sm mut b">${rub(tdSum)}</span></div>
   <div class="vc3" style="gap:0;padding:8px 16px">${td.map(row).join('')||'<div class="mut sm" style="padding:12px 0">Записей нет</div>'}
-   ${g.length?`<div class="gp3">${g.map(([a,b])=>`<button class="chip bl" data-act="newAppt" data-date="${TODAY}" data-time="${mt(Math.max(a,Math.ceil(nm/30)*30))}">окно ${mt(Math.max(a,Math.ceil(nm/30)*30))}–${mt(b)}</button>`).join('')}<button class="chip" data-act="msgTab" data-v="due">${ic('msg',13)} Кому предложить</button></div>`:''}</div>
-  <div class="sech"><div class="h2">Ближайшие дни</div><button class="link" data-act="av" data-v="sch">Календарь</button></div>
-  <div class="vc3" style="gap:0;padding:8px 16px">${up.map(a=>{const c=C(a.cid);return `<div class="tl3 ${a.status==='new'?'nw':''}" data-act="apptM" data-id="${a.id}" style="cursor:pointer"><div class="tt3"><b>${a.time}</b><span>${fdw(a.date).replace(/,.*/,'')}</span></div><i class="dot3"></i><div class="grow" style="min-width:0"><div class="b nm3s">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)}</div></div>${a.status==='new'?'<span class="st3d nw">заявка</span>':''}</div>`}).join('')||'<div class="mut sm" style="padding:12px 0">Пока пусто</div>'}</div>
-  <div class="sech"><div class="h2">Месяц</div><span class="sm mut">${MONN[now.getMonth()]}</span></div>
+   ${g.length?`<div class="gp3">${g.map(([a,b])=>`<button class="chip bl" data-act="newAppt" data-date="${TODAY}" data-time="${mt(Math.max(a,Math.ceil(nm/30)*30))}">окно ${mt(Math.max(a,Math.ceil(nm/30)*30))}–${mt(b)}</button>`).join('')}<button class="chip" data-act="msgTab" data-v="due">${ic('msg',13)} Кому предложить</button></div>`:''}</div></div>
+<div class="ov-up">  <div class="sech"><div class="h2">Ближайшие дни</div><button class="link" data-act="av" data-v="sch">Календарь</button></div>
+  <div class="vc3" style="gap:0;padding:8px 16px">${up.map(a=>{const c=C(a.cid);return `<div class="tl3 ${a.status==='new'?'nw':''}" data-act="apptM" data-id="${a.id}" style="cursor:pointer"><div class="tt3"><b>${a.time}</b><span>${fdw(a.date).replace(/,.*/,'')}</span></div><i class="dot3"></i><div class="grow" style="min-width:0"><div class="b nm3s">${esc(c.name)}</div><div class="xs mut">${zn(a.zones)}</div></div>${a.status==='new'?'<span class="st3d nw">заявка</span>':''}</div>`}).join('')||'<div class="mut sm" style="padding:12px 0">Пока пусто</div>'}</div></div>
+<div class="ov-month">  <div class="sech"><div class="h2">Месяц</div><span class="sm mut">${MONN[now.getMonth()]}</span></div>
   <div class="vc3"><div class="row between" style="align-items:flex-end"><div><div class="xs mut">Выручка</div><div style="font-size:28px;font-weight:800;letter-spacing:-.02em">${rub(ms.sum)}</div></div><div style="text-align:right"><div class="xs mut">План</div><div class="b">${rub(plan)}</div></div></div>
-   <div class="bar3" style="height:10px"><i style="width:${pp}%"></i></div><div class="row between xs"><span class="mut">${pp}% плана</span><span class="${fc>=plan?'okt':'mut'}">прогноз ${rub(Math.round(fc/1000)*1000)}</span></div></div>
-  <div class="tiles tl4">${tiles.map(([v,l,go,i])=>`<button class="tile" ${go?`data-act="av" data-v="${go}"`:''}><span class="tic">${ic(i,18,1.9)}</span><div class="v">${v}</div><div class="l">${l}</div></button>`).join('')}</div>
+   <div class="bar3" style="height:10px"><i style="width:${pp}%"></i></div><div class="row between xs"><span class="mut">${pp}% плана</span><span class="${fc>=plan?'okt':'mut'}">прогноз ${rub(Math.round(fc/1000)*1000)}</span></div></div></div>
+<div class="ov-tiles">  <div class="tiles tl4">${tiles.map(([v,l,go,i])=>`<button class="tile" ${go?`data-act="av" data-v="${go}"`:''}><span class="tic">${ic(i,18,1.9)}</span><div class="v">${v}</div><div class="l">${l}</div></button>`).join('')}</div></div>
   <div class="g2"><div class="card">${lineChart()}</div>
    <div class="card"><div class="h2">Выручка по зонам</div>
     <div class="row wrap" style="margin-top:12px;gap:18px">${donut(zparts,ztot,num(Math.round(ztot/1000))+'k')}<div class="col grow" style="gap:8px;min-width:150px">${zparts.map(p=>`<div class="row sm" style="gap:8px"><i style="width:10px;height:10px;border-radius:50%;background:${p.c};flex:none"></i><span class="grow">${p.n}</span><b>${ztot?Math.round(p.v/ztot*100):0}%</b></div>`).join('')}</div></div></div></div>
   <div class="g2e"><div class="card"><div class="h2">Откуда клиенты</div>
-    <div class="col" style="margin-top:14px;gap:12px">${sl.map(([k,v])=>`<div><div class="row between sm"><span>${k}</span><b>${v}</b></div><div class="bar3" style="height:8px;margin-top:5px"><i style="width:${v/smax*100}%"></i></div></div>`).join('')}</div></div></div>`;
+    <div class="col" style="margin-top:14px;gap:12px">${sl.map(([k,v])=>`<div><div class="row between sm"><span>${k}</span><b>${v}</b></div><div class="bar3" style="height:8px;margin-top:5px"><i style="width:${v/smax*100}%"></i></div></div>`).join('')}</div></div></div></div>`;
 }
 function aCalendar(){
   if(!U.cv)U.cv=innerWidth<900?'day':'week';
@@ -1578,7 +1600,7 @@ function renderAdmin(){
   const L=lists();const req=S.appts.filter(a=>a.status==='new'&&a.date>=TODAY).length;
   const nav=[['ov','home','Обзор','Обзор'],['sch','cal','Календарь','Календарь'],['cl','users','Клиенты','Клиенты'],['msg','msg','Кому написать','Написать'],['srv','lotus','Услуги','Услуги'],['bon','gift','Бонусы','Бонусы']];
   const body={sch:aCalendar,cl:aClients,msg:aMsg,srv:aServices,bon:aBonus}[U.av]||aOverview;
-  return `<div class="adm ${U.av==='ov'||!U.av?'ov':''}"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Epil Studio</b></div>
+  return `<div class="adm ${U.av==='ov'||!U.av?'ovp':''}"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Epil Studio</b></div>
    ${nav.map(([k,i,t,sh])=>`<button class="nav ${U.av===k?'on':''}" data-act="av" data-v="${k}">${ic(i,U.av===k?21:20,U.av===k?2:1.7)}<span class="hide-m">${t}</span><span class="show-m">${sh}</span>${k==='msg'&&lcount(L)?`<span class="cnt">${lcount(L)}</span>`:''}${k==='sch'&&req?`<span class="cnt">${req}</span>`:''}</button>`).join('')}
    <div class="side-foot"><button class="nav" data-act="mode" data-v="client">${ic('user',20)}<span>Вид клиента</span></button><button class="nav" data-act="logout">${ic('left',20)}<span>Выйти</span></button></div>
   </aside><main class="main">${body()}<button class="fab" data-act="newAppt" aria-label="Новая запись">${ic('plus',26,2)}</button></main></div>`;
