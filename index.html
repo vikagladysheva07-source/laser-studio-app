@@ -785,6 +785,33 @@ html{background:var(--cream)!important}
 .main .sech .h2{font-size:19px}
 .rq3 .xs,.tl3 .xs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .adm.ov .fab{display:none!important}
+
+/* клубная карта: премиальный розовый, объём (21.11) */
+.cardw{perspective:1400px;padding:6px 2px 18px}
+.club3d .face{color:#fff!important;border-radius:24px!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.club3d .face.front,.club3d .face.back{background:
+  radial-gradient(130% 90% at 12% -10%,rgba(255,255,255,.42),transparent 44%),
+  radial-gradient(90% 80% at 105% 110%,rgba(120,15,55,.45),transparent 62%),
+  repeating-linear-gradient(118deg,rgba(255,255,255,.055) 0 1.5px,transparent 1.5px 8px),
+  repeating-radial-gradient(circle at 85% 20%,rgba(255,255,255,.07) 0 1px,transparent 1px 11px),
+  linear-gradient(135deg,#FF9EC4 0%,#F0679F 32%,#D93D7C 64%,#A8285C 100%)!important;
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.75),inset 0 0 0 1px rgba(255,255,255,.28),inset 0 -3px 8px rgba(90,10,40,.35),
+   0 1px 0 #B53A6C,0 2px 0 #A8325F,0 3px 0 #9A2B56,0 4px 0 #8C254E,
+   0 34px 50px -20px rgba(150,30,80,.7),0 14px 28px -14px rgba(150,30,80,.5)!important}
+.club3d .face.front:before,.club3d .face.back:before{display:block!important;content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.45) 46%,rgba(255,240,248,.18) 52%,transparent 66%)!important;background-size:260% 100%!important;animation:sheen 5.5s ease-in-out infinite}
+.club3d .face:after{background:radial-gradient(120% 80% at var(--mx,20%) var(--my,0%),rgba(255,255,255,.55),transparent 55%)!important;opacity:.5!important}
+.club3d .rg{background:linear-gradient(100deg,#FFFFFF 0%,#FFE1EE 38%,#FFFFFF 58%,#FFD3E5 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;text-shadow:none!important;filter:drop-shadow(0 1px 0 rgba(120,20,60,.45))}
+.cl-emb{text-shadow:0 1px 0 rgba(255,255,255,.28),0 -1px 1px rgba(110,15,50,.45);color:#fff}
+.cl-ic{color:#fff;filter:drop-shadow(0 1px 1px rgba(110,15,50,.45))}
+.cl-sub{font-size:9px;letter-spacing:.34em;color:rgba(255,255,255,.8);margin-top:2px;font-weight:700}
+.cl-lab{font-size:11px;color:rgba(255,255,255,.82);letter-spacing:.08em}
+.cl-num{font-size:42px;font-weight:800;letter-spacing:-.02em;line-height:1.05;color:#fff;text-shadow:0 2px 0 rgba(150,30,80,.35),0 -1px 0 rgba(255,255,255,.35)}
+.club3d .tierb{color:#fff!important;background:rgba(255,255,255,.18)!important;border:1px solid rgba(255,255,255,.55)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.club3d .chipc{background:linear-gradient(135deg,#FFF1E6,#F2C9A8 40%,#FFE7D2 62%,#D9A07E)!important;box-shadow:inset 0 0 0 1px rgba(120,60,30,.25),0 2px 4px rgba(90,20,40,.35)}
+.club3d .stripe{background:linear-gradient(180deg,#7A1E45,#5E1535)!important;margin-top:24px}
+.club3d .bars{background:rgba(255,255,255,.95)}
+.club3d .bars i{background:#2B1C1E}
 </style>
 </head>
 <body>
@@ -1268,14 +1295,14 @@ function cBonus(c){
   const ways=[['spark',S.settings.bonusPct+'%','с каждого визита'],['gift','до '+S.settings.maxShare+'%','визита бонусами'],['heart','+'+S.settings.friend,'за подругу'],['star','+'+S.settings.review,'за отзыв']];
   return `<div class="h1 pt3">Бонусы</div>
   <div class="cardw"><div class="club3d tilt" data-act="flip">
-   <div class="face">
-    <div class="row between"><div class="row" style="gap:8px"><span style="color:#C2577F">${ic('lotus',28,1.4)}</span><div><div class="rg" style="font-weight:800;font-size:16px;letter-spacing:.02em">Студия Тани</div><div style="font-size:9px;letter-spacing:.32em;color:#B0577E;margin-top:1px">PRIVATE CLUB</div></div></div><span class="tierb">${t.n.toUpperCase()}</span></div>
-    <div class="row between" style="align-items:flex-end"><div><div style="font-size:11px;color:#8C8186;letter-spacing:.06em">Бонусы на счёте</div><div class="rg" style="font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.05"><span data-count="${c.bonus}">${num(c.bonus)}</span></div></div><div class="col" style="gap:8px;align-items:flex-end"><div class="chipc"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B98A80" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 3a13 13 0 0 1 0 18"/></svg></div></div>
-    <div class="row between"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3E3038">${esc(c.name)}</div><div style="font-size:12px;letter-spacing:.18em;color:#9E5B52">${c.code}</div></div>
+   <div class="face front">
+    <div class="row between"><div class="row" style="gap:9px"><span class="cl-ic">${ic('lotus',28,1.5)}</span><div><div class="rg cl-emb" style="font-weight:800;font-size:16px;letter-spacing:.02em">Студия Тани</div><div class="cl-sub">PRIVATE CLUB</div></div></div><span class="tierb">${t.n.toUpperCase()}</span></div>
+    <div class="row between" style="align-items:flex-end"><div><div class="cl-lab">Бонусы на счёте</div><div class="rg cl-num"><span data-count="${c.bonus}">${num(c.bonus)}</span></div></div><div class="col" style="gap:8px;align-items:flex-end"><div class="chipc"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 3a13 13 0 0 1 0 18"/></svg></div></div>
+    <div class="row between"><div class="cl-emb" style="font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700">${esc(c.name)}</div><div class="cl-emb" style="font-size:12.5px;letter-spacing:.2em;font-weight:700">${c.code}</div></div>
    </div>
    <div class="face back">
     <div class="stripe"></div>
-    <div style="padding:16px 22px" class="col"><div class="bars">${barcode(c.code)}</div><div class="row between"><div class="xs" style="color:#8C8186">Покажите карту при оплате</div><div class="rg b" style="letter-spacing:.18em">${c.code}</div></div></div>
+    <div style="padding:16px 22px" class="col"><div class="bars">${barcode(c.code)}</div><div class="row between"><div class="xs" style="color:rgba(255,255,255,.85)">Покажите карту при оплате</div><div class="rg b cl-emb" style="letter-spacing:.18em">${c.code}</div></div></div>
    </div>
   </div></div>
   ${t.next?`<div class="vc3" style="margin-top:22px;gap:12px"><div class="row between"><div class="b">До ${t.next}</div><span class="sm mut">${t.left} ${plural(t.left,'визит','визита','визитов')}</span></div><div class="bar3" style="height:8px"><i style="width:${t.p}%"></i></div></div>`:''}
