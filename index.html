@@ -850,6 +850,40 @@ html{background:var(--cream)!important}
  .ov .card{padding:22px 24px!important}
  .ov .sech{margin:0 4px 14px!important}
 }
+
+/* финансы (21.11) */
+.fin-hd{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px}
+.fmon{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.8);border-radius:16px;padding:6px;box-shadow:var(--gl-sh)}
+.fmon b{min-width:118px;text-align:center;font-size:14px}.fmon .ib{width:36px;height:36px;border:0!important;box-shadow:none!important}
+.fin-top{display:flex;flex-direction:column;gap:14px}
+.fin-hero{gap:14px}
+.fin-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fbtn{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:18px;border-radius:24px;background:rgba(255,255,255,.88);box-shadow:var(--gl-sh)}
+.fbtn span{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;margin-bottom:8px}
+.fbtn.inc span{background:#E3F5EC;color:#2E9E6B}.fbtn.exp span{background:var(--tA);color:var(--p3)}
+.fbtn b{font-size:17px}.fbtn i{font-style:normal;font-size:12px;color:var(--mut);line-height:1.35}
+.fin-grid{display:flex;flex-direction:column;gap:16px;margin-top:16px}
+.fin-grid .vc3{gap:14px}
+.frow{display:flex;align-items:center;gap:14px;padding:4px 0}
+.fic{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:var(--tA);color:var(--p3);flex:none}
+.fic.sm{width:28px;height:28px;border-radius:10px}.fic.inc{background:#E3F5EC;color:#2E9E6B}
+.fin-ops .rb3{width:32px;height:32px}
+.fbars{display:flex;align-items:flex-end;gap:10px;height:150px;padding-top:6px}
+.fbars>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%}
+.fbars span{font-size:11.5px;color:var(--mut)}.fbars .on span{color:var(--ink);font-weight:800}
+.fpair{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:4px}
+.fpair i{width:40%;max-width:16px;border-radius:6px 6px 3px 3px;min-height:3px}
+.fpair i.inc{background:#C9E5D4}.fpair i.exp{background:var(--tA)}
+.fbars .on .fpair i.inc{background:#2E9E6B}.fbars .on .fpair i.exp{background:var(--p3)}
+.fin-ch .lg{width:10px!important;height:10px!important;max-height:10px!important;align-self:center!important;border-radius:3px;display:inline-block;flex:none;padding:0!important;margin:0!important}.lg.inc{background:#2E9E6B}.lg.exp{background:var(--p3)}
+.chip.on{background:var(--p3)!important;color:#fff!important}
+@media (min-width:1100px){
+ .fin-top{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:22px}
+ .fin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:22px}
+ .fin-ch{grid-column:1}.fin-ops{grid-column:2;grid-row:2}
+ .fbtn{justify-content:center;padding:22px 24px}
+}
+@media (max-width:900px){.nav{width:42px!important}.nav.on{width:54px!important}}
 </style>
 </head>
 <body>
@@ -916,6 +950,7 @@ const I={
  sliders:'<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>',
  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
  drop:'<path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/>',
+ wallet:'<rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2"/><path d="M6 6l9-3 2 3"/>',
  gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>'
 };
 const ic=(n,s=20,w=1.7)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
@@ -1612,11 +1647,59 @@ function aBonus(){
    ${[['bonusPct','Возврат бонусами, % визита'],['maxShare','Можно списать, % визита'],['friend','За подругу, каждой'],['review','За отзыв на картах'],['plan','План выручки на месяц, ₽']].map(([k,t])=>`<label class="sm grow" style="min-width:190px">${t}<input class="in" type="number" value="${S.settings[k]}" data-set="${k}"></label>`).join('')}</div>
    <div class="xs mut">Бонусы — это скидка. Закладывайте её в цену курса.</div></div>`;
 }
+/* ================= ФИНАНСЫ ТАНИ: доходы и расходы ================= */
+const FIN_INC=[['Обучение','users'],['Продажа ухода','drop'],['Подарочный сертификат','gift'],['Другое','more']];
+const FIN_EXP=[['Аренда','home'],['Расходники','drop'],['Аппарат и сервис','gear'],['Реклама','spark'],['Налоги','info'],['Связь и сервисы','phone'],['Обучение','users'],['Другое','more']];
+const finIcon=(cat,inc)=>((inc?FIN_INC:FIN_EXP).find(x=>x[0]===cat)||[0,'more'])[1];
+function finEnsure(){if(!S.fin)S.fin={inc:[{id:'f1',date:'2026-04-15',cat:'Обучение',sum:6000,note:'из тетради'}],exp:[]};}
+function finMonth(y,m){finEnsure();const inM=d=>{const x=pd(d);return x.getFullYear()===y&&x.getMonth()===m};
+  const svc=monthStats(y,m).sum;const other=S.fin.inc.filter(x=>inM(x.date)).reduce((s,x)=>s+x.sum,0);
+  const exp=S.fin.exp.filter(x=>inM(x.date));const out=exp.reduce((s,x)=>s+x.sum,0);
+  return{svc,other,inc:svc+other,out,profit:svc+other-out,exp}}
+function aFinance(){
+  finEnsure();const now=new Date();const y=U.fy??now.getFullYear(),m=U.fm??now.getMonth();const f=finMonth(y,m);
+  const cats={};f.exp.forEach(x=>cats[x.cat]=(cats[x.cat]||0)+x.sum);const cl=Object.entries(cats).sort((a,b)=>b[1]-a[1]);const cmax=Math.max(1,...cl.map(x=>x[1]));
+  const months=[];for(let k=5;k>=0;k--){const d=new Date(y,m-k,1);const r=finMonth(d.getFullYear(),d.getMonth());months.push({l:MONN[d.getMonth()].slice(0,3).toLowerCase(),i:r.inc,o:r.out,on:k===0})}
+  const mx=Math.max(1,...months.map(x=>Math.max(x.i,x.o)));
+  const ops=[...S.fin.inc.map(x=>({...x,k:'inc'})),...S.fin.exp.map(x=>({...x,k:'exp'}))].filter(x=>{const d=pd(x.date);return d.getFullYear()===y&&d.getMonth()===m}).sort((a,b)=>b.date.localeCompare(a.date));
+  const margin=f.inc?Math.round(f.profit/f.inc*100):0;
+  return `<div class="fin">
+  <div class="fin-hd"><div><div class="xs mut" style="font-size:13px">Доходы и расходы</div><div class="atitle">Финансы</div></div>
+   <div class="fmon"><button class="ib" data-act="finM" data-v="-1" aria-label="Прошлый месяц">${ic('left',16)}</button><b>${MONN[m]} ${y}</b><button class="ib" data-act="finM" data-v="1" aria-label="Следующий месяц">${ic('right',16)}</button></div></div>
+  <div class="fin-top">
+   <div class="nv3 fin-hero"><div class="row between"><span class="ey3">Прибыль за месяц</span><span class="cdp soft">${margin}% от дохода</span></div>
+    <div style="font-size:40px;font-weight:800;letter-spacing:-.03em">${f.profit<0?'−':''}${rub(Math.abs(f.profit))}</div>
+    <div class="row" style="gap:10px;flex-wrap:wrap"><span class="gch">${ic('plus',14,2)} доходы ${rub(f.inc)}</span><span class="gch">${ic('swap',14)} расходы ${rub(f.out)}</span></div></div>
+   <div class="fin-btns"><button class="fbtn inc" data-act="finAdd" data-v="inc"><span>${ic('plus',22,2.2)}</span><b>Доход</b><i>обучение, уход, сертификат</i></button><button class="fbtn exp" data-act="finAdd" data-v="exp"><span>${ic('swap',21)}</span><b>Расход</b><i>аренда, расходники, реклама</i></button></div>
+  </div>
+  <div class="fin-grid">
+   <div class="vc3"><div class="row between"><div class="b">Доходы</div><span class="pr3" style="color:var(--ok)">${rub(f.inc)}</span></div>
+    <div class="frow"><span class="fic">${ic('calok',17)}</span><div class="grow"><div class="b sm">Услуги</div><div class="xs mut">из записей, считается сам</div></div><b>${rub(f.svc)}</b></div>
+    <div class="frow"><span class="fic">${ic('gift',17)}</span><div class="grow"><div class="b sm">Другие доходы</div><div class="xs mut">обучение, продажа ухода</div></div><b>${rub(f.other)}</b></div></div>
+   <div class="vc3"><div class="row between"><div class="b">Расходы по статьям</div><span class="pr3">${rub(f.out)}</span></div>
+    ${cl.length?cl.map(([c,v])=>`<div><div class="row between sm" style="margin-bottom:6px"><span class="row" style="gap:8px"><span class="fic sm">${ic(finIcon(c),15)}</span>${c}</span><b>${rub(v)}</b></div><div class="bar3" style="height:8px"><i style="width:${v/cmax*100}%"></i></div></div>`).join('')
+     :`<div class="sm mut">Расходов за месяц нет. Добавьте первый, например аренду:</div><div class="row wrap" style="gap:8px">${FIN_EXP.slice(0,4).map(([c])=>`<button class="chip" data-act="finAdd" data-v="exp" data-c="${c}">${c}</button>`).join('')}</div>`}</div>
+   <div class="vc3 fin-ch"><div class="row between"><div class="b">Полгода</div><span class="row xs mut" style="gap:12px"><span class="row" style="gap:5px"><span class="lg inc"></span>доходы</span><span class="row" style="gap:5px"><span class="lg exp"></span>расходы</span></span></div>
+    <div class="fbars">${months.map(x=>`<div class="${x.on?'on':''}"><div class="fpair"><i class="inc" style="height:${Math.round(x.i/mx*100)}%"></i><i class="exp" style="height:${Math.round(x.o/mx*100)}%"></i></div><span>${x.l}</span></div>`).join('')}</div></div>
+   <div class="vc3 fin-ops"><div class="row between"><div class="b">Операции за месяц</div><span class="xs mut">услуги не показаны, они в записях</span></div>
+    ${ops.length?ops.map(x=>`<div class="frow"><span class="fic ${x.k}">${ic(finIcon(x.cat,x.k==='inc'),16)}</span><div class="grow" style="min-width:0"><div class="b sm">${x.cat}</div><div class="xs mut">${fd(x.date)}${x.note?' · '+esc(x.note):''}</div></div><b style="color:${x.k==='inc'?'var(--ok)':'var(--ink)'}">${x.k==='inc'?'+':'−'}${rub(x.sum)}</b><button class="rb3" data-act="finDel" data-id="${x.id}" data-v="${x.k}" aria-label="Удалить">${ic('plus',15,2)}</button></div>`).join(''):'<div class="sm mut">Пока пусто</div>'}</div>
+  </div></div>`;
+}
+function finForm(k,cat){
+  const L=k==='inc'?FIN_INC:FIN_EXP;U.ff={k,cat:cat||L[0][0]};
+  modal(`<div class="row between"><div class="h2">${k==='inc'?'Новый доход':'Новый расход'}</div><button class="ib" data-act="closeM" aria-label="Закрыть">✕</button></div>
+   <div class="xs mut" style="margin:18px 0 8px">Сумма, ₽</div><input id="ffsum" class="in" inputmode="numeric" placeholder="0" style="font-size:24px;font-weight:800;min-height:56px">
+   <div class="xs mut" style="margin:18px 0 8px">Статья</div><div class="row wrap ffc" style="gap:8px">${L.map(([c,i])=>`<button class="chip ${c===U.ff.cat?'on':''}" data-act="finCat" data-v="${c}">${ic(i,14)} ${c}</button>`).join('')}</div>
+   <div class="xs mut" style="margin:18px 0 8px">Дата</div><input id="ffdate" class="in" type="date" value="${TODAY}">
+   <div class="xs mut" style="margin:18px 0 8px">Комментарий</div><input id="ffnote" class="in" placeholder="необязательно">
+   <button class="btn dk full" style="margin-top:22px" data-act="finSave">Сохранить</button>`);
+  setTimeout(()=>{const e=document.getElementById('ffsum');e&&e.focus()},50);
+}
 function renderAdmin(){
   const L=lists();const req=S.appts.filter(a=>a.status==='new'&&a.date>=TODAY).length;
-  const nav=[['ov','home','Обзор','Обзор'],['sch','cal','Календарь','Календарь'],['cl','users','Клиенты','Клиенты'],['msg','msg','Кому написать','Написать'],['srv','lotus','Услуги','Услуги'],['bon','gift','Бонусы','Бонусы']];
-  const body={sch:aCalendar,cl:aClients,msg:aMsg,srv:aServices,bon:aBonus}[U.av]||aOverview;
-  return `<div class="adm ${U.av==='ov'||!U.av?'ovp':''}"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Epil Studio</b></div>
+  const nav=[['ov','home','Обзор','Обзор'],['fin','wallet','Финансы','Финансы'],['sch','cal','Календарь','Календарь'],['cl','users','Клиенты','Клиенты'],['msg','msg','Кому написать','Написать'],['srv','lotus','Услуги','Услуги'],['bon','gift','Бонусы','Бонусы']];
+  const body={fin:aFinance,sch:aCalendar,cl:aClients,msg:aMsg,srv:aServices,bon:aBonus}[U.av]||aOverview;
+  return `<div class="adm ${U.av==='ov'||!U.av||U.av==='fin'?'ovp':''}"><aside class="side"><div class="alogo">${ic('lotus',30,1.2)}<b>Epil Studio</b></div>
    ${nav.map(([k,i,t,sh])=>`<button class="nav ${U.av===k?'on':''}" data-act="av" data-v="${k}">${ic(i,U.av===k?21:20,U.av===k?2:1.7)}<span class="hide-m">${t}</span><span class="show-m">${sh}</span>${k==='msg'&&lcount(L)?`<span class="cnt">${lcount(L)}</span>`:''}${k==='sch'&&req?`<span class="cnt">${req}</span>`:''}</button>`).join('')}
    <div class="side-foot"><button class="nav" data-act="mode" data-v="client">${ic('user',20)}<span>Вид клиента</span></button><button class="nav" data-act="logout">${ic('left',20)}<span>Выйти</span></button></div>
   </aside><main class="main">${body()}<button class="fab" data-act="newAppt" aria-label="Новая запись">${ic('plus',26,2)}</button></main></div>`;
@@ -1687,6 +1770,14 @@ const A={
   copyMsg:()=>copy(document.getElementById('msgT').innerText),
   sent:d=>{S.outreach.push({cid:d.id,kind:d.k,date:TODAY,booked:false});if(d.k==='review')C(d.id).review=true;save();closeM();render();toast('Отмечено. Клиент уйдёт из списка на неделю')},
   closeM:()=>{closeM();render()},
+  finM:d=>{const now=new Date();let y=U.fy??now.getFullYear(),m=(U.fm??now.getMonth())+(+d.v);if(m<0){m=11;y--}if(m>11){m=0;y++}U.fy=y;U.fm=m;render()},
+  finAdd:d=>finForm(d.v,d.c),
+  finCat:d=>{U.ff.cat=d.v;document.querySelectorAll('.ffc .chip').forEach(b=>b.classList.toggle('on',b.dataset.v===d.v))},
+  finSave:()=>{const sum=parseInt((document.getElementById('ffsum').value||'').replace(/\D/g,''),10);if(!sum){toast('Введите сумму');return}
+    const date=document.getElementById('ffdate').value||TODAY;finEnsure();
+    S.fin[U.ff.k].push({id:'f'+Date.now().toString(36),date,cat:U.ff.cat,sum,note:document.getElementById('ffnote').value.trim()});
+    save();closeM();const d=pd(date);U.fy=d.getFullYear();U.fm=d.getMonth();render();toast(U.ff.k==='inc'?'Доход записан':'Расход записан')},
+  finDel:d=>{if(!confirm('Удалить операцию?'))return;S.fin[d.v]=S.fin[d.v].filter(x=>x.id!==d.id);save();render()},
   aSt:d=>{const a=S.appts.find(x=>x.id===d.id);a.status=d.v;if(d.v==='done')earn(a);putAppt(a);save();closeM();render();toast({ok:'Запись подтверждена, клиент получит уведомление',done:'Визит отмечен, бонусы начислены',noshow:'Отмечено: не пришла',cancel:'Заявка отклонена'}[d.v])},
   newAppt:d=>newAppt(d.id||'',d.date,d.time),
   naPick:d=>{const n=U.na;n.cid=d.id;n.zones=d.id?[...C(d.id).course.zones]:[];n.q='';naRender()},
